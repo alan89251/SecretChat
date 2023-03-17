@@ -3,8 +3,8 @@ package com.mapd721.secretchat
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
-import com.mapd721.secretchat.database.SecretChatDatabase
 import com.mapd721.secretchat.logic.SelfEncryptionKeyPairInitializer
+import com.mapd721.secretchat.repository.ContactRepositoryFactory
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch

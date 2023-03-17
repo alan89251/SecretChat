@@ -1,21 +1,21 @@
-package com.mapd721.secretchat.database
+package com.mapd721.secretchat.database.room
 
 import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
-import com.mapd721.secretchat.data_model.encryption_key.EncryptionKeyDao
-import com.mapd721.secretchat.data_model.encryption_key.EncryptionKeyModel
+import com.mapd721.secretchat.database.room.contact.ContactDaoRoom
+import com.mapd721.secretchat.database.room.contact.ContactModel
 
 @Database(
     entities = arrayOf(
-        EncryptionKeyModel::class
+        ContactModel::class
     ),
-    version = 1,
+    version = 4,
     exportSchema = false
 )
 abstract class SecretChatDatabase: RoomDatabase() {
-    abstract fun encryptionKeyModelDao(): EncryptionKeyDao
+    abstract fun contactModelDao(): ContactDaoRoom
 
     companion object {
         @Volatile

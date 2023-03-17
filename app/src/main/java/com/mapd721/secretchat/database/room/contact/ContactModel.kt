@@ -12,15 +12,17 @@ data class ContactModel(
     var name: String,
 
     @ColumnInfo(name = ContactFields.FIELD_KEY)
-    var key: String
-) {
+    var key: String,
+
     @PrimaryKey
     @ColumnInfo(name = ContactFields.FIELD_ID)
-    var id: String = ""
-
-    constructor(contact: Contact) : this(contact.name, contact.key) {
-        id = contact.id
-    }
+    var id: String
+) {
+    constructor(contact: Contact) : this(
+        contact.name,
+        contact.key,
+        contact.id
+    )
 
     @Ignore
     fun toContact(): Contact {

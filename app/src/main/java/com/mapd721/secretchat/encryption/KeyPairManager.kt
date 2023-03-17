@@ -2,17 +2,21 @@ package com.mapd721.secretchat.encryption
 
 import android.security.keystore.KeyGenParameterSpec
 import android.security.keystore.KeyProperties
-import java.security.KeyPair
-import java.security.KeyPairGenerator
-import java.security.KeyStore
-import java.security.PrivateKey
+import java.security.*
 
 class KeyPairManager {
     companion object {
         const val KEY_STORE_NAME = "AndroidKeyStore"
     }
 
-    fun createKeyPair(keyPairName: String): KeyPair {
+    private val keyStore: KeyStore
+
+    init {
+        keyStore = KeyStore.getInstance(KEY_STORE_NAME)
+        keyStore.load(null)
+    }
+
+    fun createKeyPair(keyPairName: String) {
         val generator = KeyPairGenerator.getInstance(
             KeyProperties.KEY_ALGORITHM_RSA,
             KEY_STORE_NAME
@@ -27,18 +31,25 @@ class KeyPairManager {
                 .setEncryptionPaddings(KeyProperties.ENCRYPTION_PADDING_RSA_PKCS1)
                 .build()
         )
-        val keyPair = generator.generateKeyPair()
-        //TODO save in room
-        return keyPair
+        generator.generateKeyPair()
     }
 
-    fun getKeyPair(keyPairName: String): KeyPair {
-        val keyStore = KeyStore.getInstance(KEY_STORE_NAME)
-        keyStore.load(null)
+    fun getKeyPair(keyPairName: String): KeyPair? {
         val privateKey = keyStore.getKey(keyPairName, null) as PrivateKey?
         val publicKey = keyStore.getCertificate(keyPairName)?.publicKey
-        return KeyPair(publicKey!!, privateKey!!)
+        if (privateKey == null
+            || publicKey == null
+        ) {
+            return null
+        }
+        return KeyPair(publicKey, privateKey)
     }
 
+    fun getKey(name: String): PrivateKey? {
+        return keyStore.getKey(name, null) as PrivateKey?
+    }
 
+    fun getCertificate(name: String): PublicKey? {
+        return keyStore.getCertificate(name)?.publicKey
+    }
 }

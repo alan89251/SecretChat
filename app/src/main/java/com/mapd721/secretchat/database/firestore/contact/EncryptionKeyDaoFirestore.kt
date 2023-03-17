@@ -6,7 +6,7 @@ import com.google.firebase.firestore.ktx.toObject
 import com.mapd721.secretchat.data_model.encryption_key.EncryptionKey
 import com.mapd721.secretchat.data_model.encryption_key.EncryptionKeyDao
 
-class ContactDaoFirestore: EncryptionKeyDao {
+class EncryptionKeyDaoFirestore: EncryptionKeyDao {
     companion object {
         const val COLLECTION_NAME = "contacts"
     }
@@ -30,7 +30,7 @@ class ContactDaoFirestore: EncryptionKeyDao {
         return results
     }
 
-    override fun getById(id: Int): EncryptionKey? {
+    override fun getById(id: String): EncryptionKey? {
         val task = db.collection(COLLECTION_NAME)
             .document(id.toString())
             .get()

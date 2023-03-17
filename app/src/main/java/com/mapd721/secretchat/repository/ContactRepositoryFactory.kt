@@ -1,7 +1,6 @@
 package com.mapd721.secretchat.repository
 
 import android.content.Context
-import com.mapd721.secretchat.database.firestore.contact.ContactDaoFirestore
 import com.mapd721.secretchat.database.room.SecretChatDatabase
 import com.mapd721.secretchat.database.room.contact.ContactDaoRoomAdapter
 

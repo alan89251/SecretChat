@@ -21,4 +21,13 @@ class ContactDaoRoomAdapter (
                 it.toContact()
             }
     }
+
+    override fun getById(id: Int): Contact? {
+        val result = dao.getById(id)
+        return if (result.isEmpty()) {
+            null
+        } else {
+            result[0].toContact()
+        }
+    }
 }

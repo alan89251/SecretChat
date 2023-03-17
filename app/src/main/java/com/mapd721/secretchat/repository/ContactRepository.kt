@@ -4,13 +4,17 @@ import com.mapd721.secretchat.data_model.contact.Contact
 import com.mapd721.secretchat.data_model.contact.ContactDao
 
 class ContactRepository (
-    private val localDao: ContactDao
+    private val dao: ContactDao
 ) {
     fun insert(contact: Contact) {
-        localDao.insert(contact)
+        dao.insert(contact)
     }
 
     fun getAll(): List<Contact> {
-        return localDao.getAll()
+        return dao.getAll()
+    }
+
+    fun getById(id: Int): Contact? {
+        return dao.getById(id)
     }
 }

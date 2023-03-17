@@ -30,4 +30,17 @@ class ContactDaoFirestore: ContactDao {
         }
         return results
     }
+
+    override fun getById(id: Int): Contact? {
+        val task = db.collection(COLLECTION_NAME)
+            .document(id.toString())
+            .get()
+        val doc = Tasks.await(task)
+        return if (doc.exists()) {
+            doc.toObject<ContactModel>()!!
+                .toContact()
+        } else {
+            null
+        }
+    }
 }

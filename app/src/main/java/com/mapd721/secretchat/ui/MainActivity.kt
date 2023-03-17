@@ -1,14 +1,9 @@
-package com.mapd721.secretchat
+package com.mapd721.secretchat.ui
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
+import com.mapd721.secretchat.R
 import com.mapd721.secretchat.logic.SelfEncryptionKeyPairInitializer
-import com.mapd721.secretchat.repository.ContactRepositoryFactory
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {

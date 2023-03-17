@@ -10,6 +10,6 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        StartupTasks.run(this@MainActivity)
+        StartupTasks.run()
     }
 }

@@ -14,7 +14,7 @@ class ContactRepository (
         return dao.getAll()
     }
 
-    fun getById(id: Int): Contact? {
+    fun getById(id: String): Contact? {
         return dao.getById(id)
     }
 }

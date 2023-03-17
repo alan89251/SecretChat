@@ -14,7 +14,10 @@ class EncryptionKeyDaoFirestore: EncryptionKeyDao {
     private val db = FirebaseFirestore.getInstance()
 
     override fun insert(encryptionKey: EncryptionKey) {
-        TODO("Not yet implemented")
+        val task = db.collection(COLLECTION_NAME)
+            .document(encryptionKey.id)
+            .set(encryptionKey)
+        val result = Tasks.await(task)
     }
 
     override fun getAll(): List<EncryptionKey> {
@@ -32,7 +35,7 @@ class EncryptionKeyDaoFirestore: EncryptionKeyDao {
 
     override fun getById(id: String): EncryptionKey? {
         val task = db.collection(COLLECTION_NAME)
-            .document(id.toString())
+            .document(id)
             .get()
         val doc = Tasks.await(task)
         return if (doc.exists()) {

@@ -14,5 +14,5 @@ interface ContactDaoRoom {
     fun getAll(): List<ContactModel>
 
     @Query("SELECT * FROM ${ContactFields.TABLE} WHERE ${ContactFields.FIELD_ID} = :id")
-    fun getById(id: Int): List<ContactModel>
+    fun getById(id: String): List<ContactModel>
 }

@@ -11,7 +11,7 @@ import com.mapd721.secretchat.database.room.contact.ContactModel
     entities = arrayOf(
         ContactModel::class
     ),
-    version = 4,
+    version = 5,
     exportSchema = false
 )
 abstract class SecretChatDatabase: RoomDatabase() {

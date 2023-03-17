@@ -16,10 +16,4 @@ class ContactRepositoryFactory (
             )
         )
     }
-
-    fun getRemoteRepository(): ContactRepository {
-        return ContactRepository(
-            ContactDaoFirestore()
-        )
-    }
 }

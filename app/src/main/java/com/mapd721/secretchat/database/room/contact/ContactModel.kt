@@ -14,9 +14,9 @@ data class ContactModel(
     @ColumnInfo(name = ContactFields.FIELD_KEY)
     var key: String
 ) {
-    @PrimaryKey(autoGenerate = true)
+    @PrimaryKey
     @ColumnInfo(name = ContactFields.FIELD_ID)
-    var id: Int? = null
+    var id: String = ""
 
     constructor(contact: Contact) : this(contact.name, contact.key) {
         id = contact.id
@@ -25,7 +25,7 @@ data class ContactModel(
     @Ignore
     fun toContact(): Contact {
         val contact = Contact()
-        contact.id = id!!
+        contact.id = id
         contact.name = name
         contact.key = key
         return contact

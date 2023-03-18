@@ -1,4 +1,4 @@
-package com.mapd721.secretchat.data_source
+package com.mapd721.secretchat.data_source.repository
 
 import com.mapd721.secretchat.data_model.chat.Chat
 import com.mapd721.secretchat.data_model.chat.Message

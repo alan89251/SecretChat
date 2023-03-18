@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="88dp"
+        android:orientation="horizontal"
+        android:backgroundTint="@color/light_grey"
+        >
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/profile_image"
+            android:layout_width="64dp"
+            android:layout_height="64dp"
+            android:src="@drawable/ic_image_foreground"
+            app:civ_border_width="2dp"
+            app:civ_border_color="#FF2E63"
+            android:layout_marginStart="12dp"
+            android:layout_marginTop="12dp"
+            />
+
+        <LinearLayout
+            android:layout_width="280dp"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:gravity="center"
+            >
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Harry Potter"
+                android:textSize="24sp"
+                android:textStyle="bold"
+                style="@style/chat_list_name"
+                android:layout_marginStart="8dp"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="How are you?"
+                android:textSize="20sp"
+                style="@style/chat_list_text"
+                android:layout_marginStart="8dp"/>
+
+
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Tue"
+            style="@style/chat_list_time"
+            android:layout_marginTop="16dp"/>
+
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        style="@style/Divider_grey"
+        />
+
+    </LinearLayout>
+
+</layout>

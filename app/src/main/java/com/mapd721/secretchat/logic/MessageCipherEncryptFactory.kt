@@ -2,7 +2,7 @@ package com.mapd721.secretchat.logic
 
 import android.util.Base64
 import com.mapd721.secretchat.encryption.MessageCipherEncrypt
-import com.mapd721.secretchat.repository.ContactRepository
+import com.mapd721.secretchat.data_source.repository.ContactRepository
 import java.security.KeyFactory
 import java.security.spec.X509EncodedKeySpec
 

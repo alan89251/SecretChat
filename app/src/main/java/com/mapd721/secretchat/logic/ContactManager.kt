@@ -1,8 +1,8 @@
 package com.mapd721.secretchat.logic
 
 import com.mapd721.secretchat.data_model.contact.Contact
-import com.mapd721.secretchat.repository.ContactRepository
-import com.mapd721.secretchat.repository.EncryptionKeyRepository
+import com.mapd721.secretchat.data_source.repository.ContactRepository
+import com.mapd721.secretchat.data_source.repository.EncryptionKeyRepository
 
 class ContactManager(
     private val contactRepository: ContactRepository,

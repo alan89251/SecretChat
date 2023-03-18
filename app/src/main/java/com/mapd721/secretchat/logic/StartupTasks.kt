@@ -3,7 +3,7 @@ package com.mapd721.secretchat.logic
 import android.util.Base64
 import com.mapd721.secretchat.data_model.encryption_key.EncryptionKey
 import com.mapd721.secretchat.encryption.SelfEncryptionKeyPairManager
-import com.mapd721.secretchat.repository.EncryptionKeyRepositoryFactory
+import com.mapd721.secretchat.data_source.repository.EncryptionKeyRepositoryFactory
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch

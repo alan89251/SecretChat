@@ -14,7 +14,6 @@ class ChatFactory(
     ): Chat {
         return ChatImpHybrid(
             senderId,
-            ArrayList(),
             SecretChatDatabase
                 .getDatabaseClient(context)
                 .chatDao(senderId)

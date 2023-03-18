@@ -27,17 +27,16 @@ class ChatDaoFirestore(
 
     override fun getByReceiverId(receiverId: String): Chat {
         val chatCollectionReference = chatsDocument.collection(receiverId)
-        val task = chatCollectionReference.get()
+        /*val task = chatCollectionReference.get()
         val docs = Tasks.await(task)
         val messages = ArrayList<Message>()
         for (doc in docs) {
             messages.add(
                 parseMessage(doc)
             )
-        }
+        }*/
         return ChatImpFirebase(
             receiverId,
-            messages,
             MessageDaoFirestore(chatCollectionReference)
         )
     }

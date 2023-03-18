@@ -9,13 +9,12 @@ class ChatDaoRoom(
     private val messageDao: MessageDaoRoomAdapter
 ): ChatDao {
     override fun getByReceiverId(receiverId: String): Chat {
-        val messages = messageDao.getBySenderIdAndReceiverId(
+        /*val messages = messageDao.getBySenderIdAndReceiverId(
             senderId,
             receiverId
-        )
+        )*/
         return ChatImpRoom(
             senderId,
-            messages,
             messageDao
         )
     }

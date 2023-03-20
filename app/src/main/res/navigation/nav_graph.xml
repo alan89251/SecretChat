@@ -3,10 +3,20 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/homeFragment" >
+    app:startDestination="@id/chatListFragment" >
 
     <fragment
         android:id="@+id/homeFragment"
         android:name="com.mapd721.secretchat.ui.HomeFragment"
         android:label="Chats" />
+
+    <fragment
+        android:id="@+id/chatListFragment"
+        android:name="com.mapd721.secretchat.ui.ChatListFragment"
+        android:label="Chat List" />
+
+    <fragment
+        android:id="@+id/chatFragment"
+        android:name="com.mapd721.secretchat.ui.ChatFragment"
+        android:label="Chat" />
 </navigation>

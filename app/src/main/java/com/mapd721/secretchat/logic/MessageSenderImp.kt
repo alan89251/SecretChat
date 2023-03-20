@@ -17,12 +17,26 @@ class MessageSenderImp (
 ): MessageSender {
     override fun send(text: String) {
         CoroutineScope(Dispatchers.IO).launch {
-            val message = Message()
-            message.text = cipher.encrypt(text)
-            message.senderId = senderId
-            message.receiverId = receiverId
-            message.sentDateTime = Date()
-            localChat.addMessage(message)
+            sendToFirebase(text)
+            saveToDB(text)
         }
+    }
+
+    private fun sendToFirebase(text: String) {
+        val message = Message()
+        message.text = cipher.encrypt(text)
+        message.senderId = senderId
+        message.receiverId = receiverId
+        message.sentDateTime = Date()
+        remoteChat.addMessage(message)
+    }
+
+    private fun saveToDB(text: String) {
+        val message = Message()
+        message.text = text
+        message.senderId = senderId
+        message.receiverId = receiverId
+        message.sentDateTime = Date()
+        localChat.addMessage(message)
     }
 }

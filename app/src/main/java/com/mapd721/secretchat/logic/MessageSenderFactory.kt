@@ -9,38 +9,14 @@ class MessageSenderFactory {
     fun getInstance(
         context: Context,
         senderId: String,
-        receiverId: String
-    ): MessageSender {
-        return MessageSenderImp(
-            senderId,
-            receiverId,
-            MessageCipherEncryptFactory(
-                ContactRepositoryFactory(context)
-                    .getLocalRepository()
-            )
-                .getCipherByContactId(receiverId),
-            ChatFactory(context)
-                .getInstance(
-                    senderId,
-                    receiverId
-                )
-        )
-    }
-
-    fun getInstance(
-        context: Context,
-        senderId: String,
         contact: Contact
     ): MessageSender {
         return MessageSenderImp(
             senderId,
             contact.id,
             MessageCipherEncryptFactory.getCipherFromKey(contact.key),
-            ChatFactory(context)
-                .getInstance(
-                    senderId,
-                    contact.id
-                )
+            ChatFactory.getRemoteChat(senderId, contact.id),
+            ChatFactory.getLocalChat(context, senderId, contact.id)
         )
     }
 }

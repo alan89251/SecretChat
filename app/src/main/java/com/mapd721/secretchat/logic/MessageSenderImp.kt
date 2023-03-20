@@ -12,7 +12,8 @@ class MessageSenderImp (
     private val senderId: String,
     private val receiverId: String,
     private val cipher: MessageCipherEncrypt,
-    private var chat: Chat
+    private val remoteChat: Chat,
+    private var localChat: Chat
 ): MessageSender {
     override fun send(text: String) {
         CoroutineScope(Dispatchers.IO).launch {
@@ -21,7 +22,7 @@ class MessageSenderImp (
             message.senderId = senderId
             message.receiverId = receiverId
             message.sentDateTime = Date()
-            chat.addMessage(message)
+            localChat.addMessage(message)
         }
     }
 }

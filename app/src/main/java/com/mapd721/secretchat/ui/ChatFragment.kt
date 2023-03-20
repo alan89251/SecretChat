@@ -7,29 +7,36 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
+import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.mapd721.secretchat.R
+import com.mapd721.secretchat.data_model.contact.Contact
 import com.mapd721.secretchat.ui.adpater.MessageAdapter
 import com.mapd721.secretchat.databinding.FragmentChatBinding
+import com.mapd721.secretchat.logic.MessageSenderFactory
 import com.mapd721.secretchat.ui.view_model.ChatViewModel
+import com.mapd721.secretchat.ui.view_model.GlobalViewModel
 import java.util.Calendar
 
 class ChatFragment : Fragment() {
     private lateinit var binding: FragmentChatBinding
     private lateinit var vm: ChatViewModel
+    private val globalViewModel: GlobalViewModel by activityViewModels()
     private lateinit var messageRecyclerView: RecyclerView
     private lateinit var sendMessageEditText: EditText
     private lateinit var sendMessageButton: FloatingActionButton
-//    private lateinit var fstore: FirebaseFirestore
-//    private lateinit var fauth: FirebaseAuth
     private lateinit var  messageLayoutManager: RecyclerView.LayoutManager
     private lateinit var messageAdapter: MessageAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         vm = ChatViewModel()
+
+        arguments?.let {
+            vm.contact = it.getSerializable(ARG_CONTACT) as Contact
+        }
     }
 
     override fun onCreateView(
@@ -40,36 +47,24 @@ class ChatFragment : Fragment() {
         binding.vm = vm
         binding.lifecycleOwner = this
 
-        // Inflate the layout for this fragment
-        val view = inflater.inflate(R.layout.fragment_chat, container, false)
-//        fstore = FirebaseFirestore.getInstance()
-//        fauth = FirebaseAuth.getInstance()
-        messageRecyclerView = view.findViewById(R.id.msg_recyclerView)
-        sendMessageButton = view.findViewById(R.id.btn_send)
-        sendMessageEditText = view.findViewById(R.id.edt_msg)
-        messageLayoutManager = LinearLayoutManager(context)
-        sendMessageButton.setOnClickListener{
-            sendMessage()
-        }
+        vm.messageSender = MessageSenderFactory().getInstance(
+            requireContext(),
+            globalViewModel.selfId,
+            vm.contact
+        )
+
         return binding.root
     }
-    private fun sendMessage() {
-        val message = sendMessageEditText.text.toString()
-        if(TextUtils.isEmpty(message))
-        {
-            sendMessageEditText.error = "Cannot be Empty"
-        } else {
-            val c = Calendar.getInstance()
-            val hour = c.get(Calendar.HOUR_OF_DAY)
-            val minute = c.get(Calendar.MINUTE)
-            val timeStamp = "$hour: $minute"
 
-//            val messageObject = mutableMapOf<String,String>().also {
-//                it["message"] = message
-//                it["messageSender"] = FirebaseAuth.getInstance().currentUser?.id.toString()
-//                it["messageReceiver"] = ""
-//                it["messageTime"] = timeStamp
-//            }
-        }
+    companion object {
+        const val ARG_CONTACT = "contact"
+
+        @JvmStatic
+        fun newInstance(contact: Contact) =
+            ChatFragment().apply {
+                arguments = Bundle().apply {
+                    putSerializable(ARG_CONTACT, contact)
+                }
+            }
     }
 }

@@ -5,6 +5,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import com.mapd721.secretchat.data_model.contact.Contact
 import com.mapd721.secretchat.data_source.repository.ContactRepositoryFactory
@@ -44,6 +45,17 @@ class ChatListFragment : Fragment() {
     private fun onLoadedContactList(contactList: MutableList<Contact>) {
         vm.contactList.removeObservers(requireActivity())
         binding.chatList.layoutManager = GridLayoutManager(requireContext(), ChatListViewModel.CHAT_LIST_COL_NUM)
-        binding.chatList.adapter = ChatListRecyclerViewAdapter(contactList)
+        binding.chatList.adapter = ChatListRecyclerViewAdapter(contactList, ::onChatListItemClick)
+    }
+
+    private fun onChatListItemClick(view: View, position: Int, contact: Contact) {
+        navToChatFragment(contact)
+    }
+
+    private fun navToChatFragment(contact: Contact) {
+        val action = ChatListFragmentDirections.actionChatListFragmentToChatFragment(
+                contact
+            )
+        findNavController().navigate(action)
     }
 }

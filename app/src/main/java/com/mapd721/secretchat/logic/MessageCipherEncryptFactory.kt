@@ -9,7 +9,7 @@ import java.security.spec.X509EncodedKeySpec
 class MessageCipherEncryptFactory(
     private val contactRepository: ContactRepository
 ) {
-    fun getCipher(contactId: String): MessageCipherEncrypt {
+    fun getCipherByContactId(contactId: String): MessageCipherEncrypt {
         val contact = contactRepository.getById(contactId)
             ?: throw IllegalArgumentException("Cannot get cipher for the contact")
         val bytes = Base64.decode(
@@ -20,5 +20,18 @@ class MessageCipherEncryptFactory(
         val publicKey = KeyFactory.getInstance("RSA")
             .generatePublic(x509EncodedKey)
         return MessageCipherEncrypt(publicKey)
+    }
+
+    companion object {
+        fun getCipherFromKey(key: String): MessageCipherEncrypt {
+            val bytes = Base64.decode(
+                key.toByteArray(),
+                Base64.DEFAULT
+            )
+            val x509EncodedKey = X509EncodedKeySpec(bytes)
+            val publicKey = KeyFactory.getInstance("RSA")
+                .generatePublic(x509EncodedKey)
+            return MessageCipherEncrypt(publicKey)
+        }
     }
 }

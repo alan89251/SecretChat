@@ -52,8 +52,15 @@ class ChatFragment : Fragment() {
             globalViewModel.selfId,
             vm.contact
         )
+        binding.btnSend.setOnClickListener(btnSendOnClickListener)
 
         return binding.root
+    }
+
+    private val btnSendOnClickListener = View.OnClickListener {
+        vm.messageSender.send(
+            binding.edtMsg.text.toString()
+        )
     }
 
     companion object {

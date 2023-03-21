@@ -20,12 +20,16 @@ class ChatFirestore: Chat {
         return messageDao.insert(message)
     }
 
-    override fun getAllMessages(): List<Message> {
+    override fun getAllSentMessages(): List<Message> {
         TODO("Not yet implemented")
         return ArrayList()
     }
 
-    fun listenMessage(onMessages: (List<MessageFirestore>) -> Unit) {
-        messageDao.listenMessage(onMessages)
+    override fun getAllReceivedMessages(): List<Message> {
+        TODO("Not yet implemented")
+    }
+
+    fun listenFriendMessage(onMessages: (List<MessageFirestore>) -> Unit) {
+        messageDao.listenFriendMessage(onMessages)
     }
 }

@@ -13,10 +13,11 @@ class MessageDaoRoomAdapter(
         return message.id
     }
 
-    fun getBySenderIdAndReceiverId(senderId: String, receiverId: String): List<Message> {
+    fun getBySenderIdAndReceiverId(senderId: String, receiverId: String, type: Int): List<Message> {
         return dao.getBySenderIdAndReceiverId(
             senderId,
-            receiverId
+            receiverId,
+            type
         ).map {
             it.toMessage()
         }

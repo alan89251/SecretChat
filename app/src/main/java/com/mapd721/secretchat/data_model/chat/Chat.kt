@@ -8,5 +8,7 @@ abstract class Chat {
      * @return message id
      */
     abstract fun addMessage(message: Message): String
-    abstract fun getAllMessages(): List<Message>
+    abstract fun getAllSentMessages(): List<Message>
+
+    abstract fun getAllReceivedMessages(): List<Message>
 }

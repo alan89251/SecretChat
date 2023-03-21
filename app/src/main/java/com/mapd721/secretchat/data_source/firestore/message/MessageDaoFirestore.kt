@@ -21,7 +21,7 @@ class MessageDaoFirestore(
         return result.id
     }
     
-    fun listenMessage(onMessages: (List<MessageFirestore>) -> Unit) {
+    fun listenFriendMessage(onMessages: (List<MessageFirestore>) -> Unit) {
         chatCollectionReference
             .addSnapshotListener { snapshots, e ->
                 if (e != null) {

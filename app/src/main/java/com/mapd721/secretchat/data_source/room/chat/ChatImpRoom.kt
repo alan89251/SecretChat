@@ -19,7 +19,11 @@ class ChatImpRoom: Chat {
         return messageDao.insert(message)
     }
 
-    override fun getAllMessages(): List<Message> {
-        return messageDao.getBySenderIdAndReceiverId(senderId, receiverId)
+    override fun getAllSentMessages(): List<Message> {
+        return messageDao.getBySenderIdAndReceiverId(senderId, receiverId, Message.TYPE_SNED)
+    }
+
+    override fun getAllReceivedMessages(): List<Message> {
+        return messageDao.getBySenderIdAndReceiverId(receiverId, senderId, Message.TYPE_RECEIVE)
     }
 }

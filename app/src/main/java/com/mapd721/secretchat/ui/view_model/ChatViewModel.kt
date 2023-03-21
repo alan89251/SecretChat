@@ -29,7 +29,7 @@ class ChatViewModel(
     val messageReceiver: MessageReceiver
     val chatRepo: Chat
     var messagesLiveData: MutableLiveData<MutableList<Message>> = MutableLiveData()
-    lateinit var messages: ArrayList<Message>
+    val messages: ArrayList<Message> = ArrayList()
     val messageIOFactory: MessageIOFactory
 
     init {
@@ -45,7 +45,11 @@ class ChatViewModel(
 
     fun loadAllMessagesFromDB() {
         CoroutineScope(Dispatchers.IO).launch {
-            messages = ArrayList(chatRepo.getAllMessages())
+            val sentMessages = chatRepo.getAllSentMessages()
+            val receivedMessage = chatRepo.getAllReceivedMessages()
+            messages.addAll(sentMessages)
+            messages.addAll(receivedMessage)
+            messages.sortBy { it.sentDateTime }
 
             withContext(Dispatchers.Main) {
                 messagesLiveData.value = messages

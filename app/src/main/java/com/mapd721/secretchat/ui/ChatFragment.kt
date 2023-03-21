@@ -1,24 +1,23 @@
 package com.mapd721.secretchat.ui
 
 import android.os.Bundle
-import android.text.TextUtils
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
 import androidx.fragment.app.activityViewModels
-import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
-import com.mapd721.secretchat.R
+import com.mapd721.secretchat.data_model.chat.Message
 import com.mapd721.secretchat.data_model.contact.Contact
-import com.mapd721.secretchat.ui.adpater.MessageAdapter
+import com.mapd721.secretchat.data_source.repository.ChatFactory
+import com.mapd721.secretchat.ui.adpater.MsgRecyclerViewAdapter
 import com.mapd721.secretchat.databinding.FragmentChatBinding
-import com.mapd721.secretchat.logic.MessageSenderFactory
+import com.mapd721.secretchat.logic.MessageIOFactory
 import com.mapd721.secretchat.ui.view_model.ChatViewModel
 import com.mapd721.secretchat.ui.view_model.GlobalViewModel
-import java.util.Calendar
 
 class ChatFragment : Fragment() {
     private lateinit var binding: FragmentChatBinding
@@ -28,7 +27,7 @@ class ChatFragment : Fragment() {
     private lateinit var sendMessageEditText: EditText
     private lateinit var sendMessageButton: FloatingActionButton
     private lateinit var  messageLayoutManager: RecyclerView.LayoutManager
-    private lateinit var messageAdapter: MessageAdapter
+    private lateinit var msgRecyclerViewAdapter: MsgRecyclerViewAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -47,14 +46,25 @@ class ChatFragment : Fragment() {
         binding.vm = vm
         binding.lifecycleOwner = this
 
-        vm.messageSender = MessageSenderFactory().getInstance(
+        vm.chatRepo = ChatFactory.getLocalChat(requireContext(), globalViewModel.selfId, vm.contact.id)
+        vm.messageSender = MessageIOFactory(
             requireContext(),
             globalViewModel.selfId,
-            vm.contact
-        )
+            vm.contact,
+            vm.chatRepo
+        ).getMessageSender()
+
         binding.btnSend.setOnClickListener(btnSendOnClickListener)
 
+        binding.msgRecyclerView.layoutManager = GridLayoutManager(requireContext(), ChatViewModel.CHAT_LIST_COL_NUM)
+        vm.messages.observe(requireActivity(), ::updateMessageRecyclerView)
+        vm.loadAllMessagesFromDB()
+
         return binding.root
+    }
+
+    private fun updateMessageRecyclerView(messages: List<Message>) {
+        binding.msgRecyclerView.adapter = MsgRecyclerViewAdapter(messages)
     }
 
     private val btnSendOnClickListener = View.OnClickListener {

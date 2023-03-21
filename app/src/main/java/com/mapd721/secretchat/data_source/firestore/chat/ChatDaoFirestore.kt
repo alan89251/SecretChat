@@ -36,6 +36,7 @@ class ChatDaoFirestore(
             )
         }*/
         return ChatImpFirebase(
+            id,
             receiverId,
             MessageDaoFirestore(chatCollectionReference)
         )

@@ -5,15 +5,21 @@ import com.mapd721.secretchat.data_model.chat.Message
 import com.mapd721.secretchat.data_source.room.message.MessageDaoRoomAdapter
 
 class ChatImpRoom: Chat {
-    override var id: String
+    override var senderId: String
+    override var receiverId: String
     private val messageDao: MessageDaoRoomAdapter
 
-    constructor(id: String, messageDao: MessageDaoRoomAdapter) {
-        this.id = id
+    constructor(senderId: String, receiverId: String, messageDao: MessageDaoRoomAdapter) {
+        this.senderId = senderId
+        this.receiverId = receiverId
         this.messageDao = messageDao
     }
 
     override fun addMessage(message: Message): String {
         return messageDao.insert(message)
+    }
+
+    override fun getAllMessages(): List<Message> {
+        return messageDao.getBySenderIdAndReceiverId(senderId, receiverId)
     }
 }

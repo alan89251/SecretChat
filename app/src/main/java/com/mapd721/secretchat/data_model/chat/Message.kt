@@ -9,5 +9,12 @@ class Message {
     var text: String = ""
     var senderId: String = ""
     var receiverId: String = ""
+    @get:Exclude
+    var type: Int = TYPE_SNED
     var sentDateTime: Date = Date()
+
+    companion object {
+        const val TYPE_SNED = 0
+        const val TYPE_RECEIVE = 1
+    }
 }

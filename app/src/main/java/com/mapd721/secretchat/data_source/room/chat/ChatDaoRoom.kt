@@ -15,6 +15,7 @@ class ChatDaoRoom(
         )*/
         return ChatImpRoom(
             senderId,
+            receiverId,
             messageDao
         )
     }

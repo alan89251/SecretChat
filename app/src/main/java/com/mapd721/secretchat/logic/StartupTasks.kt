@@ -12,45 +12,10 @@ class StartupTasks {
     companion object {
         const val SELF_KEY_PAIR_NAME = "self_key"
 
-        fun run() {
+        /*fun run() {
             CoroutineScope(Dispatchers.IO).launch {
                 initSelfEncryptionKeyPair()
             }
-        }
-
-        /**
-         * Generate new self encryption key pair if not exist
-         */
-        private fun initSelfEncryptionKeyPair() {
-            val manager = EncryptionKeyPairManager()
-            if (manager.getKeyPair(SELF_KEY_PAIR_NAME) == null) {
-                manager.createKeyPair(SELF_KEY_PAIR_NAME)
-            }
-
-            publishPublicKey()
-        }
-
-        private fun publishPublicKey() {
-            val encryptionKey = EncryptionKey()
-            encryptionKey.id = getSelfId()
-            encryptionKey.key = getSelfPublicKeyStr()
-            EncryptionKeyRepositoryFactory()
-                .getRemoteRepository()
-                .insert(encryptionKey)
-        }
-
-        private fun getSelfPublicKeyStr(): String {
-            val manager = EncryptionKeyPairManager()
-            val keyPair = manager.getKeyPair(SELF_KEY_PAIR_NAME)!!
-            return Base64.encodeToString(
-                keyPair.public
-                    .encoded,
-                Base64.DEFAULT
-            )
-        }
-
-        private fun getSelfId(): String {
-            return "Alan"
-        }
+        }*/
     }
 }

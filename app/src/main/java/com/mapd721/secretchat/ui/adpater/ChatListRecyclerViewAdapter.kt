@@ -9,6 +9,7 @@ import com.mapd721.secretchat.R
 import com.mapd721.secretchat.data_model.chat.Message
 import com.mapd721.secretchat.data_model.contact.Contact
 import com.mapd721.secretchat.databinding.RecyclerViewChatListBinding
+import java.text.SimpleDateFormat
 
 class ChatListRecyclerViewAdapter(
     var contactList: List<Contact>,
@@ -47,11 +48,14 @@ class ChatListRecyclerViewAdapter(
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val contact = contactList[position]
         holder.binding.name.text = contact.name
+        val dateFormat = SimpleDateFormat("EEE")
         onItemBind(
             holder.binding.root,
             position, contact,
             object : OnMessageUpdateListener {
                 override fun onMessageUpdate(message: Message) {
+                    holder.binding.latestMessageText.text = message.text
+                    holder.binding.msgTime.text = dateFormat.format(message.sentDateTime)
                 }
             }
         )

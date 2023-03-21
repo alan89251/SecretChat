@@ -2,12 +2,11 @@ package com.mapd721.secretchat.ui.adpater
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
-import com.mapd721.secretchat.R
 import com.mapd721.secretchat.data_model.chat.Message
 import com.mapd721.secretchat.databinding.RecyclerViewReceiverBinding
 import com.mapd721.secretchat.databinding.RecyclerViewSenderBinding
+import java.text.SimpleDateFormat
 
 class MsgRecyclerViewAdapter(
     var msgList: List<Message>
@@ -39,14 +38,17 @@ class MsgRecyclerViewAdapter(
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         val message = msgList[position]
+        val dataFormat = SimpleDateFormat("hh:mm")
         when (holder.itemViewType) {
             VIEW_TYPE_SENDER -> {
                 val concreteHolder = holder as SenderViewHolder
                 concreteHolder.binding.contentText.text = message.text
+                concreteHolder.binding.msgTime.text = dataFormat.format(message.sentDateTime)
             }
             VIEW_TYPE_RECEIVER -> {
                 val concreteHolder = holder as ReceiverViewHolder
                 concreteHolder.binding.contentText.text = message.text
+                concreteHolder.binding.msgTime.text = dataFormat.format(message.sentDateTime)
             }
         }
     }

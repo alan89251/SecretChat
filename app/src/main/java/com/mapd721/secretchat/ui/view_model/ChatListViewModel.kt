@@ -3,6 +3,7 @@ package com.mapd721.secretchat.ui.view_model
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.mapd721.secretchat.data_model.chat.Message
 import com.mapd721.secretchat.data_model.contact.Contact
 import com.mapd721.secretchat.data_source.repository.ChatFactory
 import com.mapd721.secretchat.encryption.EncryptionKeyPairManager
@@ -54,10 +55,10 @@ class ChatListViewModel(
         }
     }
 
-    fun listenMessage(contact: Contact) {
+    fun listenMessage(contact: Contact, onMessage: (Message) -> Unit ) {
         val messageReceiver = messageReceivers[contact.id]!!
         messageReceiver.setOnMessageListener {
-            Log.i("Chat list receive", it.text)
+            onMessage(it)
         }
         messageReceiver.listenMessage()
     }

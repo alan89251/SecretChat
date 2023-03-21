@@ -17,12 +17,12 @@ class MessageReceiverImp(
     private var isReceivedInitMessageBatch = false
 
     override fun listenMessage() {
-        remoteChat.listenMessage { messages ->
+        remoteChat.listenFriendMessage { messages ->
             // only return new messages
             // therefore skip init message batch
             if (!isReceivedInitMessageBatch) {
                 isReceivedInitMessageBatch = true
-                return@listenMessage
+                return@listenFriendMessage
             }
 
             messages.forEach {

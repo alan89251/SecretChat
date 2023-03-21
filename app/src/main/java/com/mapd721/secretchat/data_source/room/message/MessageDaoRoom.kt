@@ -10,6 +10,6 @@ interface MessageDaoRoom {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insert(message: MessageModel)
 
-    @Query("SELECT * FROM ${MessageFields.TABLE} WHERE ${MessageFields.FIELD_SENDER_ID} = :senderId AND ${MessageFields.FIELD_RECEIVER_ID} = :receiverId")
-    fun getBySenderIdAndReceiverId(senderId: String, receiverId: String): List<MessageModel>
+    @Query("SELECT * FROM ${MessageFields.TABLE} WHERE ${MessageFields.FIELD_SENDER_ID} = :senderId AND ${MessageFields.FIELD_RECEIVER_ID} = :receiverId AND ${MessageFields.FIELD_TYPE} = :type")
+    fun getBySenderIdAndReceiverId(senderId: String, receiverId: String, type: Int): List<MessageModel>
 }

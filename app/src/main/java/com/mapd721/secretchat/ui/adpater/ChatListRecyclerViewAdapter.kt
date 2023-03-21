@@ -6,12 +6,14 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.mapd721.secretchat.R
+import com.mapd721.secretchat.data_model.chat.Message
 import com.mapd721.secretchat.data_model.contact.Contact
 import com.mapd721.secretchat.databinding.RecyclerViewChatListBinding
 
 class ChatListRecyclerViewAdapter(
     var contactList: List<Contact>,
-    var onItemClick: (View, Int, Contact) -> Unit
+    private val onItemClick: (View, Int, Contact) -> Unit,
+    private val onItemBind: (View, Int, Contact, OnMessageUpdateListener) -> Unit
     ): RecyclerView.Adapter<ChatListRecyclerViewAdapter.ViewHolder>() {
         class ViewHolder(
             itemBinding: RecyclerViewChatListBinding,
@@ -45,9 +47,21 @@ class ChatListRecyclerViewAdapter(
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val contact = contactList[position]
         holder.binding.name.text = contact.name
+        onItemBind(
+            holder.binding.root,
+            position, contact,
+            object : OnMessageUpdateListener {
+                override fun onMessageUpdate(message: Message) {
+                }
+            }
+        )
     }
 
     override fun getItemCount(): Int {
         return contactList.size
+    }
+
+    interface OnMessageUpdateListener {
+        fun onMessageUpdate(message: Message)
     }
 }

@@ -14,8 +14,6 @@ import com.mapd721.secretchat.data_model.contact.Contact
 import com.mapd721.secretchat.data_source.repository.ChatFactory
 import com.mapd721.secretchat.ui.adpater.MsgRecyclerViewAdapter
 import com.mapd721.secretchat.databinding.FragmentChatBinding
-import com.mapd721.secretchat.encryption.EncryptionKeyPairManager
-import com.mapd721.secretchat.logic.MessageIOFactory
 import com.mapd721.secretchat.ui.view_model.ChatViewModel
 import com.mapd721.secretchat.ui.view_model.GlobalViewModel
 
@@ -31,11 +29,15 @@ class ChatFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        vm = ChatViewModel()
         setHasOptionsMenu(true)
 
-        arguments?.let {
-            vm.contact = it.getSerializable(ARG_CONTACT) as Contact
+        requireArguments().let {
+            vm = ChatViewModel(
+                ChatFactory(requireContext()),
+                globalViewModel.selfId,
+                it.getSerializable(ARG_CONTACT) as Contact,
+                resources.getString(R.string.self_key_pair_name)
+            )
         }
     }
 
@@ -51,15 +53,6 @@ class ChatFragment : Fragment() {
         binding.vm = vm
         binding.lifecycleOwner = this
 
-        vm.chatRepo = ChatFactory.getLocalChat(requireContext(), globalViewModel.selfId, vm.contact.id)
-        val messageIOFactory = MessageIOFactory(
-            globalViewModel.selfId,
-            vm.contact,
-            vm.chatRepo,
-            EncryptionKeyPairManager().getKey(resources.getString(R.string.self_key_pair_name))!!
-        )
-        vm.messageSender = messageIOFactory.getMessageSender()
-        vm.messageReceiver = messageIOFactory.getMessageReceiver()
         vm.listenMessage()
 
         binding.btnSend.setOnClickListener(btnSendOnClickListener)

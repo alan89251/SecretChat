@@ -1,31 +1,29 @@
 package com.mapd721.secretchat.logic
 
-import com.mapd721.secretchat.data_model.chat.Chat
 import com.mapd721.secretchat.data_model.contact.Contact
 import com.mapd721.secretchat.data_source.repository.ChatFactory
 import java.security.PrivateKey
 
 class MessageIOFactory(
     private val selfId: String,
-    private val contact: Contact,
-    private val localChat: Chat,
-    private val selfPrivateKey: PrivateKey
+    private val selfPrivateKey: PrivateKey,
+    private val chatFactory: ChatFactory
 ) {
-    fun getMessageSender(): MessageSender {
+    fun getMessageSender(contact: Contact): MessageSender {
         return MessageSenderImp(
             selfId,
             contact.id,
             MessageCipherFactory.getCipherEncryptFromKey(contact.key),
-            ChatFactory.getChatFirestore(selfId, contact.id),
-            localChat
+            chatFactory.getChatFirestore(selfId, contact.id),
+            chatFactory.getLocalChat(selfId, contact.id)
         )
     }
 
-    fun getMessageReceiver(): MessageReceiver {
+    fun getMessageReceiver(contact: Contact): MessageReceiver {
         return MessageReceiverImp(
             MessageCipherFactory.getCipherDecryptFromKey(selfPrivateKey),
-            ChatFactory.getChatFirestore(contact.id, selfId),
-            localChat
+            chatFactory.getChatFirestore(contact.id, selfId),
+            chatFactory.getLocalChat(selfId, contact.id)
         )
     }
 }

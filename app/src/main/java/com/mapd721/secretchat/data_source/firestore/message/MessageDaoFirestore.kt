@@ -21,7 +21,7 @@ class MessageDaoFirestore(
         return result.id
     }
     
-    fun listenMessage(onMessages: (List<MessageFirestore>) -> Unit) {
+    fun listenFriendMessage(onMessages: (List<MessageFirestore>) -> Unit) {
         chatCollectionReference
             .addSnapshotListener { snapshots, e ->
                 if (e != null) {
@@ -32,9 +32,11 @@ class MessageDaoFirestore(
                 val messages = ArrayList<MessageFirestore>()
                 for (dc in snapshots!!.documentChanges) {
                     when (dc.type) {
-                        DocumentChange.Type.ADDED -> messages.add(
-                            dc.document.toObject()
-                        )
+                        DocumentChange.Type.ADDED -> {
+                            val message = dc.document.toObject<MessageFirestore>()
+                            message.id = dc.document.id
+                            messages.add(message)
+                        }
                         else -> {}
                     }
                 }

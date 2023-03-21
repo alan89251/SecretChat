@@ -6,18 +6,18 @@ import com.mapd721.secretchat.data_source.firestore.chat.ChatDaoFirestore
 import com.mapd721.secretchat.data_source.firestore.chat.ChatFirestore
 import com.mapd721.secretchat.data_source.room.SecretChatDatabase
 
-class ChatFactory {
-    companion object {
-        fun getChatFirestore(senderId: String, receiverId: String): ChatFirestore {
-            return ChatDaoFirestore(receiverId)
-                .getBySenderIdAsChatFirestore(senderId)
-        }
+class ChatFactory(
+    private val context: Context
+) {
+    fun getChatFirestore(senderId: String, receiverId: String): ChatFirestore {
+        return ChatDaoFirestore(receiverId)
+            .getBySenderIdAsChatFirestore(senderId)
+    }
 
-        fun getLocalChat(context: Context, senderId: String, receiverId: String): Chat {
-            return SecretChatDatabase
-                .getDatabaseClient(context)
-                .chatDao(receiverId)
-                .getBySenderId(senderId)
-        }
+    fun getLocalChat(senderId: String, receiverId: String): Chat {
+        return SecretChatDatabase
+            .getDatabaseClient(context)
+            .chatDao(receiverId)
+            .getBySenderId(senderId)
     }
 }

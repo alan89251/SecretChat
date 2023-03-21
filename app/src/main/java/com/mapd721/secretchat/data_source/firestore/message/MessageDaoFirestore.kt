@@ -13,7 +13,7 @@ class MessageDaoFirestore(
      */
     override fun insert(message: Message): String {
         val task = chatCollectionReference
-            .add(message)
+            .add(MessageFirestore(message))
         val result = Tasks.await(task)
         return result.id
     }

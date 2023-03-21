@@ -27,6 +27,9 @@ data class MessageModel(
     @ColumnInfo(name = MessageFields.FIELD_RECEIVER_ID)
     var receiverId: String,
 
+    @ColumnInfo(name = MessageFields.FIELD_TYPE)
+    var type: Int,
+
     @ColumnInfo(name = MessageFields.FIELD_SENT_DATE_TIME)
     var sentDateTime: Long
 ) {
@@ -35,6 +38,7 @@ data class MessageModel(
         message.text,
         message.senderId,
         message.receiverId,
+        message.type,
         message.sentDateTime.time
     )
 
@@ -45,6 +49,7 @@ data class MessageModel(
         message.text = text
         message.senderId = senderId
         message.receiverId = receiverId
+        message.type = type
         message.sentDateTime = Date(sentDateTime)
         return message
     }

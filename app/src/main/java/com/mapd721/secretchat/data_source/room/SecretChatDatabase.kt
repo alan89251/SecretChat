@@ -16,7 +16,7 @@ import com.mapd721.secretchat.data_source.room.message.MessageModel
         ContactModel::class,
         MessageModel::class
     ),
-    version = 6,
+    version = 7,
     exportSchema = false
 )
 abstract class SecretChatDatabase: RoomDatabase() {

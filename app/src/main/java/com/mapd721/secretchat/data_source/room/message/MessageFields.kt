@@ -7,6 +7,7 @@ class MessageFields {
         const val FIELD_TEXT = "text"
         const val FIELD_SENDER_ID = "sender_id"
         const val FIELD_RECEIVER_ID = "receiver_id"
+        const val FIELD_TYPE = "type"
         const val FIELD_SENT_DATE_TIME = "sent_date_time"
     }
 }

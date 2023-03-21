@@ -18,6 +18,9 @@ import com.mapd721.secretchat.databinding.FragmentChatBinding
 import com.mapd721.secretchat.logic.MessageIOFactory
 import com.mapd721.secretchat.ui.view_model.ChatViewModel
 import com.mapd721.secretchat.ui.view_model.GlobalViewModel
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 class ChatFragment : Fragment() {
     private lateinit var binding: FragmentChatBinding
@@ -68,9 +71,9 @@ class ChatFragment : Fragment() {
     }
 
     private val btnSendOnClickListener = View.OnClickListener {
-        vm.messageSender.send(
-            binding.edtMsg.text.toString()
-        )
+        CoroutineScope(Dispatchers.IO).launch {
+            vm.messageSender.send(binding.edtMsg.text.toString())
+        }
     }
 
     companion object {

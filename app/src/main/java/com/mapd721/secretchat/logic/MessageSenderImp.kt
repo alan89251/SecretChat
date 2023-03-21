@@ -16,10 +16,8 @@ class MessageSenderImp (
     private var localChat: Chat
 ): MessageSender {
     override fun send(text: String) {
-        CoroutineScope(Dispatchers.IO).launch {
-            sendToFirebase(text)
-            saveToDB(text)
-        }
+        sendToFirebase(text)
+        saveToDB(text)
     }
 
     private fun sendToFirebase(text: String) {
@@ -27,6 +25,7 @@ class MessageSenderImp (
         message.text = cipher.encrypt(text)
         message.senderId = senderId
         message.receiverId = receiverId
+        message.type = Message.TYPE_SNED
         message.sentDateTime = Date()
         remoteChat.addMessage(message)
     }
@@ -36,6 +35,7 @@ class MessageSenderImp (
         message.text = text
         message.senderId = senderId
         message.receiverId = receiverId
+        message.type = Message.TYPE_SNED
         message.sentDateTime = Date()
         localChat.addMessage(message)
     }

@@ -11,6 +11,7 @@ import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
+import com.mapd721.secretchat.R
 import com.mapd721.secretchat.data_model.chat.Message
 import com.mapd721.secretchat.data_model.contact.Contact
 import com.mapd721.secretchat.data_source.repository.ChatFactory
@@ -53,11 +54,10 @@ class ChatFragment : Fragment() {
 
         vm.chatRepo = ChatFactory.getLocalChat(requireContext(), globalViewModel.selfId, vm.contact.id)
         val messageIOFactory = MessageIOFactory(
-            requireContext(),
             globalViewModel.selfId,
             vm.contact,
             vm.chatRepo,
-            EncryptionKeyPairManager()
+            EncryptionKeyPairManager().getKey(resources.getString(R.string.self_key_pair_name))!!
         )
         vm.messageSender = messageIOFactory.getMessageSender()
         vm.messageReceiver = messageIOFactory.getMessageReceiver()

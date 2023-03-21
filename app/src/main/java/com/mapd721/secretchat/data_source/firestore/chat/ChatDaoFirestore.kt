@@ -24,28 +24,20 @@ class ChatDaoFirestore(
             .document(id)
     }
 
-    override fun getByReceiverId(receiverId: String): Chat {
-        val chatCollectionReference = chatsDocument.collection(receiverId)
-        /*val task = chatCollectionReference.get()
-        val docs = Tasks.await(task)
-        val messages = ArrayList<Message>()
-        for (doc in docs) {
-            messages.add(
-                parseMessage(doc)
-            )
-        }*/
+    override fun getBySenderId(senderId: String): Chat {
+        val chatCollectionReference = chatsDocument.collection(senderId)
         return ChatFirestore(
             id,
-            receiverId,
+            senderId,
             MessageDaoFirestore(chatCollectionReference)
         )
     }
 
-    fun getByReceiverIdAsChatFirestore(receiverId: String): ChatFirestore {
-        val chatCollectionReference = chatsDocument.collection(receiverId)
+    fun getBySenderIdAsChatFirestore(senderId: String): ChatFirestore {
+        val chatCollectionReference = chatsDocument.collection(senderId)
         return ChatFirestore(
             id,
-            receiverId,
+            senderId,
             MessageDaoFirestore(chatCollectionReference)
         )
     }

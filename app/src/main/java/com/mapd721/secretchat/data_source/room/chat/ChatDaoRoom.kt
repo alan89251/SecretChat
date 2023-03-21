@@ -5,10 +5,10 @@ import com.mapd721.secretchat.data_model.chat.ChatDao
 import com.mapd721.secretchat.data_source.room.message.MessageDaoRoomAdapter
 
 class ChatDaoRoom(
-    private val senderId: String,
+    private val receiverId: String,
     private val messageDao: MessageDaoRoomAdapter
 ): ChatDao {
-    override fun getByReceiverId(receiverId: String): Chat {
+    override fun getBySenderId(senderId: String): Chat {
         /*val messages = messageDao.getBySenderIdAndReceiverId(
             senderId,
             receiverId

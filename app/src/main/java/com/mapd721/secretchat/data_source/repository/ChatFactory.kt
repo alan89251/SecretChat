@@ -9,15 +9,15 @@ import com.mapd721.secretchat.data_source.room.SecretChatDatabase
 class ChatFactory {
     companion object {
         fun getChatFirestore(senderId: String, receiverId: String): ChatFirestore {
-            return ChatDaoFirestore(senderId)
-                .getByReceiverIdAsChatFirestore(receiverId)
+            return ChatDaoFirestore(receiverId)
+                .getBySenderIdAsChatFirestore(senderId)
         }
 
         fun getLocalChat(context: Context, senderId: String, receiverId: String): Chat {
             return SecretChatDatabase
                 .getDatabaseClient(context)
-                .chatDao(senderId)
-                .getByReceiverId(receiverId)
+                .chatDao(receiverId)
+                .getBySenderId(senderId)
         }
     }
 }

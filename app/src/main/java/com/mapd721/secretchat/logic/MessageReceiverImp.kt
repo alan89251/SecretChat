@@ -6,7 +6,6 @@ import com.mapd721.secretchat.data_source.firestore.chat.ChatFirestore
 import com.mapd721.secretchat.encryption.MessageCipherDecrypt
 
 class MessageReceiverImp(
-    private val senderId: String,
     private val cipher: MessageCipherDecrypt,
     private val remoteChat: ChatFirestore,
     private val localChat: Chat

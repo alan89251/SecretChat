@@ -25,5 +25,9 @@
     <string name="msg_time">14:30</string>
     <string name="receiver_message">Receiver Message</string>
 
+    <string name="userID">User ID:</string>
+    <string name="icon">icon</string>
+    <string name="register">Register</string>
+
 
 </resources>

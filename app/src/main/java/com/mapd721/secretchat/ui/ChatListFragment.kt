@@ -1,6 +1,7 @@
 package com.mapd721.secretchat.ui
 
 import android.os.Bundle
+import android.view.*
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -25,6 +26,7 @@ class ChatListFragment : Fragment() {
     private lateinit var vm: ChatListViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        setHasOptionsMenu(true)
         super.onCreate(savedInstanceState)
         vm = ChatListViewModel(
             ContactManager(
@@ -36,6 +38,11 @@ class ChatListFragment : Fragment() {
             resources.getString(R.string.self_key_pair_name)
         )
     }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        inflater.inflate(R.menu.appbar_menu, menu)
+    }
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,

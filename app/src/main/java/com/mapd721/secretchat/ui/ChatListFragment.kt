@@ -56,7 +56,7 @@ class ChatListFragment : Fragment() {
         binding.chatList.adapter = ChatListRecyclerViewAdapter(
             contactList,
             ::onChatListItemClick,
-            { _, _, contact ->
+            { _, _, contact, onMessageUpdate ->
                 vm.listenMessage(contact)
             }
         )

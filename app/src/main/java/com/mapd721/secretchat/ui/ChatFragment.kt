@@ -1,11 +1,8 @@
 package com.mapd721.secretchat.ui
 
 import android.os.Bundle
-import android.util.Log
+import android.view.*
 import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
 import android.widget.EditText
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.GridLayoutManager
@@ -21,9 +18,6 @@ import com.mapd721.secretchat.encryption.EncryptionKeyPairManager
 import com.mapd721.secretchat.logic.MessageIOFactory
 import com.mapd721.secretchat.ui.view_model.ChatViewModel
 import com.mapd721.secretchat.ui.view_model.GlobalViewModel
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
 
 class ChatFragment : Fragment() {
     private lateinit var binding: FragmentChatBinding
@@ -38,10 +32,15 @@ class ChatFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         vm = ChatViewModel()
+        setHasOptionsMenu(true)
 
         arguments?.let {
             vm.contact = it.getSerializable(ARG_CONTACT) as Contact
         }
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        inflater.inflate(R.menu.appbar_menu, menu)
     }
 
     override fun onCreateView(

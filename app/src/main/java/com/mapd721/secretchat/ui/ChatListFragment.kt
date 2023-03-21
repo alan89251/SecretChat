@@ -1,12 +1,11 @@
 package com.mapd721.secretchat.ui
 
 import android.os.Bundle
+import android.view.*
 import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
+import com.mapd721.secretchat.R
 import com.mapd721.secretchat.data_model.contact.Contact
 import com.mapd721.secretchat.data_source.repository.ContactRepositoryFactory
 import com.mapd721.secretchat.data_source.repository.EncryptionKeyRepositoryFactory
@@ -20,6 +19,7 @@ class ChatListFragment : Fragment() {
     private lateinit var vm: ChatListViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        setHasOptionsMenu(true)
         super.onCreate(savedInstanceState)
         vm = ChatListViewModel(
             ContactManager(
@@ -28,6 +28,11 @@ class ChatListFragment : Fragment() {
             )
         )
     }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        inflater.inflate(R.menu.appbar_menu, menu)
+    }
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,

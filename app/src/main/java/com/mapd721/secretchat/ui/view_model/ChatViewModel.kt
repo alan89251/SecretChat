@@ -44,4 +44,12 @@ class ChatViewModel: ViewModel() {
             }
         }
     }
+
+    fun listenMessage() {
+        messageReceiver.setOnMessageListener {
+            messages.add(it)
+            messagesLiveData.value = messages
+        }
+        messageReceiver.listenMessage()
+    }
 }

@@ -4,6 +4,9 @@ import com.mapd721.secretchat.data_model.chat.Chat
 import com.mapd721.secretchat.data_model.chat.Message
 import com.mapd721.secretchat.data_source.firestore.chat.ChatFirestore
 import com.mapd721.secretchat.encryption.MessageCipherDecrypt
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 class MessageReceiverImp(
     private val cipher: MessageCipherDecrypt,
@@ -24,8 +27,11 @@ class MessageReceiverImp(
 
             messages.forEach {
                 val message = it.toMessage()
-                //message.text = cipher.decrypt(message.text)
-                // TODO save to local chat
+                message.text = cipher.decrypt(message.text)
+                message.type = Message.TYPE_RECEIVE
+                CoroutineScope(Dispatchers.IO).launch {
+                    localChat.addMessage(message)
+                }
                 onMessageListener?.invoke(message)
             }
         }

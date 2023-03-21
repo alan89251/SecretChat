@@ -61,10 +61,7 @@ class ChatFragment : Fragment() {
         )
         vm.messageSender = messageIOFactory.getMessageSender()
         vm.messageReceiver = messageIOFactory.getMessageReceiver()
-        vm.messageReceiver.setOnMessageListener {
-            Log.i("Receive:", it.text)
-        }
-        vm.messageReceiver.listenMessage()
+        vm.listenMessage()
 
         binding.btnSend.setOnClickListener(btnSendOnClickListener)
 

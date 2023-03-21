@@ -15,28 +15,28 @@ class MessageSenderImp (
     private val remoteChat: Chat,
     private var localChat: Chat
 ): MessageSender {
-    override fun send(text: String) {
-        sendToFirebase(text)
-        saveToDB(text)
-    }
-
-    private fun sendToFirebase(text: String) {
-        val message = Message()
+    override fun send(text: String): Message {
+        var message = Message()
         message.text = cipher.encrypt(text)
         message.senderId = senderId
         message.receiverId = receiverId
         message.type = Message.TYPE_SNED
         message.sentDateTime = Date()
-        remoteChat.addMessage(message)
+
+        message = sendToFirebase(message)
+
+        message.text = text
+        saveToDB(message)
+
+        return message
     }
 
-    private fun saveToDB(text: String) {
-        val message = Message()
-        message.text = text
-        message.senderId = senderId
-        message.receiverId = receiverId
-        message.type = Message.TYPE_SNED
-        message.sentDateTime = Date()
+    private fun sendToFirebase(message: Message): Message {
+        message.id = remoteChat.addMessage(message)
+        return message
+    }
+
+    private fun saveToDB(message: Message) {
         localChat.addMessage(message)
     }
 }

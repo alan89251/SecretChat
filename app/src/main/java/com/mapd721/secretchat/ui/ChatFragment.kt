@@ -60,7 +60,7 @@ class ChatFragment : Fragment() {
         binding.btnSend.setOnClickListener(btnSendOnClickListener)
 
         binding.msgRecyclerView.layoutManager = GridLayoutManager(requireContext(), ChatViewModel.CHAT_LIST_COL_NUM)
-        vm.messages.observe(requireActivity(), ::updateMessageRecyclerView)
+        vm.messagesLiveData.observe(requireActivity(), ::updateMessageRecyclerView)
         vm.loadAllMessagesFromDB()
 
         return binding.root
@@ -71,9 +71,12 @@ class ChatFragment : Fragment() {
     }
 
     private val btnSendOnClickListener = View.OnClickListener {
-        CoroutineScope(Dispatchers.IO).launch {
-            vm.messageSender.send(binding.edtMsg.text.toString())
+        if (binding.edtMsg.text == null
+            || binding.edtMsg.text.toString().trim().isBlank()) {
+            return@OnClickListener
         }
+        vm.sendMessage(binding.edtMsg.text.toString())
+        binding.edtMsg.text!!.clear()
     }
 
     companion object {

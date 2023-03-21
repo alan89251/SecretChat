@@ -19,14 +19,26 @@ class ChatViewModel: ViewModel() {
     lateinit var contact: Contact
     lateinit var messageSender: MessageSender
     lateinit var chatRepo: Chat
-    var messages: MutableLiveData<List<Message>> = MutableLiveData()
+    var messagesLiveData: MutableLiveData<MutableList<Message>> = MutableLiveData()
+    lateinit var messages: ArrayList<Message>
 
     fun loadAllMessagesFromDB() {
         CoroutineScope(Dispatchers.IO).launch {
-            val temp = chatRepo.getAllMessages()
+            messages = ArrayList(chatRepo.getAllMessages())
 
             withContext(Dispatchers.Main) {
-                messages.value = temp
+                messagesLiveData.value = messages
+            }
+        }
+    }
+
+    fun sendMessage(text: String) {
+        CoroutineScope(Dispatchers.IO).launch {
+            val message = messageSender.send(text)
+
+            withContext(Dispatchers.Main) {
+                messages.add(message)
+                messagesLiveData.value = messages
             }
         }
     }

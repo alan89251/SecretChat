@@ -11,7 +11,8 @@ import com.mapd721.secretchat.databinding.RecyclerViewChatListBinding
 
 class ChatListRecyclerViewAdapter(
     var contactList: List<Contact>,
-    var onItemClick: (View, Int, Contact) -> Unit
+    private val onItemClick: (View, Int, Contact) -> Unit,
+    private val onItemBind: (View, Int, Contact) -> Unit
     ): RecyclerView.Adapter<ChatListRecyclerViewAdapter.ViewHolder>() {
         class ViewHolder(
             itemBinding: RecyclerViewChatListBinding,
@@ -45,6 +46,7 @@ class ChatListRecyclerViewAdapter(
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val contact = contactList[position]
         holder.binding.name.text = contact.name
+        onItemBind(holder.binding.root, position, contact)
     }
 
     override fun getItemCount(): Int {

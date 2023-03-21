@@ -3,8 +3,9 @@ package com.mapd721.secretchat.data_source.firestore.chat
 import com.mapd721.secretchat.data_model.chat.Chat
 import com.mapd721.secretchat.data_model.chat.Message
 import com.mapd721.secretchat.data_source.firestore.message.MessageDaoFirestore
+import com.mapd721.secretchat.data_source.firestore.message.MessageFirestore
 
-class ChatImpFirebase: Chat {
+class ChatFirestore: Chat {
     override var senderId: String
     override var receiverId: String
     private val messageDao: MessageDaoFirestore
@@ -22,5 +23,9 @@ class ChatImpFirebase: Chat {
     override fun getAllMessages(): List<Message> {
         TODO("Not yet implemented")
         return ArrayList()
+    }
+
+    fun listenMessage(onMessages: (List<MessageFirestore>) -> Unit) {
+        messageDao.listenMessage(onMessages)
     }
 }

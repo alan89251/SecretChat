@@ -4,7 +4,7 @@ import android.security.keystore.KeyGenParameterSpec
 import android.security.keystore.KeyProperties
 import java.security.*
 
-class SelfEncryptionKeyPairManager {
+class EncryptionKeyPairManager {
     companion object {
         const val KEY_STORE_NAME = "AndroidKeyStore"
     }

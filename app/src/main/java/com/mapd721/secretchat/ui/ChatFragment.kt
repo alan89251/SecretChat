@@ -1,6 +1,7 @@
 package com.mapd721.secretchat.ui
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -15,6 +16,7 @@ import com.mapd721.secretchat.data_model.contact.Contact
 import com.mapd721.secretchat.data_source.repository.ChatFactory
 import com.mapd721.secretchat.ui.adpater.MsgRecyclerViewAdapter
 import com.mapd721.secretchat.databinding.FragmentChatBinding
+import com.mapd721.secretchat.encryption.EncryptionKeyPairManager
 import com.mapd721.secretchat.logic.MessageIOFactory
 import com.mapd721.secretchat.ui.view_model.ChatViewModel
 import com.mapd721.secretchat.ui.view_model.GlobalViewModel
@@ -50,12 +52,19 @@ class ChatFragment : Fragment() {
         binding.lifecycleOwner = this
 
         vm.chatRepo = ChatFactory.getLocalChat(requireContext(), globalViewModel.selfId, vm.contact.id)
-        vm.messageSender = MessageIOFactory(
+        val messageIOFactory = MessageIOFactory(
             requireContext(),
             globalViewModel.selfId,
             vm.contact,
-            vm.chatRepo
-        ).getMessageSender()
+            vm.chatRepo,
+            EncryptionKeyPairManager()
+        )
+        vm.messageSender = messageIOFactory.getMessageSender()
+        vm.messageReceiver = messageIOFactory.getMessageReceiver()
+        vm.messageReceiver.setOnMessageListener {
+            Log.i("Receive:", it.text)
+        }
+        vm.messageReceiver.listenMessage()
 
         binding.btnSend.setOnClickListener(btnSendOnClickListener)
 

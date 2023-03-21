@@ -1,7 +1,10 @@
 package com.mapd721.secretchat.data_source.firestore.message
 
+import android.util.Log
 import com.google.android.gms.tasks.Tasks
 import com.google.firebase.firestore.CollectionReference
+import com.google.firebase.firestore.DocumentChange
+import com.google.firebase.firestore.ktx.toObject
 import com.mapd721.secretchat.data_model.chat.Message
 import com.mapd721.secretchat.data_model.chat.MessageDao
 
@@ -16,5 +19,26 @@ class MessageDaoFirestore(
             .add(MessageFirestore(message))
         val result = Tasks.await(task)
         return result.id
+    }
+    
+    fun listenMessage(onMessages: (List<MessageFirestore>) -> Unit) {
+        chatCollectionReference
+            .addSnapshotListener { snapshots, e ->
+                if (e != null) {
+                    Log.w("MessageDaoFirestore", "listen:error", e)
+                    return@addSnapshotListener
+                }
+
+                val messages = ArrayList<MessageFirestore>()
+                for (dc in snapshots!!.documentChanges) {
+                    when (dc.type) {
+                        DocumentChange.Type.ADDED -> messages.add(
+                            dc.document.toObject()
+                        )
+                        else -> {}
+                    }
+                }
+                onMessages(messages)
+            }
     }
 }

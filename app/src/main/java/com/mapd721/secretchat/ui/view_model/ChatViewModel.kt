@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModel
 import com.mapd721.secretchat.data_model.chat.Chat
 import com.mapd721.secretchat.data_model.chat.Message
 import com.mapd721.secretchat.data_model.contact.Contact
+import com.mapd721.secretchat.logic.MessageReceiver
 import com.mapd721.secretchat.logic.MessageSender
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -18,6 +19,7 @@ class ChatViewModel: ViewModel() {
 
     lateinit var contact: Contact
     lateinit var messageSender: MessageSender
+    lateinit var messageReceiver: MessageReceiver
     lateinit var chatRepo: Chat
     var messagesLiveData: MutableLiveData<MutableList<Message>> = MutableLiveData()
     lateinit var messages: ArrayList<Message>

@@ -1,6 +1,5 @@
 package com.mapd721.secretchat.data_source.firestore.chat
 
-import com.google.android.gms.tasks.Tasks
 import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.QueryDocumentSnapshot
@@ -35,7 +34,16 @@ class ChatDaoFirestore(
                 parseMessage(doc)
             )
         }*/
-        return ChatImpFirebase(
+        return ChatFirestore(
+            id,
+            receiverId,
+            MessageDaoFirestore(chatCollectionReference)
+        )
+    }
+
+    fun getByReceiverIdAsChatFirestore(receiverId: String): ChatFirestore {
+        val chatCollectionReference = chatsDocument.collection(receiverId)
+        return ChatFirestore(
             id,
             receiverId,
             MessageDaoFirestore(chatCollectionReference)

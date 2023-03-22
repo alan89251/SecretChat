@@ -18,7 +18,7 @@ class AddContactDialogViewModel(
                     onSuccess()
                 }
             }
-            catch (e: IllegalStateException) {
+            catch (e: IllegalArgumentException) {
                 withContext(Dispatchers.Main) {
                     onError(e)
                 }

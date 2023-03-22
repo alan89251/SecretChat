@@ -9,6 +9,6 @@ abstract class Chat {
      */
     abstract fun addMessage(message: Message): String
     abstract fun getAllSentMessages(): List<Message>
-
     abstract fun getAllReceivedMessages(): List<Message>
+    abstract fun getLatestMessage(): Message?
 }

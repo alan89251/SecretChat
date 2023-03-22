@@ -55,7 +55,27 @@ class ChatListViewModel(
         }
     }
 
-    fun listenMessage(contact: Contact, onMessage: (Message) -> Unit ) {
+    fun initContactItem(contact: Contact, onMessage: (Message) -> Unit) {
+        getLatestMessage(contact) {
+            if (it != null) {
+                onMessage(it)
+            }
+            listenMessage(contact, onMessage)
+        }
+    }
+
+    fun getLatestMessage(contact: Contact, onMessage: (Message?) -> Unit) {
+        CoroutineScope(Dispatchers.IO).launch {
+            val chat = chatFactory.getLocalChat(selfId, contact.id)
+            val message = chat.getLatestMessage()
+
+            withContext(Dispatchers.Main) {
+                onMessage(message)
+            }
+        }
+    }
+
+    fun listenMessage(contact: Contact, onMessage: (Message) -> Unit) {
         val messageReceiver = messageReceivers[contact.id]!!
         messageReceiver.setOnMessageListener {
             onMessage(it)

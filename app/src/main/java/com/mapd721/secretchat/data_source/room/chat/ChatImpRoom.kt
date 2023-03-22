@@ -26,4 +26,24 @@ class ChatImpRoom: Chat {
     override fun getAllReceivedMessages(): List<Message> {
         return messageDao.getBySenderIdAndReceiverId(receiverId, senderId, Message.TYPE_RECEIVE)
     }
+
+    override fun getLatestMessage(): Message? {
+        val latestSentMsg = messageDao.getLatestMessageBySenderIdAndReceiverId(senderId, receiverId, Message.TYPE_SNED)
+        val latestReceivedMsg = messageDao.getLatestMessageBySenderIdAndReceiverId(receiverId, senderId, Message.TYPE_RECEIVE)
+        if (latestSentMsg == null && latestReceivedMsg == null) {
+            return null
+        }
+        if (latestSentMsg == null) {
+            return latestReceivedMsg
+        }
+        if (latestReceivedMsg == null) {
+            return latestSentMsg
+        }
+        if (latestSentMsg.sentDateTime.after(latestReceivedMsg.sentDateTime)) {
+            return latestSentMsg
+        }
+        else {
+            return latestReceivedMsg
+        }
+    }
 }

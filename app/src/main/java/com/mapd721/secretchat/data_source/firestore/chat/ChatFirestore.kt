@@ -29,6 +29,10 @@ class ChatFirestore: Chat {
         TODO("Not yet implemented")
     }
 
+    override fun getLatestMessage(): Message? {
+        TODO("Not yet implemented")
+    }
+
     fun listenFriendMessage(onMessages: (List<MessageFirestore>) -> Unit) {
         messageDao.listenFriendMessage(onMessages)
     }

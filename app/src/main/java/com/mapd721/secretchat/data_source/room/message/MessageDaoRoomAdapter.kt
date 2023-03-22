@@ -22,4 +22,15 @@ class MessageDaoRoomAdapter(
             it.toMessage()
         }
     }
+
+    fun getLatestMessageBySenderIdAndReceiverId(senderId: String, receiverId: String, type: Int): Message? {
+        val results = dao.getLatestMessageBySenderIdAndReceiverId(
+            senderId,
+            receiverId,
+            type
+        ).map {
+            it.toMessage()
+        }
+        return if (results.isNotEmpty()) results[0] else null
+    }
 }

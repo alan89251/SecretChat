@@ -64,7 +64,7 @@ class ChatListFragment : Fragment() {
             contactList,
             ::onChatListItemClick,
             { _, _, contact, onMessageUpdate ->
-                vm.listenMessage(contact, onMessageUpdate::onMessageUpdate)
+                vm.initContactItem(contact, onMessageUpdate::onMessageUpdate)
             }
         )
     }

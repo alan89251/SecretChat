@@ -17,6 +17,7 @@ import com.mapd721.secretchat.data_source.repository.EncryptionKeyRepositoryFact
 import com.mapd721.secretchat.databinding.FragmentChatListBinding
 import com.mapd721.secretchat.logic.ContactManager
 import com.mapd721.secretchat.ui.adpater.ChatListRecyclerViewAdapter
+import com.mapd721.secretchat.ui.dialog.AddContactDialogFragment
 import com.mapd721.secretchat.ui.view_model.ChatListViewModel
 import com.mapd721.secretchat.ui.view_model.GlobalViewModel
 
@@ -52,6 +53,24 @@ class ChatListFragment : Fragment() {
         vm.contactListLiveData.observe(requireActivity(), ::onLoadedContactList)
 
         return binding.root
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when(item.itemId) {
+            R.id.app_bar_btn_add_contact -> {
+                showAddContactDialog()
+                true
+            }
+            else -> super.onOptionsItemSelected(item)
+        }
+    }
+
+    private fun showAddContactDialog() {
+        AddContactDialogFragment()
+            .show(
+                childFragmentManager,
+                AddContactDialogFragment.TAG
+            )
     }
 
     private fun onLoadedContactList(contactList: MutableList<Contact>) {

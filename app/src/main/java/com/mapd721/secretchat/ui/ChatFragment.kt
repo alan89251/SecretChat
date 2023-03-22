@@ -14,6 +14,7 @@ import com.mapd721.secretchat.data_model.contact.Contact
 import com.mapd721.secretchat.data_source.repository.ChatFactory
 import com.mapd721.secretchat.ui.adpater.MsgRecyclerViewAdapter
 import com.mapd721.secretchat.databinding.FragmentChatBinding
+import com.mapd721.secretchat.ui.dialog.AddContactDialogFragment
 import com.mapd721.secretchat.ui.view_model.ChatViewModel
 import com.mapd721.secretchat.ui.view_model.GlobalViewModel
 
@@ -62,6 +63,24 @@ class ChatFragment : Fragment() {
         vm.loadAllMessagesFromDB()
 
         return binding.root
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when(item.itemId) {
+            R.id.app_bar_btn_add_contact -> {
+                showAddContactDialog()
+                true
+            }
+            else -> super.onOptionsItemSelected(item)
+        }
+    }
+
+    private fun showAddContactDialog() {
+        AddContactDialogFragment()
+            .show(
+                childFragmentManager,
+                AddContactDialogFragment.TAG
+            )
     }
 
     private fun updateMessageRecyclerView(messages: List<Message>) {

@@ -1,63 +1,69 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:layout_margin="8dp"
-    android:elevation="4dp">
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingTop="12dp"
+        android:elevation="4dp">
 
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_alignParentStart="true"
-        android:background="@drawable/receiver_bubble">
-
-        <TextView
+        <LinearLayout
+            android:id="@+id/receiver_dialog"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/msg_time"
-            style="@style/message_time"
-            android:layout_marginTop="12dp"
-            android:padding="8dp"
-            android:layout_marginStart="16dp"/>
+            android:orientation="horizontal"
+            android:layout_alignParentStart="true"
+            android:background="@drawable/receiver_bubble">
 
-        <TextView
-            android:id="@+id/receiver_text"
+            <TextView
+                android:id="@+id/receiver_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/msg_time"
+                style="@style/message_time"
+                android:layout_marginTop="12dp"
+                android:padding="8dp"
+                android:layout_marginStart="16dp"/>
+
+            <TextView
+                android:id="@+id/receiver_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/receiver_message"
+                style="@style/message_text"
+                android:layout_margin="8dp"
+                android:padding="8dp"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/sender_dialog"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/receiver_message"
-            style="@style/message_text"
-            android:layout_margin="8dp"
-            android:padding="8dp"/>
+            android:orientation="horizontal"
+            android:layout_alignParentEnd="true"
+            android:background="@drawable/sender_bubble">
 
-    </LinearLayout>
+            <TextView
+                android:id="@+id/sender_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/sender_message"
+                style="@style/message_text"
+                android:layout_margin="8dp"
+                android:padding="8dp"/>
 
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_alignParentEnd="true"
-        android:background="@drawable/sender_bubble">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/sender_message"
-            style="@style/message_text"
-            android:layout_margin="8dp"
-            android:padding="8dp"/>
-
-        <TextView
-            android:id="@+id/sender_text"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/msg_time"
-            style="@style/message_time"
-            android:layout_marginTop="12dp"
-            android:padding="8dp"
-            android:layout_marginEnd="16dp"/>
+            <TextView
+                android:id="@+id/sender_msg_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/msg_time"
+                style="@style/message_time"
+                android:layout_marginTop="12dp"
+                android:padding="8dp"
+                android:layout_marginEnd="16dp"/>
 
 
-    </LinearLayout>
+        </LinearLayout>
 
-</RelativeLayout>
+    </RelativeLayout>
+</layout>

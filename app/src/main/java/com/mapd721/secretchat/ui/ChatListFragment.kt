@@ -29,10 +29,7 @@ class ChatListFragment : Fragment() {
         setHasOptionsMenu(true)
         super.onCreate(savedInstanceState)
         vm = ChatListViewModel(
-            ContactManager(
-                ContactRepositoryFactory(requireContext()).getLocalRepository(),
-                EncryptionKeyRepositoryFactory().getRemoteRepository()
-            ),
+            globalViewModel.contactManager,
             ChatFactory(requireContext()),
             globalViewModel.selfId,
             resources.getString(R.string.self_key_pair_name)

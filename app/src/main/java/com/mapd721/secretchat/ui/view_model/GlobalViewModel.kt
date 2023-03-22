@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModel
 import com.mapd721.secretchat.data_model.encryption_key.EncryptionKey
 import com.mapd721.secretchat.data_source.repository.EncryptionKeyRepositoryFactory
 import com.mapd721.secretchat.encryption.EncryptionKeyPairManager
+import com.mapd721.secretchat.logic.ContactManager
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -16,6 +17,7 @@ class GlobalViewModel: ViewModel() {
     lateinit var selfIdPreferenceKey: String
     lateinit var selfKeyPairName: String
     var selfId = ""
+    lateinit var contactManager: ContactManager
 
     fun registerAccount(selfId: String, onRegistered: () -> Unit) {
         saveSelfId(selfId)

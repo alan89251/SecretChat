@@ -10,7 +10,10 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import com.mapd721.secretchat.R
+import com.mapd721.secretchat.data_source.repository.ContactRepositoryFactory
+import com.mapd721.secretchat.data_source.repository.EncryptionKeyRepositoryFactory
 import com.mapd721.secretchat.databinding.FragmentHomeBinding
+import com.mapd721.secretchat.logic.ContactManager
 import com.mapd721.secretchat.ui.view_model.GlobalViewModel
 
 class HomeFragment : Fragment() {
@@ -25,6 +28,10 @@ class HomeFragment : Fragment() {
         globalViewModel.selfKeyPairName = resources.getString(R.string.self_key_pair_name)
         globalViewModel.sharedPreferences = requireActivity().getSharedPreferences(resources.getString(R.string.preference_name),
             AppCompatActivity.MODE_PRIVATE
+        )
+        globalViewModel.contactManager = ContactManager(
+            ContactRepositoryFactory(requireActivity()).getLocalRepository(),
+            EncryptionKeyRepositoryFactory().getRemoteRepository()
         )
 
         globalViewModel.selfId = globalViewModel.sharedPreferences.getString(

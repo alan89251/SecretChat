@@ -10,12 +10,18 @@ import kotlinx.coroutines.withContext
 class AddContactDialogViewModel(
     private val contactManager: ContactManager
 ) : ViewModel() {
-    fun addContact(contactId: String, name: String, onAdded: () -> Unit) {
+    fun addContact(contactId: String, name: String, onSuccess: () -> Unit, onError: (Exception) -> Unit) {
         CoroutineScope(Dispatchers.IO).launch {
-            contactManager.addContact(contactId, name)
-
-            withContext(Dispatchers.Main) {
-                onAdded()
+            try {
+                contactManager.addContact(contactId, name)
+                withContext(Dispatchers.Main) {
+                    onSuccess()
+                }
+            }
+            catch (e: IllegalStateException) {
+                withContext(Dispatchers.Main) {
+                    onError(e)
+                }
             }
         }
     }

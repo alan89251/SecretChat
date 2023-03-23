@@ -3,12 +3,9 @@ package com.mapd721.secretchat.logic
 import com.mapd721.secretchat.data_model.chat.Chat
 import com.mapd721.secretchat.data_model.chat.Message
 import com.mapd721.secretchat.encryption.MessageCipherEncrypt
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
 import java.util.*
 
-class MessageSenderImp (
+class MessageSenderNetwork (
     private val senderId: String,
     private val receiverId: String,
     private val cipher: MessageCipherEncrypt,

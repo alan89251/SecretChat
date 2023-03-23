@@ -3,6 +3,7 @@
     <string name="self_key_pair_name">self_key</string>
     <string name="preference_name">secretChatPreference</string>
     <string name="self_id_preference_key">selfId</string>
+    <string name="message_service_cmd_key">messageServiceCommand</string>
 
     <!-- Chat List Name -->
     <string name="name_1">Harry Potter</string>

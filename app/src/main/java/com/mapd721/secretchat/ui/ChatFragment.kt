@@ -3,11 +3,8 @@ package com.mapd721.secretchat.ui
 import android.os.Bundle
 import android.view.*
 import androidx.fragment.app.Fragment
-import android.widget.EditText
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.RecyclerView
-import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.mapd721.secretchat.R
 import com.mapd721.secretchat.data_model.chat.Message
 import com.mapd721.secretchat.data_model.contact.Contact
@@ -22,11 +19,6 @@ class ChatFragment : Fragment() {
     private lateinit var binding: FragmentChatBinding
     private lateinit var vm: ChatViewModel
     private val globalViewModel: GlobalViewModel by activityViewModels()
-    private lateinit var messageRecyclerView: RecyclerView
-    private lateinit var sendMessageEditText: EditText
-    private lateinit var sendMessageButton: FloatingActionButton
-    private lateinit var  messageLayoutManager: RecyclerView.LayoutManager
-    private lateinit var msgRecyclerViewAdapter: MsgRecyclerViewAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

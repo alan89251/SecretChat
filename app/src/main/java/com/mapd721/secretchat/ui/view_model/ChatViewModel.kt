@@ -37,7 +37,8 @@ class ChatViewModel(
         messageIOFactory = MessageIOFactory(
             selfId,
             EncryptionKeyPairManager().getKey(selfKeyPairName)!!,
-            chatFactory
+            chatFactory,
+            MessageIOFactory.Mode.UI
         )
         messageSender = messageIOFactory.getMessageSender(contact)
         messageReceiver = messageIOFactory.getMessageReceiver(contact)

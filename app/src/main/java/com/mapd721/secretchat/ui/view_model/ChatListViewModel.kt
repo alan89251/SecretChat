@@ -1,6 +1,5 @@
 package com.mapd721.secretchat.ui.view_model
 
-import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.mapd721.secretchat.data_model.chat.Message
@@ -16,7 +15,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 class ChatListViewModel(
-    contactManager: ContactManager,
+    val contactManager: ContactManager,
     val chatFactory: ChatFactory,
     val selfId: String,
     val selfKeyPairName: String
@@ -34,7 +33,8 @@ class ChatListViewModel(
         messageIOFactory = MessageIOFactory(
             selfId,
             EncryptionKeyPairManager().getKey(selfKeyPairName)!!,
-            chatFactory
+            chatFactory,
+            MessageIOFactory.Mode.UI
         )
 
         CoroutineScope(Dispatchers.IO).launch {

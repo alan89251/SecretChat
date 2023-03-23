@@ -7,10 +7,11 @@ import java.security.PrivateKey
 class MessageIOFactory(
     private val selfId: String,
     private val selfPrivateKey: PrivateKey,
-    private val chatFactory: ChatFactory
+    private val chatFactory: ChatFactory,
+    private val mode: Mode
 ) {
     fun getMessageSender(contact: Contact): MessageSender {
-        return MessageSenderImp(
+        return MessageSenderNetwork(
             selfId,
             contact.id,
             MessageCipherFactory.getCipherEncryptFromKey(contact.key),
@@ -25,5 +26,10 @@ class MessageIOFactory(
             chatFactory.getChatFirestore(contact.id, selfId),
             chatFactory.getLocalChat(selfId, contact.id)
         )
+    }
+
+    enum class Mode {
+        UI,
+        SERVICE
     }
 }

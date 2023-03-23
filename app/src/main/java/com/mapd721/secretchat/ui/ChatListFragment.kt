@@ -33,7 +33,11 @@ class ChatListFragment : Fragment() {
             globalViewModel.contactManager,
             ChatFactory(requireContext()),
             globalViewModel.selfId,
-            resources.getString(R.string.self_key_pair_name)
+            resources.getString(R.string.self_key_pair_name),
+            { broadcastReceiver, intentFilter ->
+                requireActivity()
+                    .registerReceiver(broadcastReceiver, intentFilter)
+            }
         )
     }
 

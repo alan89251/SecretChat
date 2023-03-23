@@ -1,6 +1,6 @@
 package com.mapd721.secretchat.ui
 
-import android.content.SharedPreferences
+import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -14,6 +14,7 @@ import com.mapd721.secretchat.data_source.repository.ContactRepositoryFactory
 import com.mapd721.secretchat.data_source.repository.EncryptionKeyRepositoryFactory
 import com.mapd721.secretchat.databinding.FragmentHomeBinding
 import com.mapd721.secretchat.logic.ContactManager
+import com.mapd721.secretchat.service.MessageFirebaseService
 import com.mapd721.secretchat.ui.view_model.GlobalViewModel
 
 class HomeFragment : Fragment() {
@@ -34,6 +35,7 @@ class HomeFragment : Fragment() {
         )
 
         if (globalViewModel.selfId != "") {
+            runStartupTasks()
             navToChatListFragment()
             return
         }
@@ -49,12 +51,20 @@ class HomeFragment : Fragment() {
         return binding.root
     }
 
+    private fun runStartupTasks() {
+        requireActivity()
+            .startService(
+                Intent(requireActivity(), MessageFirebaseService::class.java)
+            )
+    }
+
     private val btnRegisterOnClickListener = View.OnClickListener {
         if (binding.etUserId.text.toString() == "") {
             return@OnClickListener
         }
         globalViewModel.saveSelfId(binding.etUserId.text.toString())
         globalViewModel.registerAccount(binding.etUserId.text.toString()) {
+            runStartupTasks()
             navToChatListFragment()
         }
     }

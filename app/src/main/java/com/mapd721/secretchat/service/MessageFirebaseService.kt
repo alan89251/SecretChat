@@ -14,8 +14,13 @@ import com.mapd721.secretchat.logic.ContactManager
 import com.mapd721.secretchat.logic.MessageBroadcast
 import com.mapd721.secretchat.logic.MessageIOFactory
 import com.mapd721.secretchat.logic.MessageReceiver
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class MessageFirebaseService : Service() {
+    private var isInited = false
     private val contactManager: ContactManager
     private val chatFactory: ChatFactory
     private lateinit var messageIOFactory: MessageIOFactory // Should be create in onStartCommand
@@ -47,11 +52,9 @@ class MessageFirebaseService : Service() {
         if (intent == null) {
             return START_STICKY
         }
-        val cmd = intent.extras!!.getInt(
-            resources.getString(R.string.message_service_cmd_key)
-        )
-        when (cmd) {
-            MessageServiceCmd.START.cmd -> doStartService()
+        if (!isInited) {
+            isInited = true
+            doStartService()
         }
 
         return START_STICKY
@@ -66,11 +69,16 @@ class MessageFirebaseService : Service() {
             chatFactory,
             MessageIOFactory.Mode.SERVICE
         )
-        contactList.addAll(
-            contactManager.getAll()
-        )
-        createMessageReceivers()
-        listenMessages()
+        CoroutineScope(Dispatchers.IO).launch {
+            contactList.addAll(
+                contactManager.getAll()
+            )
+
+            withContext(Dispatchers.Main) {
+                createMessageReceivers()
+                listenMessages()
+            }
+        }
     }
 
     private fun listenMessages() {

@@ -2,10 +2,7 @@ package com.mapd721.secretchat.ui.view_model
 
 import android.content.SharedPreferences
 import android.util.Base64
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.mapd721.secretchat.data_model.chat.Message
-import com.mapd721.secretchat.data_model.contact.Contact
 import com.mapd721.secretchat.data_model.encryption_key.EncryptionKey
 import com.mapd721.secretchat.data_source.repository.EncryptionKeyRepositoryFactory
 import com.mapd721.secretchat.encryption.EncryptionKeyPairManager
@@ -18,7 +15,6 @@ class GlobalViewModel: ViewModel() {
     lateinit var selfKeyPairName: String
     var selfId = ""
     lateinit var contactManager: ContactManager
-    private val messageLiveDatas: HashMap<String, MutableLiveData<Message>> = HashMap() // Key: contact id
 
     fun initViewModel(
         sharedPreferences: SharedPreferences,
@@ -26,12 +22,11 @@ class GlobalViewModel: ViewModel() {
         selfKeyPairName: String,
         contactManager: ContactManager
     ) {
-        this@GlobalViewModel.sharedPreferences = sharedPreferences
-        this@GlobalViewModel.selfIdPreferenceKey = selfIdPreferenceKey
-        this@GlobalViewModel.selfKeyPairName = selfKeyPairName
-        this@GlobalViewModel.contactManager = contactManager
-        selfId = this@GlobalViewModel.sharedPreferences.getString(this@GlobalViewModel.selfIdPreferenceKey, "").toString()
-        initMessageLiveDatas()
+        this.sharedPreferences = sharedPreferences
+        this.selfIdPreferenceKey = selfIdPreferenceKey
+        this.selfKeyPairName = selfKeyPairName
+        this.contactManager = contactManager
+        selfId = this.sharedPreferences.getString(this.selfIdPreferenceKey, "").toString()
     }
 
     fun registerAccount(selfId: String, onRegistered: () -> Unit) {
@@ -51,14 +46,6 @@ class GlobalViewModel: ViewModel() {
         val editor = sharedPreferences.edit()
         editor.putString(selfIdPreferenceKey, this.selfId)
         editor.commit()
-    }
-
-    private fun initMessageLiveDatas() = runBlocking<Unit> {
-        val contacts: List<Contact> = async { this@GlobalViewModel.contactManager.getAll() }
-            .await()
-        contacts.forEach {
-            messageLiveDatas[it.id] = MutableLiveData()
-        }
     }
 
     private fun initSelfEncryptionKeyPair() {

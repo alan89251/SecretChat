@@ -7,6 +7,7 @@ import com.mapd721.secretchat.encryption.MessageCipherDecrypt
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class MessageReceiverImp(
     private val cipher: MessageCipherDecrypt,
@@ -31,8 +32,11 @@ class MessageReceiverImp(
                 message.type = Message.TYPE_RECEIVE
                 CoroutineScope(Dispatchers.IO).launch {
                     localChat.addMessage(message)
+
+                    withContext(Dispatchers.Main) {
+                        onMessageListener?.invoke(message)
+                    }
                 }
-                onMessageListener?.invoke(message)
             }
         }
     }

@@ -19,6 +19,19 @@ class GlobalViewModel: ViewModel() {
     var selfId = ""
     lateinit var contactManager: ContactManager
 
+    fun initViewModel(
+        sharedPreferences: SharedPreferences,
+        selfIdPreferenceKey: String,
+        selfKeyPairName: String,
+        contactManager: ContactManager
+    ) {
+        this.sharedPreferences = sharedPreferences
+        this.selfIdPreferenceKey = selfIdPreferenceKey
+        this.selfKeyPairName = selfKeyPairName
+        this.contactManager = contactManager
+        selfId = this.sharedPreferences.getString(this.selfIdPreferenceKey, "").toString()
+    }
+
     fun registerAccount(selfId: String, onRegistered: () -> Unit) {
         saveSelfId(selfId)
         initSelfEncryptionKeyPair()

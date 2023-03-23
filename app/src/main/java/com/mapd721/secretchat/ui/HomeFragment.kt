@@ -23,21 +23,16 @@ class HomeFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        // init globalViewModel
-        globalViewModel.selfIdPreferenceKey = resources.getString(R.string.self_id_preference_key)
-        globalViewModel.selfKeyPairName = resources.getString(R.string.self_key_pair_name)
-        globalViewModel.sharedPreferences = requireActivity().getSharedPreferences(resources.getString(R.string.preference_name),
-            AppCompatActivity.MODE_PRIVATE
-        )
-        globalViewModel.contactManager = ContactManager(
-            ContactRepositoryFactory(requireActivity()).getLocalRepository(),
-            EncryptionKeyRepositoryFactory().getRemoteRepository()
+        globalViewModel.initViewModel(
+            requireActivity().getSharedPreferences(resources.getString(R.string.preference_name), AppCompatActivity.MODE_PRIVATE),
+            resources.getString(R.string.self_id_preference_key),
+            resources.getString(R.string.self_key_pair_name),
+            ContactManager(
+                ContactRepositoryFactory(requireActivity()).getLocalRepository(),
+                EncryptionKeyRepositoryFactory().getRemoteRepository()
+            )
         )
 
-        globalViewModel.selfId = globalViewModel.sharedPreferences.getString(
-            resources.getString(R.string.self_id_preference_key),
-            ""
-        ).toString()
         if (globalViewModel.selfId != "") {
             navToChatListFragment()
             return

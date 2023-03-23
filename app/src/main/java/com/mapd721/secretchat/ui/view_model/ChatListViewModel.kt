@@ -29,7 +29,6 @@ class ChatListViewModel(
     }
 
     val contactListLiveData: MutableLiveData<MutableList<Contact>> = MutableLiveData()
-    val contactList: ArrayList<Contact> = ArrayList()
     val messageListeners: MutableMap<String, (Message) -> Unit> = HashMap()
     val messageIOFactory: MessageIOFactory
     val messageReceiver: MessageBroadcastReceiver
@@ -44,15 +43,7 @@ class ChatListViewModel(
         messageReceiver = MessageBroadcastReceiver()
         messageReceiver.setOnMessageListener(::dispatchMessage)
         doRegisterBroadcastReceiver(messageReceiver, IntentFilter(MessageBroadcast.INTENT_FILTER))
-
-        CoroutineScope(Dispatchers.IO).launch {
-            val list = contactManager.getAll()
-
-            withContext(Dispatchers.Main) {
-                contactList.addAll(list)
-                contactListLiveData.value = contactList
-            }
-        }
+        loadContactList()
     }
 
     fun initContactItem(contact: Contact, onMessage: (Message) -> Unit) {
@@ -82,5 +73,24 @@ class ChatListViewModel(
     private fun dispatchMessage(message: Message) {
         val contactId = if (message.senderId == selfId) message.receiverId else message.senderId
         messageListeners[contactId]?.invoke(message)
+    }
+
+    private fun loadContactList() {
+        CoroutineScope(Dispatchers.IO).launch {
+            val list = contactManager.getAll()
+
+            withContext(Dispatchers.Main) {
+                contactListLiveData.value = ArrayList(list)
+            }
+        }
+    }
+
+    fun onAddedContact() {
+        removeAllMessageListeners()
+        loadContactList()
+    }
+
+    private fun removeAllMessageListeners() {
+        messageListeners.clear()
     }
 }

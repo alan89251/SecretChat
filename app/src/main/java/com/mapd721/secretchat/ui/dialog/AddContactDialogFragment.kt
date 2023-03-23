@@ -8,6 +8,7 @@ import android.view.View
 import android.widget.Toast
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.setFragmentResult
 import com.mapd721.secretchat.databinding.DialogAddContactBinding
 import com.mapd721.secretchat.ui.view_model.AddContactDialogViewModel
 import com.mapd721.secretchat.ui.view_model.GlobalViewModel
@@ -48,10 +49,15 @@ class AddContactDialogFragment : DialogFragment() {
     }
 
     private fun closeDialog() {
+        setFragmentResult(
+            RESULT_LISTENER_KEY,
+            Bundle()
+        )
         dismiss()
     }
 
     companion object {
         const val TAG = "AddContactDialog"
+        const val RESULT_LISTENER_KEY = "AddContactDialogResult"
     }
 }

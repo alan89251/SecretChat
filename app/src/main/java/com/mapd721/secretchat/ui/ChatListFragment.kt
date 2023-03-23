@@ -39,6 +39,10 @@ class ChatListFragment : Fragment() {
                     .registerReceiver(broadcastReceiver, intentFilter)
             }
         )
+
+        childFragmentManager.setFragmentResultListener(
+            AddContactDialogFragment.RESULT_LISTENER_KEY,
+            this) { _, bundle -> vm.onAddedContact() }
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
@@ -78,7 +82,6 @@ class ChatListFragment : Fragment() {
     }
 
     private fun onLoadedContactList(contactList: MutableList<Contact>) {
-        vm.contactListLiveData.removeObservers(requireActivity())
         binding.chatList.layoutManager = GridLayoutManager(requireContext(), ChatListViewModel.CHAT_LIST_COL_NUM)
         binding.chatList.adapter = ChatListRecyclerViewAdapter(
             contactList,

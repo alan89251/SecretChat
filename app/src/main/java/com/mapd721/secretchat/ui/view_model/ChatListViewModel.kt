@@ -12,7 +12,6 @@ import com.mapd721.secretchat.encryption.EncryptionKeyPairManager
 import com.mapd721.secretchat.logic.ContactManager
 import com.mapd721.secretchat.logic.MessageBroadcast
 import com.mapd721.secretchat.logic.MessageIOFactory
-import com.mapd721.secretchat.logic.MessageReceiver
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -42,7 +41,8 @@ class ChatListViewModel(
             chatFactory,
             MessageIOFactory.Mode.UI
         )
-        messageReceiver = MessageBroadcastReceiver(::dispatchMessage)
+        messageReceiver = MessageBroadcastReceiver()
+        messageReceiver.setOnMessageListener(::dispatchMessage)
         doRegisterBroadcastReceiver(messageReceiver, IntentFilter(MessageBroadcast.INTENT_FILTER))
 
         CoroutineScope(Dispatchers.IO).launch {

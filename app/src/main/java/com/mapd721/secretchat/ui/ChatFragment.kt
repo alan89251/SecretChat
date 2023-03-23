@@ -29,7 +29,11 @@ class ChatFragment : Fragment() {
                 ChatFactory(requireContext()),
                 globalViewModel.selfId,
                 it.getSerializable(ARG_CONTACT) as Contact,
-                resources.getString(R.string.self_key_pair_name)
+                resources.getString(R.string.self_key_pair_name),
+                { broadcastReceiver, intentFilter ->
+                    requireActivity()
+                        .registerReceiver(broadcastReceiver, intentFilter)
+                }
             )
         }
     }

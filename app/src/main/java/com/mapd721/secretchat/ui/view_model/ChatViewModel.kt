@@ -1,12 +1,16 @@
 package com.mapd721.secretchat.ui.view_model
 
+import android.content.BroadcastReceiver
+import android.content.IntentFilter
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.mapd721.secretchat.broadcast.MessageBroadcastReceiver
 import com.mapd721.secretchat.data_model.chat.Chat
 import com.mapd721.secretchat.data_model.chat.Message
 import com.mapd721.secretchat.data_model.contact.Contact
 import com.mapd721.secretchat.data_source.repository.ChatFactory
 import com.mapd721.secretchat.encryption.EncryptionKeyPairManager
+import com.mapd721.secretchat.logic.MessageBroadcast
 import com.mapd721.secretchat.logic.MessageIOFactory
 import com.mapd721.secretchat.logic.MessageReceiver
 import com.mapd721.secretchat.logic.MessageSender
@@ -19,14 +23,15 @@ class ChatViewModel(
     val chatFactory: ChatFactory,
     val selfId: String,
     val contact: Contact,
-    val selfKeyPairName: String
+    val selfKeyPairName: String,
+    val doRegisterBroadcastReceiver: (BroadcastReceiver, IntentFilter) -> Unit
 ): ViewModel() {
     companion object {
         const val CHAT_LIST_COL_NUM = 1
     }
 
     val messageSender: MessageSender
-    val messageReceiver: MessageReceiver
+    private val messageReceiver: MessageBroadcastReceiver
     val chatRepo: Chat
     var messagesLiveData: MutableLiveData<MutableList<Message>> = MutableLiveData()
     val messages: ArrayList<Message> = ArrayList()
@@ -41,7 +46,8 @@ class ChatViewModel(
             MessageIOFactory.Mode.UI
         )
         messageSender = messageIOFactory.getMessageSender(contact)
-        messageReceiver = messageIOFactory.getMessageReceiver(contact)
+        messageReceiver = MessageBroadcastReceiver()
+        doRegisterBroadcastReceiver(messageReceiver, IntentFilter(MessageBroadcast.INTENT_FILTER))
     }
 
     fun loadAllMessagesFromDB() {
@@ -74,6 +80,5 @@ class ChatViewModel(
             messages.add(it)
             messagesLiveData.value = messages
         }
-        messageReceiver.listenMessage()
     }
 }

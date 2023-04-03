@@ -46,7 +46,7 @@
         android:contentDescription="Attachment"
         android:outlineProvider="none"
         app:borderWidth="0dp"
-        android:onClick="showPopup"/>
+        />
 
     <androidx.appcompat.widget.AppCompatEditText
         android:id="@+id/edt_msg"

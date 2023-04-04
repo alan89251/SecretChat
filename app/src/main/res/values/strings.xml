@@ -30,5 +30,11 @@
     <string name="icon">icon</string>
     <string name="register">Register</string>
 
+    <!-- Attachment Menu -->
+    <string name="photo">Photos</string>
+    <string name="video">Videos</string>
+    <string name="location">Location</string>
+
+
 
 </resources>

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    >
+
+    <item
+        android:id="@+id/action_photo"
+        android:title="@string/photo"
+        app:showAsAction="never"
+        android:icon="@drawable/baseline_photo_24"/>
+
+    <item
+        android:id="@+id/action_video"
+        android:title="@string/video"
+        app:showAsAction="never"
+        />
+
+    <item
+        android:id="@+id/action_location"
+        android:title="@string/location"
+        app:showAsAction="never"
+        android:icon="@drawable/baseline_pin_drop_24"/>
+
+</menu>

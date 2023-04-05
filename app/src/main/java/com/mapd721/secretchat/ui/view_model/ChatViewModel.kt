@@ -33,7 +33,8 @@ class ChatViewModel(
     val cloudStorageRootFolderName: String,
     val contentResolver: ContentResolver,
     val doRegisterBroadcastReceiver: (BroadcastReceiver, IntentFilter) -> Unit,
-    val doSendSelectAttachmentIntent: (Intent, Int) -> Unit // arg1: intent, arg2: request code
+    val doSendSelectAttachmentIntent: (Intent, Int) -> Unit, // arg1: intent, arg2: request code
+    val doNavigateToVideoPlaybackScreen: (String) -> Unit // arg1: file name
 ): ViewModel() {
     companion object {
         const val CHAT_LIST_COL_NUM = 1
@@ -176,6 +177,13 @@ class ChatViewModel(
                     messagesLiveData.value = messages
                 }
             }
+        }
+    }
+
+    fun onChatMsgDialogClick(message: Message) {
+        when (message.mime) {
+            Message.Mime.VIDEO -> doNavigateToVideoPlaybackScreen(message.oriFileName)
+            else -> {}
         }
     }
 }

@@ -31,5 +31,18 @@
         <argument
             android:name="contact"
             app:argType="com.mapd721.secretchat.data_model.contact.Contact" />
+
+        <action
+            android:id="@+id/action_chatFragment_to_videoPlaybackFragment"
+            app:destination="@id/videoPlaybackFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/videoPlaybackFragment"
+        android:name="com.mapd721.secretchat.ui.VideoPlaybackFragment"
+        android:label="Video">
+        <argument
+            android:name="fileName"
+            app:argType="string" />
     </fragment>
 </navigation>

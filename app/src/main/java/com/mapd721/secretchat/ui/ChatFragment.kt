@@ -7,6 +7,7 @@ import android.view.*
 import android.widget.PopupMenu
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import com.mapd721.secretchat.R
 import com.mapd721.secretchat.data_model.chat.Message
@@ -41,7 +42,8 @@ class ChatFragment : Fragment() {
                 },
                 { intent, requestCode ->
                     startActivityForResult(intent, requestCode)
-                }
+                },
+                ::navigateToVideoPlaybackScreen
             )
         }
     }
@@ -100,7 +102,7 @@ class ChatFragment : Fragment() {
     }
 
     private fun updateMessageRecyclerView(messages: List<Message>) {
-        binding.msgRecyclerView.adapter = MsgRecyclerViewAdapter(messages)
+        binding.msgRecyclerView.adapter = MsgRecyclerViewAdapter(messages, vm::onChatMsgDialogClick)
     }
 
     private val btnSendOnClickListener = View.OnClickListener {
@@ -110,6 +112,15 @@ class ChatFragment : Fragment() {
         }
         vm.sendMessage(binding.edtMsg.text.toString())
         binding.edtMsg.text!!.clear()
+    }
+
+    private fun navigateToVideoPlaybackScreen(fileName: String) {
+        findNavController().navigate(
+            ChatFragmentDirections
+                .actionChatFragmentToVideoPlaybackFragment(
+                    fileName
+                )
+        )
     }
 
     companion object {

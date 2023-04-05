@@ -9,7 +9,8 @@ import com.mapd721.secretchat.databinding.RecyclerViewChatBinding
 import java.text.SimpleDateFormat
 
 class MsgRecyclerViewAdapter(
-    var msgList: List<Message>
+    var msgList: List<Message>,
+    val onItemClick: (Message) -> Unit
 ): RecyclerView.Adapter<MsgRecyclerViewAdapter.ViewHolder>() {
     class ViewHolder(itemBinding: RecyclerViewChatBinding)
         : RecyclerView.ViewHolder(itemBinding.root) {
@@ -34,14 +35,25 @@ class MsgRecyclerViewAdapter(
         when (message.type) {
             Message.TYPE_SNED -> {
                 holder.binding.senderDialog.visibility = View.VISIBLE
-                holder.binding.senderText.text = message.text
+                holder.binding.senderText.text = getDisplayText(message)
                 holder.binding.senderMsgTime.text = dataFormat.format(message.sentDateTime)
+                holder.binding.root.setOnClickListener { onItemClick(message) }
             }
             else -> { // RECEIVE
                 holder.binding.receiverDialog.visibility = View.VISIBLE
-                holder.binding.receiverText.text = message.text
+                holder.binding.receiverText.text = getDisplayText(message)
                 holder.binding.receiverTime.text = dataFormat.format(message.sentDateTime)
+                holder.binding.root.setOnClickListener { onItemClick(message) }
             }
+        }
+    }
+
+    private fun getDisplayText(message: Message): String {
+        return when (message.mime) {
+            Message.Mime.TEXT -> message.text
+            Message.Mime.IMAGE -> message.oriFileName
+            Message.Mime.VIDEO -> message.oriFileName
+            else -> ""
         }
     }
 

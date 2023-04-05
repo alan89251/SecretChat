@@ -35,6 +35,7 @@
     <!-- Attachment Menu -->
     <string name="photo">Photos</string>
     <string name="video">Videos</string>
+    <string name="camera">Camera</string>
     <string name="location">Location</string>
 
 

@@ -16,6 +16,12 @@
         />
 
     <item
+        android:id="@+id/action_camera"
+        android:title="@string/camera"
+        app:showAsAction="never"
+        />
+
+    <item
         android:id="@+id/action_location"
         android:title="@string/location"
         app:showAsAction="never"

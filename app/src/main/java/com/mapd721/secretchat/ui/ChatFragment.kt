@@ -16,6 +16,7 @@ import com.mapd721.secretchat.data_source.repository.ChatFactory
 import com.mapd721.secretchat.ui.adpater.MsgRecyclerViewAdapter
 import com.mapd721.secretchat.databinding.FragmentChatBinding
 import com.mapd721.secretchat.ui.dialog.AddContactDialogFragment
+import com.mapd721.secretchat.ui.fragment_result_listener.VideoRecordingResultListener
 import com.mapd721.secretchat.ui.view_model.ChatViewModel
 import com.mapd721.secretchat.ui.view_model.GlobalViewModel
 
@@ -43,9 +44,16 @@ class ChatFragment : Fragment() {
                 { intent, requestCode ->
                     startActivityForResult(intent, requestCode)
                 },
-                ::navigateToVideoPlaybackScreen
+                ::navigateToVideoPlaybackScreen,
+                ::navigateToVideoRecordScreen
             )
         }
+
+        parentFragmentManager.setFragmentResultListener(
+            VideoRecordingResultListener.RESULT_LISTENER_KEY,
+            this,
+            VideoRecordingResultListener(vm::onVideoRecorded)
+        )
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
@@ -120,6 +128,13 @@ class ChatFragment : Fragment() {
                 .actionChatFragmentToVideoPlaybackFragment(
                     fileName
                 )
+        )
+    }
+
+    private fun navigateToVideoRecordScreen() {
+        findNavController().navigate(
+            ChatFragmentDirections
+                .actionChatFragmentToVideoRecordFragment()
         )
     }
 

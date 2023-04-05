@@ -24,6 +24,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import java.io.File
 
 class ChatViewModel(
     val chatFactory: ChatFactory,
@@ -34,7 +35,8 @@ class ChatViewModel(
     val contentResolver: ContentResolver,
     val doRegisterBroadcastReceiver: (BroadcastReceiver, IntentFilter) -> Unit,
     val doSendSelectAttachmentIntent: (Intent, Int) -> Unit, // arg1: intent, arg2: request code
-    val doNavigateToVideoPlaybackScreen: (String) -> Unit // arg1: file name
+    val doPlayVideo: (String) -> Unit,
+    val doRecordVideo: () -> Unit // arg1: file name,
 ): ViewModel() {
     companion object {
         const val CHAT_LIST_COL_NUM = 1
@@ -109,6 +111,7 @@ class ChatViewModel(
         when (menuItem.itemId) {
             R.id.action_photo -> selectPhotoToSend()
             R.id.action_video -> selectVideoToSend()
+            R.id.action_camera -> doRecordVideo()
             R.id.action_location -> {}
         }
 
@@ -182,8 +185,17 @@ class ChatViewModel(
 
     fun onChatMsgDialogClick(message: Message) {
         when (message.mime) {
-            Message.Mime.VIDEO -> doNavigateToVideoPlaybackScreen(message.oriFileName)
+            Message.Mime.VIDEO -> doPlayVideo(message.oriFileName)
             else -> {}
         }
+    }
+
+    fun onVideoRecorded(filePath: String) {
+        sendFile(
+            Uri.fromFile(
+                File(filePath)
+            ),
+            Message.Mime.VIDEO
+        )
     }
 }

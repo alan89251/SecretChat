@@ -20,4 +20,14 @@ class FileStorageFirestore(
         }
         return "$bucket/$name"
     }
+
+    override fun getSync(path: String): ByteArray {
+        val task = root.child(path)
+            .getBytes(MAX_DOWNLOAD_SIZE_BYTES)
+        return Tasks.await(task)
+    }
+
+    companion object {
+        const val MAX_DOWNLOAD_SIZE_BYTES = 4294967296L
+    }
 }

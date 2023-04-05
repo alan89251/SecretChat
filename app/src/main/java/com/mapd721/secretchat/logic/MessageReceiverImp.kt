@@ -28,8 +28,13 @@ class MessageReceiverImp(
 
             messages.forEach {
                 val message = it.toMessage()
-                message.text = cipher.decrypt(message.text)
                 message.type = Message.TYPE_RECEIVE
+                when (message.mime) {
+                    Message.Mime.TEXT -> parseTextMessage(message)
+                    Message.Mime.IMAGE -> parseImageMessage(message)
+                    Message.Mime.VIDEO -> parseVideoMessage(message)
+                    else -> {}
+                }
                 CoroutineScope(Dispatchers.IO).launch {
                     localChat.addMessage(message)
 
@@ -39,6 +44,20 @@ class MessageReceiverImp(
                 }
             }
         }
+    }
+
+    private fun parseTextMessage(message: Message) {
+        message.text = cipher.decrypt(message.text)
+    }
+
+    private fun parseImageMessage(message: Message) {
+        message.uploadedFilePath = cipher.decrypt(message.uploadedFilePath)
+        message.oriFileName = cipher.decrypt(message.oriFileName)
+    }
+
+    private fun parseVideoMessage(message: Message) {
+        message.uploadedFilePath = cipher.decrypt(message.uploadedFilePath)
+        message.oriFileName = cipher.decrypt(message.oriFileName)
     }
 
     override fun setOnMessageListener(onMessage: (Message) -> Unit) {

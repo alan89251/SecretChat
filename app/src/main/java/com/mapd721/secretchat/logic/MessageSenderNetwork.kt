@@ -27,12 +27,12 @@ class MessageSenderNetwork (
         return message
     }
 
-    override fun sendImage(name: String, bytes: ByteArray): Message {
+    override fun sendFile(name: String, bytes: ByteArray, mime: Message.Mime): Message {
         var message = Message()
         setMessageHeader(message)
-        message.mime = Message.Mime.IMAGE
+        message.mime = mime
         message.oriFileName = cipher.encrypt(name)
-        val pathOfUploadedImage = uploadToFirestore(message.image!!)
+        val pathOfUploadedImage = uploadToFirestore(bytes)
         message.uploadedFilePath = cipher.encrypt(pathOfUploadedImage)
         message = sendToFirebase(message)
 

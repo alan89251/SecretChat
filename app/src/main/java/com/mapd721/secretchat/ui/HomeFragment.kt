@@ -16,6 +16,7 @@ import com.mapd721.secretchat.databinding.FragmentHomeBinding
 import com.mapd721.secretchat.logic.ContactManager
 import com.mapd721.secretchat.service.MessageFirebaseService
 import com.mapd721.secretchat.ui.view_model.GlobalViewModel
+import java.io.File
 
 class HomeFragment : Fragment() {
     private val globalViewModel: GlobalViewModel by activityViewModels()
@@ -52,6 +53,18 @@ class HomeFragment : Fragment() {
     }
 
     private fun runStartupTasks() {
+        createMediaFolder()
+        startMessageFirebaseService()
+    }
+
+    private fun createMediaFolder() {
+        val folder = File(requireActivity().filesDir.path + "/" + resources.getString(R.string.media_storage_root))
+        if (!folder.exists()) {
+            folder.mkdir()
+        }
+    }
+
+    private fun startMessageFirebaseService() {
         requireActivity()
             .startService(
                 Intent(requireActivity(), MessageFirebaseService::class.java)

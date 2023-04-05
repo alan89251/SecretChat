@@ -1,14 +1,13 @@
 package com.mapd721.secretchat.ui.view_model
 
 import android.content.BroadcastReceiver
+import android.content.ContentResolver
 import android.content.Intent
 import android.content.IntentFilter
 import android.net.Uri
-import android.util.Log
 import android.view.MenuItem
 import android.view.View
 import android.widget.PopupMenu
-import androidx.core.net.toFile
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.mapd721.secretchat.R
@@ -25,7 +24,6 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import java.io.File
 
 class ChatViewModel(
     val chatFactory: ChatFactory,
@@ -33,12 +31,14 @@ class ChatViewModel(
     val contact: Contact,
     val selfKeyPairName: String,
     val cloudStorageRootFolderName: String,
+    val contentResolver: ContentResolver,
     val doRegisterBroadcastReceiver: (BroadcastReceiver, IntentFilter) -> Unit,
     val doSendSelectAttachmentIntent: (Intent, Int) -> Unit // arg1: intent, arg2: request code
 ): ViewModel() {
     companion object {
         const val CHAT_LIST_COL_NUM = 1
         private const val SELECT_ATTACHMENT_IMAGE = 1
+        private const val SELECT_ATTACHMENT_VIDEO = 2
     }
 
     val messageSender: MessageSender
@@ -107,7 +107,7 @@ class ChatViewModel(
     private fun onAttachmentMenuItemClick(menuItem: MenuItem): Boolean {
         when (menuItem.itemId) {
             R.id.action_photo -> selectPhotoToSend()
-            R.id.action_video -> {}
+            R.id.action_video -> selectVideoToSend()
             R.id.action_location -> {}
         }
 
@@ -119,16 +119,27 @@ class ChatViewModel(
         intent.setType("image/*")
         intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true)
         intent.setAction(Intent.ACTION_GET_CONTENT)
+        intent.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
         doSendSelectAttachmentIntent(intent, SELECT_ATTACHMENT_IMAGE)
+    }
+
+    private fun selectVideoToSend() {
+        val intent = Intent()
+        intent.setType("video/*")
+        intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true)
+        intent.setAction(Intent.ACTION_GET_CONTENT)
+        intent.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+        doSendSelectAttachmentIntent(intent, SELECT_ATTACHMENT_VIDEO)
     }
 
     fun onIntentFinished(requestCode: Int, data: Intent) {
         when (requestCode) {
-            SELECT_ATTACHMENT_IMAGE -> onSelectedAttachmentImage(data)
+            SELECT_ATTACHMENT_IMAGE,
+            SELECT_ATTACHMENT_VIDEO -> onSelectedAttachmentFile(requestCode, data)
         }
     }
 
-    private fun onSelectedAttachmentImage(data: Intent) {
+    private fun onSelectedAttachmentFile(requestCode: Int, data: Intent) {
         val imageUriList = ArrayList<Uri>()
         if (data.clipData != null) {
             val clipData = data.clipData!!
@@ -142,22 +153,28 @@ class ChatViewModel(
             val imageUri = data.data!!
             imageUriList.add(imageUri)
         }
-        // support sending single image only
-        sendImage(imageUriList[0])
+        // support sending single file only
+        val mime = when (requestCode) {
+            SELECT_ATTACHMENT_IMAGE -> Message.Mime.IMAGE
+            SELECT_ATTACHMENT_VIDEO -> Message.Mime.VIDEO
+            else -> Message.Mime.TEXT
+        }
+        sendFile(imageUriList[0], mime)
     }
 
-    private fun sendImage(uri: Uri) {
+    private fun sendFile(uri: Uri, mime: Message.Mime) {
         CoroutineScope(Dispatchers.IO).launch {
-            val file = File(uri.path!!)
+            val inputStream = contentResolver.openInputStream(uri)
             var bytes: ByteArray
-            file.inputStream().use {
+            inputStream?.use {
                 bytes = it.readBytes()
-            }
-            val message = messageSender.sendImage(file.name, bytes)
+                var name = uri.path!!.split("/").last()
+                val message = messageSender.sendFile(name, bytes, mime)
 
-            withContext(Dispatchers.Main) {
-                messages.add(message)
-                messagesLiveData.value = messages
+                withContext(Dispatchers.Main) {
+                    messages.add(message)
+                    messagesLiveData.value = messages
+                }
             }
         }
     }

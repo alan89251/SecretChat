@@ -2,7 +2,6 @@ package com.mapd721.secretchat.ui
 
 import android.app.Activity.RESULT_OK
 import android.content.Intent
-import android.net.Uri
 import android.os.Bundle
 import android.view.*
 import android.widget.PopupMenu
@@ -35,6 +34,7 @@ class ChatFragment : Fragment() {
                 it.getSerializable(ARG_CONTACT) as Contact,
                 resources.getString(R.string.self_key_pair_name),
                 resources.getString(R.string.cloud_storage_root_folder_name),
+                requireActivity().contentResolver,
                 { broadcastReceiver, intentFilter ->
                     requireActivity()
                         .registerReceiver(broadcastReceiver, intentFilter)

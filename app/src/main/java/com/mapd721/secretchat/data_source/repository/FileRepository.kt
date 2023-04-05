@@ -5,4 +5,5 @@ interface FileRepository {
      * @return path of the uploaded file
      */
     fun saveSync(bytes: ByteArray): String
+    fun getSync(path: String): ByteArray
 }

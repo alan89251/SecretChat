@@ -7,15 +7,14 @@ import android.os.IBinder
 import com.mapd721.secretchat.R
 import com.mapd721.secretchat.data_model.chat.Message
 import com.mapd721.secretchat.data_model.contact.Contact
-import com.mapd721.secretchat.data_source.repository.ChatFactory
-import com.mapd721.secretchat.data_source.repository.ContactRepositoryFactory
-import com.mapd721.secretchat.data_source.repository.EncryptionKeyRepositoryFactory
+import com.mapd721.secretchat.data_source.repository.*
 import com.mapd721.secretchat.encryption.EncryptionKeyPairManager
 import com.mapd721.secretchat.logic.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import java.io.File
 
 class MessageFirebaseService : Service() {
     private var isInited = false
@@ -25,6 +24,7 @@ class MessageFirebaseService : Service() {
     val contactList: ArrayList<Contact> = ArrayList()
     val messageReceivers: MutableMap<String, MessageReceiver> = HashMap()
     private lateinit var notificationSender: NotificationSender
+    private lateinit var fileRepository: FileRepository
 
     override fun onCreate() {
         super.onCreate()
@@ -37,6 +37,9 @@ class MessageFirebaseService : Service() {
         notificationSender = NotificationSender(
             this,
             getSystemService(NOTIFICATION_SERVICE) as NotificationManager
+        )
+        fileRepository = FileRepositoryFactory.getFireStore(
+            resources.getString(R.string.cloud_storage_root_folder_name)
         )
     }
 
@@ -91,8 +94,34 @@ class MessageFirebaseService : Service() {
     }
 
     private fun onMessage(message: Message) {
+        CoroutineScope(Dispatchers.IO).launch {
+            when (message.mime) {
+                Message.Mime.IMAGE,
+                Message.Mime.VIDEO -> downloadFileFromCloud(message)
+                else -> {}
+            }
+
+            withContext(Dispatchers.Main) {
+                sendNotification(message)
+                sendMessageBroadcast(message)
+            }
+        }
+    }
+
+    private fun downloadFileFromCloud(message: Message) {
+        val bytes = fileRepository.getSync(message.uploadedFilePath)
+        val file = File(
+            filesDir.path + "/" + resources.getString(R.string.media_storage_root),
+            message.oriFileName
+        )
+        file.createNewFile()
+        file.outputStream().use {
+            it.write(bytes)
+        }
+    }
+
+    private fun sendNotification(message: Message) {
         notificationSender.send(message.senderId, message.text)
-        sendMessageBroadcast(message)
     }
 
     private fun sendMessageBroadcast(message: Message) {

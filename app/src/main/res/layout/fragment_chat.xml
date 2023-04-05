@@ -45,6 +45,7 @@
         android:backgroundTint="@android:color/transparent"
         android:contentDescription="Attachment"
         android:outlineProvider="none"
+        android:onClick="@{vm.addAttachment}"
         app:borderWidth="0dp"
         />
 

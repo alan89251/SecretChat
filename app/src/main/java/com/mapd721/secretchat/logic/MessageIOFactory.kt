@@ -2,13 +2,15 @@ package com.mapd721.secretchat.logic
 
 import com.mapd721.secretchat.data_model.contact.Contact
 import com.mapd721.secretchat.data_source.repository.ChatFactory
+import com.mapd721.secretchat.data_source.repository.FileRepositoryFactory
 import java.security.PrivateKey
 
 class MessageIOFactory(
     private val selfId: String,
     private val selfPrivateKey: PrivateKey,
     private val chatFactory: ChatFactory,
-    private val mode: Mode
+    private val mode: Mode,
+    private val cloudStorageRootFolderName: String
 ) {
     fun getMessageSender(contact: Contact): MessageSender {
         return MessageSenderNetwork(
@@ -16,7 +18,8 @@ class MessageIOFactory(
             contact.id,
             MessageCipherFactory.getCipherEncryptFromKey(contact.key),
             chatFactory.getChatFirestore(selfId, contact.id),
-            chatFactory.getLocalChat(selfId, contact.id)
+            chatFactory.getLocalChat(selfId, contact.id),
+            FileRepositoryFactory.getFireStore(cloudStorageRootFolderName)
         )
     }
 

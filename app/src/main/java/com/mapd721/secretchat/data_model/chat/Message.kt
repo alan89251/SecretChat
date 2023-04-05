@@ -10,9 +10,20 @@ class Message: Serializable {
     var receiverId: String = ""
     var type: Int = TYPE_SNED
     var sentDateTime: Date = Date()
+    var mime: Mime = Mime.TEXT
+    var image: ByteArray? = null
+    var uploadedFilePath: String = ""
+    var oriFileName: String = ""
 
     companion object {
         const val TYPE_SNED = 0
         const val TYPE_RECEIVE = 1
+    }
+
+    enum class Mime {
+        TEXT,
+        IMAGE,
+        VIDEO,
+        LOCATION
     }
 }

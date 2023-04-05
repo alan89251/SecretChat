@@ -22,6 +22,7 @@ class ChatListViewModel(
     val chatFactory: ChatFactory,
     val selfId: String,
     val selfKeyPairName: String,
+    val cloudStorageRootFolderName: String,
     val doRegisterBroadcastReceiver: (BroadcastReceiver, IntentFilter) -> Unit
 ): ViewModel() {
     companion object {
@@ -38,7 +39,8 @@ class ChatListViewModel(
             selfId,
             EncryptionKeyPairManager().getKey(selfKeyPairName)!!,
             chatFactory,
-            MessageIOFactory.Mode.UI
+            MessageIOFactory.Mode.UI,
+            cloudStorageRootFolderName
         )
         messageReceiver = MessageBroadcastReceiver()
         messageReceiver.setOnMessageListener(::dispatchMessage)

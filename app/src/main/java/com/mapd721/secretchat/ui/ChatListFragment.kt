@@ -34,6 +34,7 @@ class ChatListFragment : Fragment() {
             ChatFactory(requireContext()),
             globalViewModel.selfId,
             resources.getString(R.string.self_key_pair_name),
+            resources.getString(R.string.cloud_storage_root_folder_name),
             { broadcastReceiver, intentFilter ->
                 requireActivity()
                     .registerReceiver(broadcastReceiver, intentFilter)

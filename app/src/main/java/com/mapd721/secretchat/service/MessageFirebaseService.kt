@@ -68,7 +68,8 @@ class MessageFirebaseService : Service() {
                 resources.getString(R.string.self_key_pair_name)
             )!!,
             chatFactory,
-            MessageIOFactory.Mode.SERVICE
+            MessageIOFactory.Mode.SERVICE,
+            resources.getString(R.string.cloud_storage_root_folder_name)
         )
         CoroutineScope(Dispatchers.IO).launch {
             contactList.addAll(

@@ -31,7 +31,16 @@ data class MessageModel(
     var type: Int,
 
     @ColumnInfo(name = MessageFields.FIELD_SENT_DATE_TIME)
-    var sentDateTime: Long
+    var sentDateTime: Long,
+
+    @ColumnInfo(name = MessageFields.FIELD_MIME)
+    var mime: Int,
+
+    @ColumnInfo(name = MessageFields.FIELD_UPLOADED_FILE_PATH)
+    var uploadedFilePath: String,
+
+    @ColumnInfo(name = MessageFields.FIELD_ORI_FILE_NAME)
+    var oriFileName: String
 ) {
     constructor(message: Message): this(
         message.id,
@@ -39,7 +48,10 @@ data class MessageModel(
         message.senderId,
         message.receiverId,
         message.type,
-        message.sentDateTime.time
+        message.sentDateTime.time,
+        mapMime(message.mime),
+        message.uploadedFilePath,
+        message.oriFileName
     )
 
     @Ignore
@@ -51,6 +63,32 @@ data class MessageModel(
         message.receiverId = receiverId
         message.type = type
         message.sentDateTime = Date(sentDateTime)
+        message.mime = mapMime(mime)
+        message.uploadedFilePath = uploadedFilePath
+        message.oriFileName = oriFileName
         return message
+    }
+
+    companion object {
+        @Ignore
+        private fun mapMime(mime: Message.Mime): Int {
+            return when (mime) {
+                Message.Mime.TEXT -> 0
+                Message.Mime.IMAGE -> 1
+                Message.Mime.VIDEO -> 2
+                Message.Mime.LOCATION -> 3
+            }
+        }
+
+        @Ignore
+        private fun mapMime(mime: Int): Message.Mime {
+            return when (mime) {
+                0 -> Message.Mime.TEXT
+                1 -> Message.Mime.IMAGE
+                2 -> Message.Mime.VIDEO
+                3 -> Message.Mime.LOCATION
+                else -> Message.Mime.TEXT
+            }
+        }
     }
 }

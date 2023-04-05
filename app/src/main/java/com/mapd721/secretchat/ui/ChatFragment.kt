@@ -1,7 +1,11 @@
 package com.mapd721.secretchat.ui
 
+import android.app.Activity.RESULT_OK
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.view.*
+import android.widget.PopupMenu
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.GridLayoutManager
@@ -30,9 +34,13 @@ class ChatFragment : Fragment() {
                 globalViewModel.selfId,
                 it.getSerializable(ARG_CONTACT) as Contact,
                 resources.getString(R.string.self_key_pair_name),
+                resources.getString(R.string.cloud_storage_root_folder_name),
                 { broadcastReceiver, intentFilter ->
                     requireActivity()
                         .registerReceiver(broadcastReceiver, intentFilter)
+                },
+                { intent, requestCode ->
+                    startActivityForResult(intent, requestCode)
                 }
             )
         }
@@ -53,8 +61,11 @@ class ChatFragment : Fragment() {
         vm.listenMessage()
 
         binding.btnSend.setOnClickListener(btnSendOnClickListener)
-
         binding.msgRecyclerView.layoutManager = GridLayoutManager(requireContext(), ChatViewModel.CHAT_LIST_COL_NUM)
+        vm.setAttachmentMenu(
+            PopupMenu(requireContext(), binding.btnAttach)
+        )
+
         vm.messagesLiveData.observe(requireActivity(), ::updateMessageRecyclerView)
         vm.loadAllMessagesFromDB()
 
@@ -69,6 +80,15 @@ class ChatFragment : Fragment() {
             }
             else -> super.onOptionsItemSelected(item)
         }
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (resultCode != RESULT_OK
+            || data == null) {
+            return
+        }
+        vm.onIntentFinished(requestCode, data)
     }
 
     private fun showAddContactDialog() {

@@ -4,6 +4,7 @@
     <string name="preference_name">secretChatPreference</string>
     <string name="self_id_preference_key">selfId</string>
     <string name="message_service_cmd_key">messageServiceCommand</string>
+    <string name="cloud_storage_root_folder_name">UploadedFiles</string>
 
     <!-- Chat List Name -->
     <string name="name_1">Harry Potter</string>

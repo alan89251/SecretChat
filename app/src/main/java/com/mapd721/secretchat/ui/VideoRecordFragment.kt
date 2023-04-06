@@ -2,15 +2,12 @@ package com.mapd721.secretchat.ui
 
 import android.annotation.SuppressLint
 import android.os.Bundle
-import android.provider.MediaStore
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.camera.core.CameraSelector
 import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.camera.video.FileOutputOptions
-import androidx.camera.video.MediaStoreOutputOptions
-import androidx.camera.video.OutputOptions
 import androidx.core.content.ContextCompat
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
@@ -30,8 +27,6 @@ class VideoRecordFragment : Fragment() {
         vm.pathOfFolderOfRecordedVideo = requireActivity().filesDir.path + "/"
         vm.doStartRecording = ::doStartRecording
         vm.didStopRecording = ::didStopRecording
-        vm.mediaStoreOutputOptionsBuilder = MediaStoreOutputOptions
-            .Builder(requireActivity().contentResolver, MediaStore.Video.Media.EXTERNAL_CONTENT_URI)
     }
 
     override fun onCreateView(
@@ -65,11 +60,11 @@ class VideoRecordFragment : Fragment() {
     }
 
     @SuppressLint("MissingPermission")
-    private fun doStartRecording(outputOptions: MediaStoreOutputOptions) {
+    private fun doStartRecording(fileOutputOptions: FileOutputOptions) {
         vm.recording = vm.videoCapture.output
             .prepareRecording(
                 requireContext(),
-                outputOptions
+                fileOutputOptions
             )
             .withAudioEnabled()
             .start(
@@ -79,10 +74,10 @@ class VideoRecordFragment : Fragment() {
     }
 
     private fun didStopRecording(filePath: String) {
-        /*setFragmentResult(
+        setFragmentResult(
             VideoRecordingResultListener.RESULT_LISTENER_KEY,
             bundleOf(VideoRecordingResultListener.ARG_FILE_PATH to filePath)
         )
-        findNavController().popBackStack()*/
+        findNavController().popBackStack()
     }
 }

@@ -1,10 +1,14 @@
 package com.mapd721.secretchat.ui
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.LayoutInflater
-import android.view.SurfaceView
 import android.view.View
 import android.view.ViewGroup
+import androidx.camera.core.CameraSelector
+import androidx.camera.lifecycle.ProcessCameraProvider
+import androidx.camera.video.FileOutputOptions
+import androidx.core.content.ContextCompat
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.setFragmentResult
@@ -21,6 +25,7 @@ class VideoRecordFragment : Fragment() {
         super.onCreate(savedInstanceState)
         vm = VideoRecordViewModel()
         vm.pathOfFolderOfRecordedVideo = requireActivity().filesDir.path + "/"
+        vm.doStartRecording = ::doStartRecording
         vm.didStopRecording = ::didStopRecording
     }
 
@@ -32,12 +37,40 @@ class VideoRecordFragment : Fragment() {
         binding.vm = vm
         binding.lifecycleOwner = this
 
-        val surface = SurfaceView(requireActivity().applicationContext)
-        val surfaceHolder = surface.holder
-        binding.cameraDisplayArea.addView(surface)
-        vm.setCameraSurfaceHolder(surfaceHolder)
+        vm.setPreview(binding.cameraDisplayArea.surfaceProvider)
+        vm.cameraProviderFuture = ProcessCameraProvider.getInstance(requireContext())
+        vm.cameraProviderFuture
+            .addListener(
+                ::bindCameraUseCase,
+                ContextCompat.getMainExecutor(requireContext())
+            )
 
         return binding.root
+    }
+
+    private fun bindCameraUseCase() {
+        vm.cameraProvider = vm.cameraProviderFuture.get()
+        vm.cameraProvider.unbindAll()
+        vm.cameraProvider.bindToLifecycle(
+            this,
+            CameraSelector.DEFAULT_BACK_CAMERA,
+            vm.preview,
+            vm.videoCapture
+        )
+    }
+
+    @SuppressLint("MissingPermission")
+    private fun doStartRecording(fileOutputOptions: FileOutputOptions) {
+        vm.recording = vm.videoCapture.output
+            .prepareRecording(
+                requireContext(),
+                fileOutputOptions
+            )
+            .withAudioEnabled()
+            .start(
+                ContextCompat.getMainExecutor(requireContext()),
+                vm::onReceiveVideoRecordEvent
+            )
     }
 
     private fun didStopRecording(filePath: String) {

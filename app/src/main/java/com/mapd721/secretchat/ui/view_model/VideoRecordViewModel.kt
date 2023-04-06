@@ -1,24 +1,35 @@
 package com.mapd721.secretchat.ui.view_model
 
-import android.media.MediaRecorder
-import android.util.Log
-import android.view.SurfaceHolder
+import android.location.Location
 import android.view.View
+import androidx.camera.core.Preview
+import androidx.camera.core.Preview.SurfaceProvider
+import androidx.camera.lifecycle.ProcessCameraProvider
+import androidx.camera.video.*
+import androidx.camera.video.VideoRecordEvent.Finalize
 import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.google.common.util.concurrent.ListenableFuture
+import java.io.File
 import java.text.SimpleDateFormat
-import java.util.Date
+import java.util.*
 
 class VideoRecordViewModel: ViewModel() {
     val isRecording = MutableLiveData<Boolean>(false)
     val btnRecordVisibility = MediatorLiveData<Int>()
     val btnStopVisibility = MediatorLiveData<Int>()
-    private val videoRecorder = MediaRecorder()
     var pathOfFolderOfRecordedVideo = ""
     val fileExtension = "mp4"
+    lateinit var doStartRecording: (FileOutputOptions) -> Unit
     lateinit var didStopRecording: (String) -> Unit // arg1: path of the recorded video
     private var filePath = ""
+    lateinit var preview: Preview
+    lateinit var cameraProviderFuture: ListenableFuture<ProcessCameraProvider>
+    lateinit var cameraProvider: ProcessCameraProvider
+    val recorder: Recorder
+    val videoCapture: VideoCapture<Recorder>
+    lateinit var recording: Recording
 
     init {
         btnRecordVisibility.addSource(isRecording) {
@@ -27,44 +38,38 @@ class VideoRecordViewModel: ViewModel() {
         btnStopVisibility.addSource(isRecording) {
             btnStopVisibility.value = if (it) View.VISIBLE else View.INVISIBLE
         }
-        configVideoRecorder()
+        recorder = Recorder.Builder()
+            .setQualitySelector(
+                QualitySelector.from(Quality.HIGHEST)
+            )
+            .build()
+        videoCapture = VideoCapture.withOutput(recorder)
     }
 
-    private fun configVideoRecorder() {
-        videoRecorder.setAudioSource(MediaRecorder.AudioSource.MIC)
-        videoRecorder.setVideoSource(MediaRecorder.VideoSource.CAMERA)
-        videoRecorder.setOutputFormat(MediaRecorder.OutputFormat.MPEG_4)
-        videoRecorder.setAudioEncoder(MediaRecorder.AudioEncoder.AAC)
-        videoRecorder.setAudioChannels(2)
-        videoRecorder.setAudioSamplingRate(48000)
-        videoRecorder.setAudioEncodingBitRate(128000)
-        videoRecorder.setVideoEncoder(MediaRecorder.VideoEncoder.H264)
-        videoRecorder.setVideoFrameRate(60)
-        videoRecorder.setVideoEncodingBitRate(8000000)
-        videoRecorder.setVideoSize(1920, 1080)
-    }
-
-    fun setCameraSurfaceHolder(surfaceHolder: SurfaceHolder) {
-        videoRecorder.setPreviewDisplay(surfaceHolder.surface)
+    fun setPreview(previewSurfaceProvider: SurfaceProvider) {
+        preview = Preview.Builder()
+            .build()
+        preview.setSurfaceProvider(previewSurfaceProvider)
     }
 
     fun startRecordingVideo(view: View) {
         val fileName = "IMG_${SimpleDateFormat("yyyy_MM_dd_ss_SSS").format(Date())}.$fileExtension"
         filePath = "$pathOfFolderOfRecordedVideo$fileName"
-        videoRecorder.setOutputFile(filePath)
-        try {
-            videoRecorder.prepare()
-            videoRecorder.start()
-            isRecording.value = true
-        } catch (e: Exception) {
-            Log.e("Video Recording: ", "Error: $e")
-            videoRecorder.release()
-        }
+        val file = File(filePath)
+        val fileOutputOptions = FileOutputOptions.Builder(file)
+            .build()
+        isRecording.value = true
+        doStartRecording(fileOutputOptions)
     }
 
     fun stopRecordingVideo(view: View) {
-        videoRecorder.stop()
-        videoRecorder.release()
-        didStopRecording(filePath)
+        isRecording.value = false
+        recording.stop()
+    }
+
+    fun onReceiveVideoRecordEvent(videoRecordEvent: VideoRecordEvent) {
+        when (videoRecordEvent) {
+            is Finalize -> didStopRecording(filePath)
+        }
     }
 }

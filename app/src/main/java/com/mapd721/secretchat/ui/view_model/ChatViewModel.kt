@@ -36,7 +36,7 @@ class ChatViewModel(
     val doRegisterBroadcastReceiver: (BroadcastReceiver, IntentFilter) -> Unit,
     val doSendSelectAttachmentIntent: (Intent, Int) -> Unit, // arg1: intent, arg2: request code
     val doPlayVideo: (String) -> Unit,
-    val doRecordVideo: () -> Unit // arg1: file name,
+    val doOpenCamera: () -> Unit // arg1: file name,
 ): ViewModel() {
     companion object {
         const val CHAT_LIST_COL_NUM = 1
@@ -111,7 +111,7 @@ class ChatViewModel(
         when (menuItem.itemId) {
             R.id.action_photo -> selectPhotoToSend()
             R.id.action_video -> selectVideoToSend()
-            R.id.action_camera -> doRecordVideo()
+            R.id.action_camera -> doOpenCamera()
             R.id.action_location -> {}
         }
 
@@ -190,12 +190,12 @@ class ChatViewModel(
         }
     }
 
-    fun onVideoRecorded(filePath: String) {
+    fun onMediaReadyToSend(filePath: String, mime: Message.Mime) {
         sendFile(
             Uri.fromFile(
                 File(filePath)
             ),
-            Message.Mime.VIDEO
+            mime
         )
     }
 }

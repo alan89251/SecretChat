@@ -16,7 +16,7 @@ import com.mapd721.secretchat.data_source.repository.ChatFactory
 import com.mapd721.secretchat.ui.adpater.MsgRecyclerViewAdapter
 import com.mapd721.secretchat.databinding.FragmentChatBinding
 import com.mapd721.secretchat.ui.dialog.AddContactDialogFragment
-import com.mapd721.secretchat.ui.fragment_result_listener.VideoRecordingResultListener
+import com.mapd721.secretchat.ui.fragment_result_listener.CameraResultListener
 import com.mapd721.secretchat.ui.view_model.ChatViewModel
 import com.mapd721.secretchat.ui.view_model.GlobalViewModel
 
@@ -45,14 +45,20 @@ class ChatFragment : Fragment() {
                     startActivityForResult(intent, requestCode)
                 },
                 ::navigateToVideoPlaybackScreen,
-                ::navigateToVideoRecordScreen
+                ::navigateToCameraScreen
             )
         }
 
         parentFragmentManager.setFragmentResultListener(
-            VideoRecordingResultListener.RESULT_LISTENER_KEY,
+            CameraResultListener.RESULT_LISTENER_KEY,
             this,
-            VideoRecordingResultListener(vm::onVideoRecorded)
+            CameraResultListener { filePath, fileType ->
+                vm.onMediaReadyToSend(
+                    filePath,
+                    if (fileType == CameraResultListener.TYPE_IMAGE) Message.Mime.IMAGE
+                    else Message.Mime.VIDEO
+                )
+            }
         )
     }
 
@@ -131,10 +137,10 @@ class ChatFragment : Fragment() {
         )
     }
 
-    private fun navigateToVideoRecordScreen() {
+    private fun navigateToCameraScreen() {
         findNavController().navigate(
             ChatFragmentDirections
-                .actionChatFragmentToVideoRecordFragment()
+                .actionChatFragmentToCameraFragment()
         )
     }
 

@@ -36,8 +36,8 @@
             android:id="@+id/action_chatFragment_to_videoPlaybackFragment"
             app:destination="@id/videoPlaybackFragment" />
         <action
-            android:id="@+id/action_chatFragment_to_videoRecordFragment"
-            app:destination="@id/videoRecordFragment" />
+            android:id="@+id/action_chatFragment_to_cameraFragment"
+            app:destination="@id/cameraFragment" />
     </fragment>
 
     <fragment
@@ -50,8 +50,8 @@
     </fragment>
 
     <fragment
-        android:id="@+id/videoRecordFragment"
-        android:name="com.mapd721.secretchat.ui.VideoRecordFragment"
+        android:id="@+id/cameraFragment"
+        android:name="com.mapd721.secretchat.ui.CameraFragment"
         android:label="Record Video">
     </fragment>
 </navigation>

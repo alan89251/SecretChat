@@ -120,7 +120,12 @@ class ChatFragment : Fragment() {
     }
 
     private fun updateMessageRecyclerView(messages: List<Message>) {
-        binding.msgRecyclerView.adapter = MsgRecyclerViewAdapter(messages, vm::onChatMsgDialogClick)
+        binding.msgRecyclerView.adapter = MsgRecyclerViewAdapter(
+            messages,
+            requireActivity().filesDir.path + "/" +
+                    resources.getString(R.string.media_storage_root) + "/",
+            vm::onChatMsgDialogClick
+        )
     }
 
     private val btnSendOnClickListener = View.OnClickListener {

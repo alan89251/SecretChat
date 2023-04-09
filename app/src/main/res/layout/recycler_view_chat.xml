@@ -28,7 +28,28 @@
                 style="@style/message_time"
                 android:layout_marginTop="12dp"
                 android:padding="8dp"
-                android:layout_marginStart="16dp"/>
+                android:layout_marginStart="16dp"
+                android:visibility="gone" />
+
+            <ImageView
+                android:id="@+id/receiver_image"
+                android:layout_width="240dp"
+                android:layout_height="150dp"
+                android:layout_margin="8dp"
+                android:padding="8dp"
+                android:scaleType="centerCrop"
+                android:backgroundTint="@color/light_grey"
+                android:background="@color/light_grey"
+                android:visibility="gone"/>
+
+            <VideoView
+                android:id="@+id/receiver_video"
+                android:layout_width="240dp"
+                android:layout_height="150dp"
+                android:layout_margin="8dp"
+                android:padding="8dp"
+                android:scaleType="centerCrop"
+                android:visibility="gone"/>
 
             <TextView
                 android:id="@+id/receiver_text"
@@ -40,24 +61,6 @@
                 android:padding="8dp"/>
 
         </LinearLayout>
-
-            <ImageView
-                android:id="@+id/receiver_image"
-                android:layout_width="240dp"
-                android:layout_height="150dp"
-                android:layout_margin="8dp"
-                android:scaleType="centerCrop"
-                android:backgroundTint="@color/light_grey"
-                android:background="@color/light_grey"
-                android:visibility="gone"/>
-
-            <VideoView
-                android:id="@+id/receiver_video"
-                android:layout_width="240dp"
-                android:layout_height="150dp"
-                android:layout_margin="8dp"
-                android:scaleType="centerCrop"
-                android:visibility="gone"/>
 
         </LinearLayout>
 
@@ -82,7 +85,27 @@
                 android:text="@string/sender_message"
                 style="@style/message_text"
                 android:layout_margin="8dp"
-                android:padding="8dp"/>
+                android:padding="8dp"
+                android:visibility="gone" />
+
+            <ImageView
+                android:id="@+id/sender_image"
+                android:layout_width="240dp"
+                android:layout_height="150dp"
+                android:layout_margin="8dp"
+                android:padding="8dp"
+                android:scaleType="centerCrop"
+                android:background="@color/light_blue"
+                android:visibility="gone"/>
+
+            <VideoView
+                android:id="@+id/sender_video"
+                android:layout_width="240dp"
+                android:layout_height="150dp"
+                android:layout_margin="8dp"
+                android:padding="8dp"
+                android:scaleType="centerCrop"
+                android:visibility="gone"/>
 
             <TextView
                 android:id="@+id/sender_msg_time"
@@ -95,25 +118,6 @@
                 android:layout_marginEnd="16dp"/>
 
         </LinearLayout>
-
-            <ImageView
-                android:id="@+id/sender_image"
-                android:layout_width="240dp"
-                android:layout_height="150dp"
-                android:layout_margin="8dp"
-                android:scaleType="centerCrop"
-                android:background="@color/light_blue"
-                android:visibility="gone"/>
-
-            <VideoView
-                android:id="@+id/sender_video"
-                android:layout_width="240dp"
-                android:layout_height="150dp"
-                android:layout_margin="8dp"
-                android:scaleType="centerCrop"
-                android:visibility="gone"/>
-
-
         </LinearLayout>
 
 

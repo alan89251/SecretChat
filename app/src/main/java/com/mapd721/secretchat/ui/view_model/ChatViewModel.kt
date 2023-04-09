@@ -4,6 +4,8 @@ import android.content.BroadcastReceiver
 import android.content.ContentResolver
 import android.content.Intent
 import android.content.IntentFilter
+import android.location.Location
+import android.location.LocationManager
 import android.net.Uri
 import android.view.MenuItem
 import android.view.View
@@ -17,6 +19,7 @@ import com.mapd721.secretchat.data_model.chat.Message
 import com.mapd721.secretchat.data_model.contact.Contact
 import com.mapd721.secretchat.data_source.repository.ChatFactory
 import com.mapd721.secretchat.encryption.EncryptionKeyPairManager
+import com.mapd721.secretchat.logic.GetDeviceLocationLogic
 import com.mapd721.secretchat.logic.MessageBroadcast
 import com.mapd721.secretchat.logic.MessageIOFactory
 import com.mapd721.secretchat.logic.MessageSender
@@ -33,6 +36,7 @@ class ChatViewModel(
     val selfKeyPairName: String,
     val cloudStorageRootFolderName: String,
     val contentResolver: ContentResolver,
+    val locationManager: LocationManager,
     val doRegisterBroadcastReceiver: (BroadcastReceiver, IntentFilter) -> Unit,
     val doSendSelectAttachmentIntent: (Intent, Int) -> Unit, // arg1: intent, arg2: request code
     val doPlayVideo: (String) -> Unit,
@@ -112,7 +116,7 @@ class ChatViewModel(
             R.id.action_photo -> selectPhotoToSend()
             R.id.action_video -> selectVideoToSend()
             R.id.action_camera -> doOpenCamera()
-            R.id.action_location -> {}
+            R.id.action_location -> getCurrentLocationToSend()
         }
 
         return true
@@ -197,5 +201,24 @@ class ChatViewModel(
             ),
             mime
         )
+    }
+
+    private fun getCurrentLocationToSend() {
+        GetDeviceLocationLogic(locationManager)
+            .requestLocation(::sendLocation)
+    }
+
+    private fun sendLocation(location: Location) {
+        CoroutineScope(Dispatchers.IO).launch {
+            val message = messageSender.sendLocation(
+                location.latitude,
+                location.longitude
+            )
+
+            withContext(Dispatchers.Main) {
+                messages.add(message)
+                messagesLiveData.value = messages
+            }
+        }
     }
 }

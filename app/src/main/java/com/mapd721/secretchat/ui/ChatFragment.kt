@@ -2,9 +2,11 @@ package com.mapd721.secretchat.ui
 
 import android.app.Activity.RESULT_OK
 import android.content.Intent
+import android.location.LocationManager
 import android.os.Bundle
 import android.view.*
 import android.widget.PopupMenu
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
@@ -37,6 +39,8 @@ class ChatFragment : Fragment() {
                 resources.getString(R.string.self_key_pair_name),
                 resources.getString(R.string.cloud_storage_root_folder_name),
                 requireActivity().contentResolver,
+                requireActivity()
+                    .getSystemService(AppCompatActivity.LOCATION_SERVICE) as LocationManager,
                 { broadcastReceiver, intentFilter ->
                     requireActivity()
                         .registerReceiver(broadcastReceiver, intentFilter)

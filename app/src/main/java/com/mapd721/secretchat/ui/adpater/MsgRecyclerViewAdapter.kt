@@ -53,7 +53,7 @@ class MsgRecyclerViewAdapter(
             Message.Mime.TEXT -> message.text
             Message.Mime.IMAGE -> message.oriFileName
             Message.Mime.VIDEO -> message.oriFileName
-            else -> ""
+            Message.Mime.LOCATION -> message.text
         }
     }
 

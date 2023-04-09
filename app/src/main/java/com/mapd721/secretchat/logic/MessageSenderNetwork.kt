@@ -43,6 +43,20 @@ class MessageSenderNetwork (
         return message
     }
 
+    override fun sendLocation(latitude: Double, longitude: Double): Message {
+        val text = "$latitude,$longitude"
+        var message = Message()
+        setMessageHeader(message)
+        message.mime = Message.Mime.LOCATION
+        message.text = cipher.encrypt(text)
+        message = sendToFirebase(message)
+
+        message.text = text
+        saveToDB(message)
+
+        return message
+    }
+
     private fun sendToFirebase(message: Message): Message {
         message.id = remoteChat.addMessage(message)
         return message

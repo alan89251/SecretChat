@@ -57,6 +57,7 @@ class ChatListFragment : Fragment() {
     ): View? {
         binding = FragmentChatListBinding.inflate(inflater, container, false)
         binding.vm = vm
+        binding.globalVm = globalViewModel
         binding.lifecycleOwner = this
 
         vm.contactListLiveData.observe(requireActivity(), ::onLoadedContactList)

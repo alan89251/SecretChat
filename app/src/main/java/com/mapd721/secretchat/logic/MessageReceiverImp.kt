@@ -33,7 +33,7 @@ class MessageReceiverImp(
                     Message.Mime.TEXT -> parseTextMessage(message)
                     Message.Mime.IMAGE -> parseImageMessage(message)
                     Message.Mime.VIDEO -> parseVideoMessage(message)
-                    else -> {}
+                    Message.Mime.LOCATION -> parseLocationMessage(message)
                 }
                 CoroutineScope(Dispatchers.IO).launch {
                     localChat.addMessage(message)
@@ -58,6 +58,10 @@ class MessageReceiverImp(
     private fun parseVideoMessage(message: Message) {
         message.uploadedFilePath = cipher.decrypt(message.uploadedFilePath)
         message.oriFileName = cipher.decrypt(message.oriFileName)
+    }
+
+    private fun parseLocationMessage(message: Message) {
+        message.text = cipher.decrypt(message.text)
     }
 
     override fun setOnMessageListener(onMessage: (Message) -> Unit) {

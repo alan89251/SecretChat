@@ -50,8 +50,6 @@
                 android:textSize="20sp"
                 style="@style/chat_list_text"
                 android:layout_marginStart="8dp"/>
-
-
         </LinearLayout>
 
         <TextView

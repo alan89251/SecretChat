@@ -9,10 +9,13 @@ import com.mapd721.secretchat.R
 import com.mapd721.secretchat.data_model.chat.Message
 import com.mapd721.secretchat.data_model.contact.Contact
 import com.mapd721.secretchat.databinding.RecyclerViewChatListBinding
+import com.mapd721.secretchat.logic.CloudImageDownloader
 import java.text.SimpleDateFormat
 
 class ChatListRecyclerViewAdapter(
     var contactList: List<Contact>,
+    private val profilePictureFolderPath: String,
+    private val cloudImageDownloader: CloudImageDownloader,
     private val onItemClick: (View, Int, Contact) -> Unit,
     private val onItemBind: (View, Int, Contact, OnMessageUpdateListener) -> Unit
     ): RecyclerView.Adapter<ChatListRecyclerViewAdapter.ViewHolder>() {
@@ -49,6 +52,10 @@ class ChatListRecyclerViewAdapter(
         val contact = contactList[position]
         holder.binding.name.text = contact.name
         val dateFormat = SimpleDateFormat("EEE")
+        cloudImageDownloader.loadInto(
+            "$profilePictureFolderPath/${contact.name}.jpg",
+            holder.binding.profileImage
+        )
         onItemBind(
             holder.binding.root,
             position, contact,

@@ -13,6 +13,7 @@ import com.mapd721.secretchat.R
 import com.mapd721.secretchat.data_model.contact.Contact
 import com.mapd721.secretchat.data_source.repository.ChatFactory
 import com.mapd721.secretchat.databinding.FragmentChatListBinding
+import com.mapd721.secretchat.logic.CloudImageDownloader
 import com.mapd721.secretchat.ui.adpater.ChatListRecyclerViewAdapter
 import com.mapd721.secretchat.ui.dialog.AddContactDialogFragment
 import com.mapd721.secretchat.ui.dialog.WeatherDialogFragment
@@ -83,6 +84,8 @@ class ChatListFragment : Fragment() {
         binding.chatList.layoutManager = GridLayoutManager(requireContext(), ChatListViewModel.CHAT_LIST_COL_NUM)
         binding.chatList.adapter = ChatListRecyclerViewAdapter(
             contactList,
+            resources.getString(R.string.profile_picture_folder_path),
+            CloudImageDownloader(requireContext()),
             ::onChatListItemClick,
             { _, _, contact, onMessageUpdate ->
                 vm.initContactItem(contact, onMessageUpdate::onMessageUpdate)

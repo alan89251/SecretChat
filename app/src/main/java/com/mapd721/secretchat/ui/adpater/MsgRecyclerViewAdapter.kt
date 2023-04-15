@@ -3,11 +3,9 @@ package com.mapd721.secretchat.ui.adpater
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.mapd721.secretchat.R
 import com.mapd721.secretchat.data_model.chat.Message
 import com.mapd721.secretchat.databinding.MessageDialogBodyImageBinding
 import com.mapd721.secretchat.databinding.MessageDialogBodyTextBinding
-import com.mapd721.secretchat.databinding.MessageDialogBodyVideoBinding
 import com.mapd721.secretchat.databinding.RecyclerViewReceiverDialogBinding
 import com.mapd721.secretchat.databinding.RecyclerViewSenderDialogBinding
 import com.mapd721.secretchat.ui.view_holder.*
@@ -89,7 +87,7 @@ class MsgRecyclerViewAdapter(
                 )
             }
             SENDER_VIDEO -> {
-                val bodyBinding = MessageDialogBodyVideoBinding.inflate(LayoutInflater.from(parent.context))
+                val bodyBinding = MessageDialogBodyImageBinding.inflate(LayoutInflater.from(parent.context))
                 binding.body.addView(bodyBinding.root)
                 SenderDialogViewHolder(
                     binding,
@@ -137,7 +135,7 @@ class MsgRecyclerViewAdapter(
                 )
             }
             RECEIVER_VIDEO -> {
-                val bodyBinding = MessageDialogBodyVideoBinding.inflate(LayoutInflater.from(parent.context))
+                val bodyBinding = MessageDialogBodyImageBinding.inflate(LayoutInflater.from(parent.context))
                 binding.body.addView(bodyBinding.root)
                 ReceiverDialogViewHolder(
                     binding,

@@ -1,11 +1,13 @@
 package com.mapd721.secretchat.ui.view_holder
 
+import android.media.ThumbnailUtils
+import android.provider.MediaStore
 import com.mapd721.secretchat.data_model.chat.Message
-import com.mapd721.secretchat.databinding.MessageDialogBodyVideoBinding
+import com.mapd721.secretchat.databinding.MessageDialogBodyImageBinding
 import java.io.File
 
 class VideoDialogBodyViewHolder(
-    private val binding: MessageDialogBodyVideoBinding,
+    private val binding: MessageDialogBodyImageBinding,
     private val mediaFolderPath: String
     ): DialogBodyViewHolder {
     override fun setMessage(message: Message) {
@@ -13,6 +15,10 @@ class VideoDialogBodyViewHolder(
         if (!file.exists()) {
             return
         }
-        binding.mainContent.setVideoPath(mediaFolderPath + message.oriFileName)
+        val thumbnail = ThumbnailUtils.createVideoThumbnail(
+            mediaFolderPath + message.oriFileName,
+            MediaStore.Video.Thumbnails.MINI_KIND
+        )
+        binding.mainContent.setImageBitmap(thumbnail)
     }
 }

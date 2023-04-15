@@ -44,7 +44,7 @@ class MessageSenderNetwork (
     }
 
     override fun sendLocation(latitude: Double, longitude: Double): Message {
-        val text = String.format("%.3f,$.3f", latitude, longitude)
+        val text = String.format("%.3f,%.3f", latitude, longitude)
         var message = Message()
         setMessageHeader(message)
         message.mime = Message.Mime.LOCATION

@@ -84,6 +84,10 @@ class ChatFragment : Fragment() {
         binding.vm = vm
         binding.lifecycleOwner = this
 
+        (requireActivity() as AppCompatActivity)
+            .supportActionBar!!
+            .setDisplayHomeAsUpEnabled(true)
+
         binding.btnSend.setOnClickListener(btnSendOnClickListener)
         binding.msgRecyclerView.layoutManager = GridLayoutManager(requireContext(), ChatViewModel.CHAT_LIST_COL_NUM)
         vm.setAttachmentMenu(

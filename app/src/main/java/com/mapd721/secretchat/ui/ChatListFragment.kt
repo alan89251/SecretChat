@@ -6,6 +6,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
@@ -57,6 +58,10 @@ class ChatListFragment : Fragment() {
         binding = FragmentChatListBinding.inflate(inflater, container, false)
         binding.vm = vm
         binding.lifecycleOwner = this
+
+        (requireActivity() as AppCompatActivity)
+            .supportActionBar!!
+            .setDisplayHomeAsUpEnabled(false)
 
         binding.contactSearchBar.setOnQueryTextListener(vm.contactSearchOnQueryTextListener)
         vm.contactListLiveData.observe(requireActivity(), ::onLoadedContactList)

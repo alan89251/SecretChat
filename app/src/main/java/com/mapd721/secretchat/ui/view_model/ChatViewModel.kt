@@ -77,17 +77,29 @@ class ChatViewModel(
         doRegisterBroadcastReceiver(messageReceiver, IntentFilter(MessageBroadcast.INTENT_FILTER))
     }
 
-    fun loadAllMessagesFromDB() {
+    fun loadAndListenMessages() {
         CoroutineScope(Dispatchers.IO).launch {
-            val sentMessages = chatRepo.getAllSentMessages()
-            val receivedMessage = chatRepo.getAllReceivedMessages()
-            messages.addAll(sentMessages)
-            messages.addAll(receivedMessage)
-            messages.sortBy { it.sentDateTime }
+            loadAllMessagesFromDB()
 
             withContext(Dispatchers.Main) {
                 messagesLiveData.value = messages
+                listenMessage()
             }
+        }
+    }
+
+    private fun loadAllMessagesFromDB() {
+        val sentMessages = chatRepo.getAllSentMessages()
+        val receivedMessage = chatRepo.getAllReceivedMessages()
+        messages.addAll(sentMessages)
+        messages.addAll(receivedMessage)
+        messages.sortBy { it.sentDateTime }
+    }
+
+    private fun listenMessage() {
+        messageReceiver.setOnMessageListener {
+            messages.add(it)
+            messagesLiveData.value = messages
         }
     }
 
@@ -99,13 +111,6 @@ class ChatViewModel(
                 messages.add(message)
                 messagesLiveData.value = messages
             }
-        }
-    }
-
-    fun listenMessage() {
-        messageReceiver.setOnMessageListener {
-            messages.add(it)
-            messagesLiveData.value = messages
         }
     }
 

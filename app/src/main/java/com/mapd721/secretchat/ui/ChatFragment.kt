@@ -66,6 +66,8 @@ class ChatFragment : Fragment() {
                 )
             }
         )
+
+        vm.loadAndListenMessages()
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
@@ -80,8 +82,6 @@ class ChatFragment : Fragment() {
         binding.vm = vm
         binding.lifecycleOwner = this
 
-        vm.listenMessage()
-
         binding.btnSend.setOnClickListener(btnSendOnClickListener)
         binding.msgRecyclerView.layoutManager = GridLayoutManager(requireContext(), ChatViewModel.CHAT_LIST_COL_NUM)
         vm.setAttachmentMenu(
@@ -89,7 +89,6 @@ class ChatFragment : Fragment() {
         )
 
         vm.messagesLiveData.observe(requireActivity(), ::updateMessageRecyclerView)
-        vm.loadAllMessagesFromDB()
 
         return binding.root
     }

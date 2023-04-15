@@ -36,7 +36,7 @@ class WeatherDialogViewModel(
                 condition.value = weather.condition
                 temperature.value = weather.temperature.toString()
                 location.value = weather.location
-                dateStr.value = SimpleDateFormat("dd MMMMM, E")
+                dateStr.value = SimpleDateFormat("dd MMMM, E")
                     .format(Date())
                 isUpdating.value = false
             }

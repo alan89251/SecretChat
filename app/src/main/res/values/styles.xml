@@ -1,5 +1,59 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
+    <!-- Divider Style -->
+    <style name="Divider_grey">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">1dp</item>
+        <item name="android:background">#A9A9A9</item>
+    </style>
+
+    <style name="Vertical_Divider_grey">
+        <item name="android:layout_height">@dimen/vertical_height</item>
+        <item name="android:layout_width">@dimen/vertical_width</item>
+
+        <item name="android:background">#A9A9A9</item>
+    </style>
+
+    <!-- Home Page Style -->
+    <style name="icon_style">
+        <item name="android:layout_width">@dimen/icon_size</item>
+        <item name="android:layout_height">@dimen/icon_size</item>
+    </style>
+
+    <style name="textField_layout_style">
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_width">@dimen/textField_width</item>
+        <item name="android:layout_marginTop">@dimen/textField_marginTop</item>
+        <item name="endIconMode">clear_text</item>
+    </style>
+
+    <style name="textField_editText_style">
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:inputType">text</item>
+    </style>
+
+    <style name="textView_style">
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_marginTop">@dimen/textview_marginTop</item>
+    </style>
+
+    <style name="imageView_style">
+        <item name="android:layout_height">@dimen/image_size</item>
+        <item name="android:layout_width">@dimen/image_size</item>
+    </style>
+
+    <style name="button_style">
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:backgroundTint">@color/pink</item>
+        <item name="android:layout_marginTop">@dimen/button_marginTop</item>
+    </style>
+
+
+    <!-- Chat List Style -->
     <style name="chat_list_name">
         <item name="android:textSize">24sp</item>
         <item name="android:textColor">@color/dark_grey</item>
@@ -18,12 +72,7 @@
         <item name="android:textStyle">normal</item>
     </style>
 
-    <style name="Divider_grey">
-        <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">1dp</item>
-        <item name="android:background">#A9A9A9</item>
-    </style>
-
+    <!-- Message Style -->
     <style name="message_text">
         <item name="android:textSize">18sp</item>
         <item name="android:textStyle">normal</item>
@@ -36,10 +85,152 @@
         <item name="android:textColor">@color/dark_grey</item>
     </style>
 
+    <!-- Dialog Style -->
+    <style name="dialog_cardView">
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="cardCornerRadius">@dimen/dialog_corner_radius</item>
+        <item name="cardElevation">4dp</item>
+    </style>
+
+    <!-- Add contact dialog Style -->
     <style name="add_contact_title">
-        <item name="android:textSize">18sp</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:textSize">@dimen/dialog_title_textSize</item>
         <item name="android:textStyle">bold</item>
         <item name="android:textColor">@color/dark_blue</item>
+        <item name="android:layout_marginTop">@dimen/dialog_title_margin</item>
+    </style>
+
+    <style name="add_contact_textField_layout">
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_width">@dimen/dialog_textField_width</item>
+        <item name="android:layout_marginTop">@dimen/dialog_textField_marginTop</item>
+        <item name="endIconMode">clear_text</item>
+    </style>
+
+    <style name="add_contact_textField_EditText">
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:inputType">text</item>
+    </style>
+
+    <style name="add_contact_button">
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_marginTop">@dimen/dialog_button</item>
+        <item name="android:layout_gravity">center</item>
+        <item name="backgroundTint">@color/pink</item>
+        <item name="android:textColor">@color/white</item>
+    </style>
+
+    <!-- Weather dialog Style -->
+    <style name="weather_update">
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_marginStart">@dimen/weather_update_marginStart</item>
+        <item name="android:layout_gravity">center</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textSize">@dimen/weather_update_textSize</item>
+        <item name="android:textColor">@color/dark_grey</item>
+    </style>
+
+    <style name="weather_condition">
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:textSize">@dimen/weather_condition_textSize</item>
+        <item name="android:textAlignment">center</item>
+        <item name="android:layout_marginTop">@dimen/weather_condition_marginTop</item>
+        <item name="android:layout_marginStart">@dimen/weather_condition_marginStart</item>
+        <item name="android:textColor">@color/dark_grey</item>
+    </style>
+
+    <style name="weather_degree">
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textSize">@dimen/weather_degree_textSize</item>
+        <item name="android:textAlignment">center</item>
+        <item name="android:layout_marginStart">@dimen/weather_degree_marginStart</item>
+        <item name="android:textColor">@color/dark_grey</item>
+    </style>
+
+    <style name="weather_date">
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:textColor">@color/dark_grey</item>
+        <item name="android:textSize">@dimen/weather_date_textSize</item>
+        <item name="android:layout_marginStart">@dimen/weather_date_marginStart</item>
+        <item name="android:layout_marginTop">@dimen/weather_date_marginTop</item>
+    </style>
+
+    <style name="weather_location">
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:textColor">@color/dark_grey</item>
+        <item name="android:textSize">@dimen/weather_location_textSize</item>
+        <item name="android:layout_marginStart">@dimen/weather_location_marginStart</item>
+        <item name="android:layout_marginBottom">@dimen/weather_location_marginBottom</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <!-- Camera Fragment Style -->
+    <style name="button_capture">
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_marginTop">@dimen/button_capture_marginTop</item>
+    </style>
+
+    <style name="button_record">
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_marginTop">@dimen/button_record_marginTop</item>
+        <item name="android:layout_marginStart">@dimen/button_record_marginStart</item>
+    </style>
+
+    <style name="button_stop">
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_marginTop">@dimen/button_stop_marginTop</item>
+        <item name="android:layout_marginStart">@dimen/button_stop_marginStart</item>
+    </style>
+
+    <!-- Chat Fragment Style -->
+    <style name="chat_RV">
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_marginTop">@dimen/chat_rv_marginTop</item>
+        <item name="android:layout_marginBottom">@dimen/chat_rv_marginBottom</item>
+    </style>
+
+    <style name="chat_layout">
+        <item name="android:layout_height">@dimen/chat_layout_height</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_marginBottom">@dimen/chat_layout_marginBottom</item>
+        <item name="android:gravity">center</item>
+        <item name="android:orientation">horizontal</item>
+    </style>
+
+    <style name="button_attach">
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:outlineProvider">none</item>
+        <item name="borderWidth">0dp</item>
+        <item name="backgroundTint">@android:color/transparent</item>
+    </style>
+
+    <style name="message_editText">
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_width">@dimen/message_editText_width</item>
+        <item name="android:textSize">@dimen/message_editText_textSize</item>
+    </style>
+
+    <style name="button_send">
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_marginEnd">@dimen/button_send_marginEnd</item>
+        <item name="fabCustomSize">@dimen/button_send_size</item>
     </style>
 
 

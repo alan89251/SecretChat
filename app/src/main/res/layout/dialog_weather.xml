@@ -9,26 +9,21 @@
     </data>
     
     <androidx.cardview.widget.CardView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        style="@style/dialog_cardView"
         android:backgroundTint="@color/light_blue"
-        app:cardCornerRadius="20dp"
         >
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            >
 
             <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
+                style="@style/weather_update"
                 android:text="@string/weather_dialog_status_update"
-                android:textStyle="bold"
-                android:textSize="40sp"
-                android:textColor="@color/dark_grey"
-                android:textAlignment="center"
-                android:visibility="@{vm.uiShownInUpdatingVisibility}" />
+                android:visibility="@{vm.uiShownInUpdatingVisibility}"
+               />
 
             <LinearLayout
                 android:layout_width="wrap_content"
@@ -37,33 +32,19 @@
 
                 <TextView
                     android:id="@+id/weather_condition"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    style="@style/weather_condition"
                     android:text="@{vm.condition}"
-                    android:textSize="14sp"
-                    android:textAlignment="center"
-                    android:layout_marginTop="16dp"
-                    android:layout_marginStart="32dp"
-                    android:textColor="@color/dark_grey"
                     android:visibility="@{vm.uiShownAfterUpdatedVisibility}" />
 
                 <TextView
                     android:id="@+id/weather_degree"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    style="@style/weather_degree"
                     android:text="@{vm.temperature + `°`}"
-                    android:textStyle="bold"
-                    android:textSize="40sp"
-                    android:textColor="@color/dark_grey"
-                    android:textAlignment="center"
-                    android:layout_marginStart="36dp"
                     android:visibility="@{vm.uiShownAfterUpdatedVisibility}" />
             </LinearLayout>
 
             <View
-                android:layout_width="1dp"
-                android:layout_height="50dp"
-                style="@style/Divider_grey"
+                style="@style/Vertical_Divider_grey"
                 android:layout_marginTop="35dp"
                 android:layout_marginStart="8dp"
             />
@@ -71,29 +52,19 @@
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:layout_marginEnd="4dp">
 
                 <TextView
                     android:id="@+id/weather_date"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    style="@style/weather_date"
                     android:text="@{vm.dateStr}"
-                    android:textColor="@color/dark_grey"
-                    android:textSize="16sp"
-                    android:layout_marginTop="35dp"
-                    android:layout_marginStart="12dp"
                     android:visibility="@{vm.uiShownAfterUpdatedVisibility}" />
 
                 <TextView
                     android:id="@+id/weather_location"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    style="@style/weather_location"
                     android:text="@{vm.location}"
-                    android:textColor="@color/dark_grey"
-                    android:textSize="20dp"
-                    android:layout_marginStart="12dp"
-                    android:layout_marginBottom="24dp"
-                    android:textStyle="bold"
                     android:visibility="@{vm.uiShownAfterUpdatedVisibility}" />
 
             </LinearLayout>

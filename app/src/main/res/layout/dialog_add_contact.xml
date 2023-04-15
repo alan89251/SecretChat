@@ -10,9 +10,7 @@
     </data>
     
     <androidx.cardview.widget.CardView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:cardCornerRadius="20dp"
+       style="@style/dialog_cardView"
         >
 
         <LinearLayout
@@ -20,41 +18,28 @@
             android:layout_height="match_parent"
             android:orientation="vertical"
             android:gravity="center"
-
-            android:background="@android:color/transparent">
+            >
 
         <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Add your friends now!"
+            android:text="@string/add_your_friends_now"
             style="@style/add_contact_title"
-            android:layout_marginTop="16dp"
             />
 
             <com.google.android.material.textfield.TextInputLayout
-                android:layout_width="280dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="24dp"
-                app:endIconMode="clear_text"
+               style="@style/add_contact_textField_layout"
                 >
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/etUserId"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    style="@style/add_contact_textField_EditText"
                     android:hint="@string/userID"
-                    android:inputType="text" />
+                    />
             </com.google.android.material.textfield.TextInputLayout>
 
         <Button
             android:id="@+id/btn_add"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:text="ADD"
-            android:layout_gravity="center"
-            android:backgroundTint="@color/pink"
-            android:textColor="@color/white"/>
+            android:text="@string/add"
+            style="@style/add_contact_button"/>
 
         </LinearLayout>
 

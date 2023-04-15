@@ -12,23 +12,7 @@
     <string name="media_sent_storage_root">media_sent</string>
     <string name="profile_picture_folder_path">ProfilePictures</string>
 
-    <!-- Chat List Name -->
-    <string name="name_1">Harry Potter</string>
-    <string name="name_2">Handsome Potter</string>
-    <string name="name_3">Happy Potter</string>
-    <string name="name_4">Hello Potter</string>
-
-    <!-- Chat List Message -->
-    <string name="msg_1">Hi Potter</string>
-    <string name="msg_2">Hello Potter</string>
-    <string name="msg_3">Bye Potter</string>
-    <string name="msg_4">Sorry Potter</string>
-
     <!-- Chat List Date -->
-    <string name="date_1">3h</string>
-    <string name="date_2">Tue</string>
-    <string name="date_3">Mon</string>
-    <string name="date_4">Sun</string>
     <string name="sender_message">Sender Message</string>
     <string name="msg_time">14:30</string>
     <string name="receiver_message">Receiver Message</string>
@@ -44,6 +28,15 @@
     <string name="location">Location</string>
 
     <!-- Weather Dialog -->
-    <string name="weather_dialog_status_update">Updating</string>
+    <string name="weather_dialog_status_update">Updating…</string>
+    <string name="add_your_profile_image">Add your profile image</string>
+    <string name="add_your_friends_now">Add your friends now!</string>
+    <string name="add">ADD</string>
+    <string name="capture">Capture</string>
+    <string name="stop">Stop</string>
+    <string name="record">Record</string>
+    <string name="attachment">Attachment</string>
+    <string name="enter_the_message">Enter the Message</string>
+    <string name="send">SEND</string>
 
 </resources>

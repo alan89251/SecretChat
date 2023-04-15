@@ -49,6 +49,7 @@ class ChatFragment : Fragment() {
                     startActivityForResult(intent, requestCode)
                 },
                 ::navigateToVideoPlaybackScreen,
+                ::navigateToViewLocationScreen,
                 ::navigateToCameraScreen
             )
         }
@@ -142,6 +143,15 @@ class ChatFragment : Fragment() {
             ChatFragmentDirections
                 .actionChatFragmentToVideoPlaybackFragment(
                     fileName
+                )
+        )
+    }
+
+    private fun navigateToViewLocationScreen(latLng: String) {
+        findNavController().navigate(
+            ChatFragmentDirections
+                .actionChatFragmentToViewLocationFragment(
+                    latLng
                 )
         )
     }

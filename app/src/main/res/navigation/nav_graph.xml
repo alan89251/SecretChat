@@ -36,6 +36,9 @@
             android:id="@+id/action_chatFragment_to_videoPlaybackFragment"
             app:destination="@id/videoPlaybackFragment" />
         <action
+            android:id="@+id/action_chatFragment_to_viewLocationFragment"
+            app:destination="@id/viewLocationFragment" />
+        <action
             android:id="@+id/action_chatFragment_to_cameraFragment"
             app:destination="@id/cameraFragment" />
     </fragment>
@@ -53,5 +56,14 @@
         android:id="@+id/cameraFragment"
         android:name="com.mapd721.secretchat.ui.CameraFragment"
         android:label="Record Video">
+    </fragment>
+
+    <fragment
+        android:id="@+id/viewLocationFragment"
+        android:name="com.mapd721.secretchat.ui.ViewLocationFragment"
+        android:label="View Location">
+        <argument
+            android:name="latLng"
+            app:argType="string" />
     </fragment>
 </navigation>

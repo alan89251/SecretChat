@@ -98,9 +98,11 @@ class MsgRecyclerViewAdapter(
                 )
             }
             SENDER_LOCATION -> {
+                val bodyBinding = MessageDialogBodyTextBinding.inflate(LayoutInflater.from(parent.context))
+                binding.body.addView(bodyBinding.root)
                 SenderDialogViewHolder(
                     binding,
-                    LocationDialogBodyViewHolder()
+                    LocationDialogBodyViewHolder(bodyBinding)
                 )
             }
             else -> throw Exception("invalid message type")
@@ -146,9 +148,11 @@ class MsgRecyclerViewAdapter(
                 )
             }
             RECEIVER_LOCATION -> {
+                val bodyBinding = MessageDialogBodyTextBinding.inflate(LayoutInflater.from(parent.context))
+                binding.body.addView(bodyBinding.root)
                 ReceiverDialogViewHolder(
                     binding,
-                    LocationDialogBodyViewHolder()
+                    LocationDialogBodyViewHolder(bodyBinding)
                 )
             }
             else -> throw Exception("invalid message type")
@@ -158,10 +162,7 @@ class MsgRecyclerViewAdapter(
     override fun onBindViewHolder(holder: DialogViewHolder, position: Int) {
         val message = msgList[position]
         holder.setMessage(message)
-        when (message.mime) {
-            Message.Mime.VIDEO -> holder.setOnDialogClickListener { onItemClick(message) }
-            else -> {}
-        }
+        holder.setOnDialogClickListener { onItemClick(message) }
     }
 
     companion object {

@@ -72,10 +72,6 @@ class ChatFragment : Fragment() {
         vm.loadAndListenMessages()
     }
 
-    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        inflater.inflate(R.menu.appbar_menu, menu)
-    }
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -84,9 +80,9 @@ class ChatFragment : Fragment() {
         binding.vm = vm
         binding.lifecycleOwner = this
 
-        (requireActivity() as AppCompatActivity)
-            .supportActionBar!!
-            .setDisplayHomeAsUpEnabled(true)
+        val supportActionBar = (requireActivity() as AppCompatActivity).supportActionBar!!
+        supportActionBar.setDisplayHomeAsUpEnabled(true)
+        supportActionBar.title = vm.contact.name
 
         binding.btnSend.setOnClickListener(btnSendOnClickListener)
         binding.msgRecyclerView.layoutManager = GridLayoutManager(requireContext(), ChatViewModel.CHAT_LIST_COL_NUM)
@@ -97,16 +93,6 @@ class ChatFragment : Fragment() {
         vm.messagesLiveData.observe(requireActivity(), ::updateMessageRecyclerView)
 
         return binding.root
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        return when(item.itemId) {
-            R.id.app_bar_btn_add_contact -> {
-                showAddContactDialog()
-                true
-            }
-            else -> super.onOptionsItemSelected(item)
-        }
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {

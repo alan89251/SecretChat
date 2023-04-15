@@ -6,6 +6,8 @@ import android.view.MenuItem
 import androidx.activity.viewModels
 import androidx.databinding.DataBindingUtil
 import androidx.navigation.findNavController
+import androidx.navigation.fragment.findNavController
+import androidx.navigation.ui.NavigationUI
 import com.mapd721.secretchat.R
 import com.mapd721.secretchat.databinding.ActivityMainBinding
 import com.mapd721.secretchat.ui.view_model.GlobalViewModel
@@ -17,6 +19,8 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
+        val navHostFragment = supportFragmentManager.findFragmentById(R.id.nav_host_fragment)
+        NavigationUI.setupActionBarWithNavController(this, navHostFragment!!.findNavController())
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {

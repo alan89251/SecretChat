@@ -1,125 +1,177 @@
 package com.mapd721.secretchat.ui.adpater
 
-import android.graphics.drawable.Drawable
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
-import android.widget.VideoView
 import androidx.recyclerview.widget.RecyclerView
 import com.mapd721.secretchat.data_model.chat.Message
-import com.mapd721.secretchat.databinding.RecyclerViewChatBinding
-import java.io.File
-import java.text.SimpleDateFormat
+import com.mapd721.secretchat.databinding.MessageDialogBodyImageBinding
+import com.mapd721.secretchat.databinding.MessageDialogBodyTextBinding
+import com.mapd721.secretchat.databinding.RecyclerViewReceiverDialogBinding
+import com.mapd721.secretchat.databinding.RecyclerViewSenderDialogBinding
+import com.mapd721.secretchat.ui.view_holder.*
 
 class MsgRecyclerViewAdapter(
     var msgList: List<Message>,
     val mediaFolderPath: String,
     val onItemClick: (Message) -> Unit
-): RecyclerView.Adapter<MsgRecyclerViewAdapter.ViewHolder>() {
-    class ViewHolder(itemBinding: RecyclerViewChatBinding)
-        : RecyclerView.ViewHolder(itemBinding.root) {
-        val binding: RecyclerViewChatBinding = itemBinding
-        }
-
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val binding: RecyclerViewChatBinding = RecyclerViewChatBinding.inflate(
-            LayoutInflater.from(parent.context)
-        )
-
-        return ViewHolder(binding)
-    }
-
-    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        // init layout
-        holder.binding.senderDialog.visibility = View.GONE
-        holder.binding.receiverDialog.visibility = View.GONE
-
-        val message = msgList[position]
-        val dataFormat = SimpleDateFormat("hh:mm")
-        when (message.type) {
-            Message.TYPE_SNED -> {
-                configSenderMessageLayout(holder, message)
-                holder.binding.senderDialog.visibility = View.VISIBLE
-                when (message.mime) {
-                    Message.Mime.TEXT -> holder.binding.senderText.text = getDisplayText(message)
-                    Message.Mime.IMAGE -> setImage(holder.binding.senderImage, message.oriFileName)
-                    Message.Mime.VIDEO -> {
-                        setVideo(holder.binding.senderVideo, message.oriFileName)
-                        holder.binding.root.setOnClickListener { onItemClick(message) }
-                    }
-                    Message.Mime.LOCATION -> {}
-                }
-                holder.binding.senderMsgTime.text = dataFormat.format(message.sentDateTime)
-            }
-            else -> { // RECEIVE
-                configReceiverMessageLayout(holder, message)
-                holder.binding.receiverDialog.visibility = View.VISIBLE
-                when (message.mime) {
-                    Message.Mime.TEXT -> holder.binding.receiverText.text = getDisplayText(message)
-                    Message.Mime.IMAGE -> setImage(holder.binding.receiverImage, message.oriFileName)
-                    Message.Mime.VIDEO -> {
-                        setVideo(holder.binding.receiverVideo, message.oriFileName)
-                        holder.binding.root.setOnClickListener { onItemClick(message) }
-                    }
-                    Message.Mime.LOCATION -> {}
-                }
-                holder.binding.receiverTime.text = dataFormat.format(message.sentDateTime)
-            }
-        }
-    }
-
-    private fun getDisplayText(message: Message): String {
-        return when (message.mime) {
-            Message.Mime.TEXT -> message.text
-            Message.Mime.IMAGE -> message.oriFileName
-            Message.Mime.VIDEO -> message.oriFileName
-            Message.Mime.LOCATION -> message.text
-        }
-    }
-
-    private fun configSenderMessageLayout(holder: ViewHolder, message: Message) {
-        holder.binding.senderText.visibility = View.GONE
-        holder.binding.senderImage.visibility = View.GONE
-        holder.binding.senderVideo.visibility = View.GONE
-
-        when (message.mime) {
-            Message.Mime.TEXT -> holder.binding.senderText.visibility = View.VISIBLE
-            Message.Mime.IMAGE -> holder.binding.senderImage.visibility = View.VISIBLE
-            Message.Mime.VIDEO -> holder.binding.senderVideo.visibility = View.VISIBLE
-            Message.Mime.LOCATION -> {}
-            else -> {}
-        }
-    }
-
-    private fun configReceiverMessageLayout(holder: ViewHolder, message: Message) {
-        holder.binding.receiverText.visibility = View.GONE
-        holder.binding.receiverImage.visibility = View.GONE
-        holder.binding.receiverVideo.visibility = View.GONE
-
-        when (message.mime) {
-            Message.Mime.TEXT -> holder.binding.receiverText.visibility = View.VISIBLE
-            Message.Mime.IMAGE -> holder.binding.receiverImage.visibility = View.VISIBLE
-            Message.Mime.VIDEO -> holder.binding.receiverVideo.visibility = View.VISIBLE
-            Message.Mime.LOCATION -> {}
-            else -> {}
-        }
-    }
-
-    private fun setImage(imageView: ImageView, fileName: String) {
-        val image = Drawable.createFromPath(mediaFolderPath + fileName) ?: return
-        imageView.setImageDrawable(image)
-    }
-
-    private fun setVideo(videoView: VideoView, fileName: String) {
-        val file = File(mediaFolderPath + fileName)
-        if (!file.exists()) {
-            return
-        }
-        videoView.setVideoPath(mediaFolderPath + fileName)
-    }
-
+): RecyclerView.Adapter<DialogViewHolder>() {
     override fun getItemCount(): Int {
         return msgList.size
+    }
+
+    override fun getItemViewType(position: Int): Int {
+        val msg = msgList[position]
+        return when (msg.type) {
+            Message.TYPE_SNED -> getItemViewTypeOfSender(msg.mime)
+            else -> getItemViewTypeOfReceiver(msg.mime)
+        }
+    }
+
+    private fun getItemViewTypeOfSender(mime: Message.Mime): Int {
+        return when (mime) {
+            Message.Mime.TEXT -> SENDER_TEXT
+            Message.Mime.IMAGE -> SENDER_IMAGE
+            Message.Mime.VIDEO -> SENDER_VIDEO
+            Message.Mime.LOCATION -> SENDER_LOCATION
+        }
+    }
+
+    private fun getItemViewTypeOfReceiver(mime: Message.Mime): Int {
+        return when (mime) {
+            Message.Mime.TEXT -> RECEIVER_TEXT
+            Message.Mime.IMAGE -> RECEIVER_IMAGE
+            Message.Mime.VIDEO -> RECEIVER_VIDEO
+            Message.Mime.LOCATION -> RECEIVER_LOCATION
+        }
+    }
+
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DialogViewHolder {
+        return when (viewType) {
+            SENDER_TEXT,
+            SENDER_IMAGE,
+            SENDER_VIDEO,
+            SENDER_LOCATION -> createSenderDialogViewHolder(parent, viewType)
+            RECEIVER_TEXT,
+            RECEIVER_IMAGE,
+            RECEIVER_VIDEO,
+            RECEIVER_LOCATION -> createReceiverDialogViewHolder(parent, viewType)
+            else -> throw Exception("Invalid message type")
+        }
+    }
+
+    private fun createSenderDialogViewHolder(parent: ViewGroup, viewType: Int): SenderDialogViewHolder {
+        val binding = RecyclerViewSenderDialogBinding.inflate(
+            LayoutInflater.from(parent.context),
+            parent,
+            false
+        )
+
+        return when (viewType) {
+            SENDER_TEXT -> {
+                val bodyBinding = MessageDialogBodyTextBinding.inflate(LayoutInflater.from(parent.context))
+                binding.body.addView(bodyBinding.root)
+                SenderDialogViewHolder(
+                    binding,
+                    TextDialogBodyViewHolder(bodyBinding)
+                )
+            }
+            SENDER_IMAGE -> {
+                val bodyBinding = MessageDialogBodyImageBinding.inflate(LayoutInflater.from(parent.context))
+                binding.body.addView(bodyBinding.root)
+                SenderDialogViewHolder(
+                    binding,
+                    ImageDialogBodyViewHolder(
+                        bodyBinding,
+                        mediaFolderPath
+                    )
+                )
+            }
+            SENDER_VIDEO -> {
+                val bodyBinding = MessageDialogBodyImageBinding.inflate(LayoutInflater.from(parent.context))
+                binding.body.addView(bodyBinding.root)
+                SenderDialogViewHolder(
+                    binding,
+                    VideoDialogBodyViewHolder(
+                        bodyBinding,
+                        mediaFolderPath
+                    )
+                )
+            }
+            SENDER_LOCATION -> {
+                SenderDialogViewHolder(
+                    binding,
+                    LocationDialogBodyViewHolder()
+                )
+            }
+            else -> throw Exception("invalid message type")
+        }
+    }
+
+    private fun createReceiverDialogViewHolder(parent: ViewGroup, viewType: Int): ReceiverDialogViewHolder {
+        val binding = RecyclerViewReceiverDialogBinding.inflate(
+            LayoutInflater.from(parent.context),
+            parent,
+            false
+        )
+
+        return when (viewType) {
+            RECEIVER_TEXT -> {
+                val bodyBinding = MessageDialogBodyTextBinding.inflate(LayoutInflater.from(parent.context))
+                binding.body.addView(bodyBinding.root)
+                ReceiverDialogViewHolder(
+                    binding,
+                    TextDialogBodyViewHolder(bodyBinding)
+                )
+            }
+            RECEIVER_IMAGE -> {
+                val bodyBinding = MessageDialogBodyImageBinding.inflate(LayoutInflater.from(parent.context))
+                binding.body.addView(bodyBinding.root)
+                ReceiverDialogViewHolder(
+                    binding,
+                    ImageDialogBodyViewHolder(
+                        bodyBinding,
+                        mediaFolderPath
+                    )
+                )
+            }
+            RECEIVER_VIDEO -> {
+                val bodyBinding = MessageDialogBodyImageBinding.inflate(LayoutInflater.from(parent.context))
+                binding.body.addView(bodyBinding.root)
+                ReceiverDialogViewHolder(
+                    binding,
+                    VideoDialogBodyViewHolder(
+                        bodyBinding,
+                        mediaFolderPath
+                    )
+                )
+            }
+            RECEIVER_LOCATION -> {
+                ReceiverDialogViewHolder(
+                    binding,
+                    LocationDialogBodyViewHolder()
+                )
+            }
+            else -> throw Exception("invalid message type")
+        }
+    }
+
+    override fun onBindViewHolder(holder: DialogViewHolder, position: Int) {
+        val message = msgList[position]
+        holder.setMessage(message)
+        when (message.mime) {
+            Message.Mime.VIDEO -> holder.setOnDialogClickListener { onItemClick(message) }
+            else -> {}
+        }
+    }
+
+    companion object {
+        const val SENDER_TEXT = 0
+        const val SENDER_IMAGE = 1
+        const val SENDER_VIDEO = 2
+        const val SENDER_LOCATION = 3
+        const val RECEIVER_TEXT = 4
+        const val RECEIVER_IMAGE = 5
+        const val RECEIVER_VIDEO = 6
+        const val RECEIVER_LOCATION = 7
     }
 }

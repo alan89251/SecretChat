@@ -35,6 +35,9 @@
         <activity
             android:name=".ui.MainActivity"
             android:exported="true">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".ui.MainActivity"/>
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

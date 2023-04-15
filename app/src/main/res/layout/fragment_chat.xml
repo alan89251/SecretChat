@@ -17,9 +17,12 @@
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/msg_recyclerView"
-        style="@style/chat_RV"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="88dp"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginStart="0dp"
         />
 
 <LinearLayout

@@ -158,6 +158,10 @@ class MsgRecyclerViewAdapter(
     override fun onBindViewHolder(holder: DialogViewHolder, position: Int) {
         val message = msgList[position]
         holder.setMessage(message)
+        when (message.mime) {
+            Message.Mime.VIDEO -> holder.setOnDialogClickListener { onItemClick(message) }
+            else -> {}
+        }
     }
 
     companion object {

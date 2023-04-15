@@ -10,6 +10,7 @@ abstract class DialogViewHolder(itemView: View)
 {
     abstract fun setMsgTime(msgTime: String)
     abstract fun setBody(message: Message)
+    abstract fun setOnDialogClickListener(onDialogClickListener: (View) -> Unit)
     fun setMessage(message: Message) {
         setBody(message)
         val dataFormat = SimpleDateFormat("hh:mm")

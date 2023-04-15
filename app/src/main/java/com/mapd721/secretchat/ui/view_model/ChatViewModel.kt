@@ -35,12 +35,13 @@ class ChatViewModel(
     val contact: Contact,
     val selfKeyPairName: String,
     val cloudStorageRootFolderName: String,
+    val mediaSentFolderPath: String,
     val contentResolver: ContentResolver,
     val locationManager: LocationManager,
     val doRegisterBroadcastReceiver: (BroadcastReceiver, IntentFilter) -> Unit,
     val doSendSelectAttachmentIntent: (Intent, Int) -> Unit, // arg1: intent, arg2: request code
-    val doViewImage: (String) -> Unit,
-    val doPlayVideo: (String) -> Unit,
+    val doViewImage: (String, Int) -> Unit,
+    val doPlayVideo: (String, Int) -> Unit,
     val doViewLocation: (String) -> Unit,
     val doOpenCamera: () -> Unit // arg1: file name,
 ): ViewModel() {
@@ -175,6 +176,7 @@ class ChatViewModel(
             else -> Message.Mime.TEXT
         }
         sendFile(imageUriList[0], mime)
+        copyFileToSentFolder(imageUriList[0])
     }
 
     private fun sendFile(uri: Uri, mime: Message.Mime) {
@@ -194,10 +196,26 @@ class ChatViewModel(
         }
     }
 
+    private fun copyFileToSentFolder(uri: Uri) {
+        CoroutineScope(Dispatchers.IO).launch {
+            val inputStream = contentResolver.openInputStream(uri)
+            var bytes = ByteArray(1)
+            inputStream?.use {
+                bytes = it.readBytes()
+            }
+            val fileName = uri.path!!.split("/").last()
+            val copiedFile = File(mediaSentFolderPath, fileName)
+            copiedFile.createNewFile()
+            copiedFile.outputStream().use {
+                it.write(bytes)
+            }
+        }
+    }
+
     fun onChatMsgDialogClick(message: Message) {
         when (message.mime) {
-            Message.Mime.IMAGE -> doViewImage(message.oriFileName)
-            Message.Mime.VIDEO -> doPlayVideo(message.oriFileName)
+            Message.Mime.IMAGE -> doViewImage(message.oriFileName, message.type)
+            Message.Mime.VIDEO -> doPlayVideo(message.oriFileName, message.type)
             Message.Mime.LOCATION -> doViewLocation(message.text)
             else -> {}
         }

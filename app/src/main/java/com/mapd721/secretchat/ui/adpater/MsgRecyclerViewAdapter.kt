@@ -13,6 +13,7 @@ import com.mapd721.secretchat.ui.view_holder.*
 class MsgRecyclerViewAdapter(
     var msgList: List<Message>,
     val mediaFolderPath: String,
+    val mediaSentFolderPath: String,
     val onItemClick: (Message) -> Unit
 ): RecyclerView.Adapter<DialogViewHolder>() {
     override fun getItemCount(): Int {
@@ -82,7 +83,7 @@ class MsgRecyclerViewAdapter(
                     binding,
                     ImageDialogBodyViewHolder(
                         bodyBinding,
-                        mediaFolderPath
+                        mediaSentFolderPath
                     )
                 )
             }
@@ -93,7 +94,7 @@ class MsgRecyclerViewAdapter(
                     binding,
                     VideoDialogBodyViewHolder(
                         bodyBinding,
-                        mediaFolderPath
+                        mediaSentFolderPath
                     )
                 )
             }

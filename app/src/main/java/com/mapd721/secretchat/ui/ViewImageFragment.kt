@@ -18,10 +18,7 @@ class ViewImageFragment: Fragment() {
         super.onCreate(savedInstanceState)
         vm = ViewImageViewModel()
         arguments?.let {
-            val fileName = it.getString(ARG_FILE_NAME)!!
-            vm.filePath = requireActivity().filesDir.path + "/" +
-                    resources.getString(R.string.media_storage_root) + "/" +
-                    fileName
+            vm.filePath = it.getString(ARG_FILE_NAME)!!
         }
     }
 

@@ -54,11 +54,19 @@ class HomeFragment : Fragment() {
 
     private fun runStartupTasks() {
         createMediaFolder()
+        createMediaSentFolder()
         startMessageFirebaseService()
     }
 
     private fun createMediaFolder() {
         val folder = File(requireActivity().filesDir.path + "/" + resources.getString(R.string.media_storage_root))
+        if (!folder.exists()) {
+            folder.mkdir()
+        }
+    }
+
+    private fun createMediaSentFolder() {
+        val folder = File(requireActivity().filesDir.path + "/" + resources.getString(R.string.media_sent_storage_root))
         if (!folder.exists()) {
             folder.mkdir()
         }

@@ -38,6 +38,8 @@ class ChatFragment : Fragment() {
                 it.getSerializable(ARG_CONTACT) as Contact,
                 resources.getString(R.string.self_key_pair_name),
                 resources.getString(R.string.cloud_storage_root_folder_name),
+                requireActivity().filesDir.path + "/" +
+                        resources.getString(R.string.media_sent_storage_root),
                 requireActivity().contentResolver,
                 requireActivity()
                     .getSystemService(AppCompatActivity.LOCATION_SERVICE) as LocationManager,
@@ -125,6 +127,8 @@ class ChatFragment : Fragment() {
             messages,
             requireActivity().filesDir.path + "/" +
                     resources.getString(R.string.media_storage_root) + "/",
+            requireActivity().filesDir.path + "/" +
+                    resources.getString(R.string.media_sent_storage_root) + "/",
             vm::onChatMsgDialogClick
         )
     }
@@ -138,20 +142,38 @@ class ChatFragment : Fragment() {
         binding.edtMsg.text!!.clear()
     }
 
-    private fun navigateToViewImageScreen(fileName: String) {
+    private fun navigateToViewImageScreen(fileName: String, msgType: Int) {
+        val filePath = if (msgType == Message.TYPE_SNED)
+            requireActivity().filesDir.path + "/" +
+                    resources.getString(R.string.media_sent_storage_root) + "/" +
+                    fileName
+        else
+            requireActivity().filesDir.path + "/" +
+                    resources.getString(R.string.media_storage_root) + "/" +
+                    fileName
+
         findNavController().navigate(
             ChatFragmentDirections
                 .actionChatFragmentToViewImageFragment(
-                    fileName
+                    filePath
                 )
         )
     }
 
-    private fun navigateToVideoPlaybackScreen(fileName: String) {
+    private fun navigateToVideoPlaybackScreen(fileName: String, msgType: Int) {
+        val filePath = if (msgType == Message.TYPE_SNED)
+            requireActivity().filesDir.path + "/" +
+                    resources.getString(R.string.media_sent_storage_root) + "/" +
+                    fileName
+        else
+            requireActivity().filesDir.path + "/" +
+                    resources.getString(R.string.media_storage_root) + "/" +
+                    fileName
+
         findNavController().navigate(
             ChatFragmentDirections
                 .actionChatFragmentToVideoPlaybackFragment(
-                    fileName
+                    filePath
                 )
         )
     }

@@ -13,6 +13,7 @@ import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.setFragmentResult
 import androidx.navigation.fragment.findNavController
+import com.mapd721.secretchat.R
 import com.mapd721.secretchat.databinding.FragmentCameraBinding
 import com.mapd721.secretchat.ui.fragment_result_listener.CameraResultListener
 import com.mapd721.secretchat.ui.view_model.CameraViewModel
@@ -24,7 +25,7 @@ class CameraFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         vm = CameraViewModel()
-        vm.pathOfFolderOfSavedFile = requireActivity().filesDir.path + "/"
+        vm.pathOfFolderOfSavedFile = requireActivity().filesDir.path + "/" + resources.getString(R.string.media_sent_storage_root) + "/"
         vm.cameraExecutor = ContextCompat.getMainExecutor(requireActivity())
         vm.doStartRecording = ::doStartRecording
         vm.didStopRecording = {

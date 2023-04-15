@@ -57,6 +57,7 @@ class ChatListFragment : Fragment() {
         binding.vm = vm
         binding.lifecycleOwner = this
 
+        binding.contactSearchBar.setOnQueryTextListener(vm.contactSearchOnQueryTextListener)
         vm.contactListLiveData.observe(requireActivity(), ::onLoadedContactList)
 
         return binding.root

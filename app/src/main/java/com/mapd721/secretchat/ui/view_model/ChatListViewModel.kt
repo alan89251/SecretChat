@@ -2,6 +2,7 @@ package com.mapd721.secretchat.ui.view_model
 
 import android.content.BroadcastReceiver
 import android.content.IntentFilter
+import androidx.appcompat.widget.SearchView
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.mapd721.secretchat.broadcast.MessageBroadcastReceiver
@@ -30,6 +31,7 @@ class ChatListViewModel(
     }
 
     val contactListLiveData: MutableLiveData<MutableList<Contact>> = MutableLiveData()
+    private var contactList = ArrayList<Contact>()
     val messageListeners: MutableMap<String, (Message) -> Unit> = HashMap()
     val messageIOFactory: MessageIOFactory
     val messageReceiver: MessageBroadcastReceiver
@@ -82,7 +84,8 @@ class ChatListViewModel(
             val list = contactManager.getAll()
 
             withContext(Dispatchers.Main) {
-                contactListLiveData.value = ArrayList(list)
+                contactList = ArrayList(list)
+                contactListLiveData.value = contactList
             }
         }
     }
@@ -94,5 +97,38 @@ class ChatListViewModel(
 
     private fun removeAllMessageListeners() {
         messageListeners.clear()
+    }
+
+    val contactSearchOnQueryTextListener = object: SearchView.OnQueryTextListener {
+        override fun onQueryTextSubmit(query: String): Boolean {
+            if (query != "") {
+                searchContact(query)
+            }
+            else {
+                resetContactList()
+            }
+            return true
+        }
+
+        override fun onQueryTextChange(newText: String): Boolean {
+            if (newText != "") {
+                searchContact(newText)
+            }
+            else {
+                resetContactList()
+            }
+            return true
+        }
+    }
+
+    private fun searchContact(queryText: String) {
+        val result = contactList.filter {
+            it.name.contains(queryText, true)
+        }
+        contactListLiveData.value = ArrayList(result)
+    }
+
+    private fun resetContactList() {
+        contactListLiveData.value = ArrayList(contactList)
     }
 }

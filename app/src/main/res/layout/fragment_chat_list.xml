@@ -19,8 +19,9 @@
             android:orientation="vertical">
 
             <androidx.appcompat.widget.SearchView
+                android:id="@+id/contact_search_bar"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
+                android:layout_height="wrap_content" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/chat_list"

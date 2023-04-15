@@ -11,41 +11,37 @@
 
     <ImageView
         android:id="@+id/imageView"
-        android:layout_width="200dp"
-        android:layout_height="200dp"
+        style="@style/icon_style"
         android:src="@drawable/icon"
         android:contentDescription="@string/icon" />
 
-    <ImageView
-        android:id="@+id/profile_picture"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        android:src="@drawable/baseline_add_24"/>
 
     <com.google.android.material.textfield.TextInputLayout
-        android:layout_width="280dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="40dp"
-        app:endIconMode="clear_text"
+       style="@style/textField_layout_style"
         >
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/etUserId"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
             android:hint="@string/userID"
-            android:inputType="text"
+            style="@style/textField_editText_style"
             />
     </com.google.android.material.textfield.TextInputLayout>
 
+    <TextView
+        style="@style/textView_style"
+        android:text="@string/add_your_profile_image"
+        />
+
+    <ImageView
+        android:id="@+id/profile_picture"
+        style="@style/imageView_style"
+        android:src="@drawable/baseline_add_24"
+        />
 
     <Button
         android:id="@+id/btn_register"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
         android:text="@string/register"
-        android:backgroundTint="@color/pink"
-        android:layout_marginTop="16dp"
+        style="@style/button_style"
         />
 
 </LinearLayout>

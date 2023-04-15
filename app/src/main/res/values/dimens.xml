@@ -1,4 +1,61 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <dimen name="text_margin">16dp</dimen>
+    <!-- Divider dimens -->
+    <dimen name="vertical_width">1dp</dimen>
+    <dimen name="vertical_height">50dp</dimen>
+
+    <!-- Home Page dimens -->
+    <dimen name="icon_size">200dp</dimen>
+    <dimen name="textField_marginTop">40dp</dimen>
+    <dimen name="textField_width">280dp</dimen>
+    <dimen name="textview_marginTop">16dp</dimen>
+    <dimen name="button_marginTop">16dp</dimen>
+    <dimen name="image_size">100dp</dimen>
+
+    <!-- Add Contact Dialog dimens -->
+    <dimen name="dialog_title_margin">16dp</dimen>
+    <dimen name="dialog_title_textSize">18sp</dimen>
+    <dimen name="dialog_corner_radius">20dp</dimen>
+    <dimen name="dialog_textField_marginTop">24dp</dimen>
+    <dimen name="dialog_textField_width">280dp</dimen>
+    <dimen name="dialog_button">16dp</dimen>
+
+    <!-- Weather Dialog dimens -->
+    <dimen name="weather_update_marginStart">32dp</dimen>
+    <dimen name="weather_update_textSize">40sp</dimen>
+
+    <dimen name="weather_condition_textSize">14sp</dimen>
+    <dimen name="weather_condition_marginStart">32sp</dimen>
+    <dimen name="weather_condition_marginTop">16sp</dimen>
+
+    <dimen name="weather_degree_textSize">40sp</dimen>
+    <dimen name="weather_degree_marginStart">36sp</dimen>
+
+    <dimen name="weather_date_marginStart">12sp</dimen>
+    <dimen name="weather_date_marginTop">35sp</dimen>
+    <dimen name="weather_date_textSize">16sp</dimen>
+
+    <dimen name="weather_location_textSize">20sp</dimen>
+    <dimen name="weather_location_marginStart">12sp</dimen>
+    <dimen name="weather_location_marginBottom">24sp</dimen>
+
+    <!-- Camera Fragment dimens -->
+    <dimen name="button_capture_marginTop">16dp</dimen>
+    <dimen name="button_record_marginTop">16dp</dimen>
+    <dimen name="button_record_marginStart">8dp</dimen>
+    <dimen name="button_stop_marginTop">16dp</dimen>
+    <dimen name="button_stop_marginStart">8dp</dimen>
+
+    <!-- Chat Fragment dimens -->
+    <dimen name="chat_rv_marginTop">16dp</dimen>
+    <dimen name="chat_rv_marginBottom">88dp</dimen>
+    <dimen name="chat_layout_height">64dp</dimen>
+    <dimen name="chat_layout_marginBottom">16dp</dimen>
+    <dimen name="message_editText_width">280dp</dimen>
+    <dimen name="message_editText_textSize">20sp</dimen>
+    <dimen name="button_send_marginEnd">8dp</dimen>
+    <dimen name="button_send_size">48dp</dimen>
+
+
+
 </resources>

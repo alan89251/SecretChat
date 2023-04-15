@@ -18,23 +18,19 @@
 
         <Button
             android:id="@+id/btn_capture"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Capture"
-            android:layout_marginTop="16dp"
+            android:text="@string/capture"
+            style="@style/button_capture"
             android:visibility="@{vm.btnCaptureVisibility}"
             android:onClick="@{vm.onBtnCaptureClick}"
             app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent" />
+            />
 
         <Button
             android:id="@+id/btn_record"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Record"
-            android:layout_marginTop="16dp"
-            android:layout_marginLeft="8dp"
+            android:text="@string/record"
+            style="@style/button_record"
             android:visibility="@{vm.btnRecordVisibility}"
             android:onClick="@{vm.startRecordingVideo}"
             app:layout_constraintTop_toTopOf="parent"
@@ -42,11 +38,8 @@
 
         <Button
             android:id="@+id/btn_stop"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Stop"
-            android:layout_marginTop="16dp"
-            android:layout_marginLeft="8dp"
+            android:text="@string/stop"
+            style="@style/button_stop"
             android:visibility="@{vm.btnStopVisibility}"
             android:onClick="@{vm.stopRecordingVideo}"
             app:layout_constraintTop_toTopOf="parent"

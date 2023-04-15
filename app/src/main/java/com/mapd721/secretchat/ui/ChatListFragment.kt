@@ -12,12 +12,10 @@ import androidx.recyclerview.widget.GridLayoutManager
 import com.mapd721.secretchat.R
 import com.mapd721.secretchat.data_model.contact.Contact
 import com.mapd721.secretchat.data_source.repository.ChatFactory
-import com.mapd721.secretchat.data_source.repository.ContactRepositoryFactory
-import com.mapd721.secretchat.data_source.repository.EncryptionKeyRepositoryFactory
 import com.mapd721.secretchat.databinding.FragmentChatListBinding
-import com.mapd721.secretchat.logic.ContactManager
 import com.mapd721.secretchat.ui.adpater.ChatListRecyclerViewAdapter
 import com.mapd721.secretchat.ui.dialog.AddContactDialogFragment
+import com.mapd721.secretchat.ui.dialog.WeatherDialogFragment
 import com.mapd721.secretchat.ui.view_model.ChatListViewModel
 import com.mapd721.secretchat.ui.view_model.GlobalViewModel
 
@@ -57,7 +55,6 @@ class ChatListFragment : Fragment() {
     ): View? {
         binding = FragmentChatListBinding.inflate(inflater, container, false)
         binding.vm = vm
-        binding.globalVm = globalViewModel
         binding.lifecycleOwner = this
 
         vm.contactListLiveData.observe(requireActivity(), ::onLoadedContactList)
@@ -68,19 +65,17 @@ class ChatListFragment : Fragment() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when(item.itemId) {
             R.id.app_bar_btn_add_contact -> {
-                showAddContactDialog()
+                AddContactDialogFragment()
+                    .show(childFragmentManager, AddContactDialogFragment.TAG)
+                true
+            }
+            R.id.app_bar_btn_weather -> {
+                WeatherDialogFragment()
+                    .show(childFragmentManager, WeatherDialogFragment.TAG)
                 true
             }
             else -> super.onOptionsItemSelected(item)
         }
-    }
-
-    private fun showAddContactDialog() {
-        AddContactDialogFragment()
-            .show(
-                childFragmentManager,
-                AddContactDialogFragment.TAG
-            )
     }
 
     private fun onLoadedContactList(contactList: MutableList<Contact>) {

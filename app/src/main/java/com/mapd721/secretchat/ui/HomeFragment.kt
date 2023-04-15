@@ -1,7 +1,6 @@
 package com.mapd721.secretchat.ui
 
 import android.content.Intent
-import android.location.LocationManager
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -15,8 +14,6 @@ import com.mapd721.secretchat.data_source.repository.ContactRepositoryFactory
 import com.mapd721.secretchat.data_source.repository.EncryptionKeyRepositoryFactory
 import com.mapd721.secretchat.databinding.FragmentHomeBinding
 import com.mapd721.secretchat.logic.ContactManager
-import com.mapd721.secretchat.logic.GetDeviceLocationLogic
-import com.mapd721.secretchat.logic.GetWeatherLogic
 import com.mapd721.secretchat.service.MessageFirebaseService
 import com.mapd721.secretchat.ui.view_model.GlobalViewModel
 import java.io.File
@@ -58,7 +55,6 @@ class HomeFragment : Fragment() {
     private fun runStartupTasks() {
         createMediaFolder()
         startMessageFirebaseService()
-        getTemperature()
     }
 
     private fun createMediaFolder() {
@@ -83,25 +79,6 @@ class HomeFragment : Fragment() {
         globalViewModel.registerAccount(binding.etUserId.text.toString()) {
             runStartupTasks()
             navToChatListFragment()
-        }
-    }
-
-    private fun getTemperature() {
-        GetDeviceLocationLogic(
-            requireActivity()
-                .getSystemService(AppCompatActivity.LOCATION_SERVICE) as LocationManager
-        ).requestLocation {
-            GetWeatherLogic(
-                requireContext(),
-                resources.getString(R.string.weather_service_url),
-                resources.getString(R.string.weather_service_api_key)
-            )
-                .getTemperature(
-                    43.65,
-                    -79.38
-                ) {
-                    globalViewModel.temperature.value = it
-                }
         }
     }
 

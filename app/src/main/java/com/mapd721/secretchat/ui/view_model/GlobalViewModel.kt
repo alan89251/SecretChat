@@ -2,7 +2,6 @@ package com.mapd721.secretchat.ui.view_model
 
 import android.content.SharedPreferences
 import android.util.Base64
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.mapd721.secretchat.data_model.encryption_key.EncryptionKey
 import com.mapd721.secretchat.data_source.repository.EncryptionKeyRepositoryFactory
@@ -16,7 +15,6 @@ class GlobalViewModel: ViewModel() {
     lateinit var selfKeyPairName: String
     var selfId = ""
     lateinit var contactManager: ContactManager
-    var temperature = MutableLiveData<Double>(0.0)
 
     fun initViewModel(
         sharedPreferences: SharedPreferences,

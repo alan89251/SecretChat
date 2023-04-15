@@ -41,5 +41,7 @@
     <string name="camera">Camera</string>
     <string name="location">Location</string>
 
+    <!-- Weather Dialog -->
+    <string name="weather_dialog_status_update">Updating</string>
 
 </resources>

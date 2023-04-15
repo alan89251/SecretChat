@@ -26,10 +26,6 @@ class ChatListViewModel(
     val cloudStorageRootFolderName: String,
     val doRegisterBroadcastReceiver: (BroadcastReceiver, IntentFilter) -> Unit
 ): ViewModel() {
-    companion object {
-        const val CHAT_LIST_COL_NUM = 1
-    }
-
     val contactListLiveData: MutableLiveData<MutableList<Contact>> = MutableLiveData()
     private var contactList = ArrayList<Contact>()
     val messageListeners: MutableMap<String, (Message) -> Unit> = HashMap()

@@ -10,7 +10,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
-import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.mapd721.secretchat.R
 import com.mapd721.secretchat.data_model.chat.Message
 import com.mapd721.secretchat.data_model.contact.Contact
@@ -85,7 +85,9 @@ class ChatFragment : Fragment() {
         supportActionBar.title = vm.contact.name
 
         binding.btnSend.setOnClickListener(btnSendOnClickListener)
-        binding.msgRecyclerView.layoutManager = GridLayoutManager(requireContext(), ChatViewModel.CHAT_LIST_COL_NUM)
+        val msgRecyclerViewLayoutManager = LinearLayoutManager(requireContext())
+        msgRecyclerViewLayoutManager.stackFromEnd = true
+        binding.msgRecyclerView.layoutManager = msgRecyclerViewLayoutManager
         vm.setAttachmentMenu(
             PopupMenu(requireContext(), binding.btnAttach)
         )

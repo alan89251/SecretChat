@@ -9,7 +9,7 @@ import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
-import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.mapd721.secretchat.R
 import com.mapd721.secretchat.data_model.contact.Contact
 import com.mapd721.secretchat.data_source.repository.ChatFactory
@@ -86,7 +86,10 @@ class ChatListFragment : Fragment() {
     }
 
     private fun onLoadedContactList(contactList: MutableList<Contact>) {
-        binding.chatList.layoutManager = GridLayoutManager(requireContext(), ChatListViewModel.CHAT_LIST_COL_NUM)
+        val chatListLayoutManager = LinearLayoutManager(requireContext())
+        chatListLayoutManager.reverseLayout = true
+        chatListLayoutManager.stackFromEnd = true
+        binding.chatList.layoutManager = chatListLayoutManager
         binding.chatList.adapter = ChatListRecyclerViewAdapter(
             contactList,
             resources.getString(R.string.profile_picture_folder_path),

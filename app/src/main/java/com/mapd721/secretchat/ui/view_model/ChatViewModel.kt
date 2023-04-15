@@ -46,7 +46,6 @@ class ChatViewModel(
     val doOpenCamera: () -> Unit // arg1: file name,
 ): ViewModel() {
     companion object {
-        const val CHAT_LIST_COL_NUM = 1
         private const val SELECT_ATTACHMENT_IMAGE = 1
         private const val SELECT_ATTACHMENT_VIDEO = 2
     }

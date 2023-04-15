@@ -39,6 +39,7 @@ class ChatViewModel(
     val locationManager: LocationManager,
     val doRegisterBroadcastReceiver: (BroadcastReceiver, IntentFilter) -> Unit,
     val doSendSelectAttachmentIntent: (Intent, Int) -> Unit, // arg1: intent, arg2: request code
+    val doViewImage: (String) -> Unit,
     val doPlayVideo: (String) -> Unit,
     val doViewLocation: (String) -> Unit,
     val doOpenCamera: () -> Unit // arg1: file name,
@@ -190,6 +191,7 @@ class ChatViewModel(
 
     fun onChatMsgDialogClick(message: Message) {
         when (message.mime) {
+            Message.Mime.IMAGE -> doViewImage(message.oriFileName)
             Message.Mime.VIDEO -> doPlayVideo(message.oriFileName)
             Message.Mime.LOCATION -> doViewLocation(message.text)
             else -> {}

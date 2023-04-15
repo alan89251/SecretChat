@@ -33,6 +33,9 @@
             app:argType="com.mapd721.secretchat.data_model.contact.Contact" />
 
         <action
+            android:id="@+id/action_chatFragment_to_viewImageFragment"
+            app:destination="@id/viewImageFragment" />
+        <action
             android:id="@+id/action_chatFragment_to_videoPlaybackFragment"
             app:destination="@id/videoPlaybackFragment" />
         <action
@@ -41,6 +44,15 @@
         <action
             android:id="@+id/action_chatFragment_to_cameraFragment"
             app:destination="@id/cameraFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/viewImageFragment"
+        android:name="com.mapd721.secretchat.ui.ViewImageFragment"
+        android:label="View Image">
+        <argument
+            android:name="fileName"
+            app:argType="string" />
     </fragment>
 
     <fragment

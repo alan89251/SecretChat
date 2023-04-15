@@ -48,6 +48,7 @@ class ChatFragment : Fragment() {
                 { intent, requestCode ->
                     startActivityForResult(intent, requestCode)
                 },
+                ::navigateToViewImageScreen,
                 ::navigateToVideoPlaybackScreen,
                 ::navigateToViewLocationScreen,
                 ::navigateToCameraScreen
@@ -136,6 +137,15 @@ class ChatFragment : Fragment() {
         }
         vm.sendMessage(binding.edtMsg.text.toString())
         binding.edtMsg.text!!.clear()
+    }
+
+    private fun navigateToViewImageScreen(fileName: String) {
+        findNavController().navigate(
+            ChatFragmentDirections
+                .actionChatFragmentToViewImageFragment(
+                    fileName
+                )
+        )
     }
 
     private fun navigateToVideoPlaybackScreen(fileName: String) {

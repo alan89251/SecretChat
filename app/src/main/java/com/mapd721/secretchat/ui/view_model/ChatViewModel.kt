@@ -133,7 +133,7 @@ class ChatViewModel(
     private fun selectPhotoToSend() {
         val intent = Intent()
         intent.setType("image/*")
-        intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true)
+        intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, false)
         intent.setAction(Intent.ACTION_GET_CONTENT)
         intent.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
         doSendSelectAttachmentIntent(intent, SELECT_ATTACHMENT_IMAGE)
@@ -142,7 +142,7 @@ class ChatViewModel(
     private fun selectVideoToSend() {
         val intent = Intent()
         intent.setType("video/*")
-        intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true)
+        intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, false)
         intent.setAction(Intent.ACTION_GET_CONTENT)
         intent.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
         doSendSelectAttachmentIntent(intent, SELECT_ATTACHMENT_VIDEO)

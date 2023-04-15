@@ -12,6 +12,10 @@ class FileStorageFirestore(
 
     override fun saveSync(bytes: ByteArray): String {
         val name = UUID.randomUUID().toString()
+        return saveSync(bytes, name)
+    }
+
+    override fun saveSync(bytes: ByteArray, name: String): String {
         val task = root.child("$bucket/$name")
             .putBytes(bytes)
         val result = Tasks.await(task)

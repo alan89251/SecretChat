@@ -3,6 +3,8 @@
     <!-- Divider dimens -->
     <dimen name="vertical_width">1dp</dimen>
     <dimen name="vertical_height">50dp</dimen>
+    <dimen name="horizontal_height">1dp</dimen>
+
 
     <!-- Home Page dimens -->
     <dimen name="icon_size">200dp</dimen>
@@ -56,6 +58,16 @@
     <dimen name="button_send_marginEnd">8dp</dimen>
     <dimen name="button_send_size">48dp</dimen>
 
+    <!-- Chat List dimens -->
+    <dimen name="chat_list_image_size">64dp</dimen>
+    <dimen name="chat_list_image_margin">12dp</dimen>
+    <dimen name="chat_list_image_borderWidth">2dp</dimen>
+    <dimen name="chat_list_linear_layout_width">280dp</dimen>
+    <dimen name="chat_list_name_textSize">24sp</dimen>
+    <dimen name="chat_list_name_marginStart">8dp</dimen>
+    <dimen name="chat_list_text_textSize">20sp</dimen>
+    <dimen name="chat_list_text_marginStart">8dp</dimen>
+    <dimen name="chat_list_time_marginTop">16dp</dimen>
 
 
 </resources>

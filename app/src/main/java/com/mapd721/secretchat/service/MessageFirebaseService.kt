@@ -124,7 +124,13 @@ class MessageFirebaseService : Service() {
     }
 
     private fun sendNotification(message: Message) {
-        notificationSender.send(message.senderId, message.text)
+        val contentText = when (message.mime) {
+            Message.Mime.TEXT -> message.text
+            Message.Mime.IMAGE -> "Received image"
+            Message.Mime.VIDEO -> "Received video"
+            Message.Mime.LOCATION -> message.text
+        }
+        notificationSender.send(message.senderId, contentText)
     }
 
     private fun sendMessageBroadcast(message: Message) {

@@ -61,7 +61,12 @@ class ChatListRecyclerViewAdapter(
             position, contact,
             object : OnMessageUpdateListener {
                 override fun onMessageUpdate(message: Message) {
-                    holder.binding.latestMessageText.text = message.text
+                    holder.binding.latestMessageText.text = when (message.mime) {
+                        Message.Mime.TEXT -> message.text
+                        Message.Mime.IMAGE -> "Received image"
+                        Message.Mime.VIDEO -> "Received video"
+                        Message.Mime.LOCATION -> message.text
+                    }
                     holder.binding.msgTime.text = dateFormat.format(message.sentDateTime)
                 }
             }

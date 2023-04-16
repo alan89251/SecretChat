@@ -19,8 +19,7 @@
         android:id="@+id/msg_recyclerView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="16dp"
-        android:layout_marginBottom="88dp"
+        style="@style/chat_RV"
         app:layout_constraintTop_toTopOf="parent"
         android:layout_marginStart="0dp"
         />

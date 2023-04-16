@@ -5,9 +5,7 @@
 
     <ImageView
         android:id="@+id/main_content"
-        android:layout_width="240dp"
-        android:layout_height="150dp"
-        android:scaleType="centerCrop"
-        android:backgroundTint="@color/light_grey"
-        android:background="@color/light_grey" />
+        style="@style/message_image"
+        />
+
 </LinearLayout>

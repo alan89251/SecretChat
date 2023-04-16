@@ -11,7 +11,6 @@
     <style name="Vertical_Divider_grey">
         <item name="android:layout_height">@dimen/vertical_height</item>
         <item name="android:layout_width">@dimen/vertical_width</item>
-
         <item name="android:background">#A9A9A9</item>
     </style>
 
@@ -38,6 +37,7 @@
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_marginTop">@dimen/textview_marginTop</item>
+        <item name="android:gravity">center_horizontal</item>
     </style>
 
     <style name="imageView_style">
@@ -55,22 +55,48 @@
 
     <!-- Chat List Style -->
     <style name="chat_list_name">
-        <item name="android:textSize">24sp</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textSize">@dimen/chat_list_name_textSize</item>
+        <item name="android:layout_marginStart">@dimen/chat_list_name_marginStart</item>
         <item name="android:textColor">@color/dark_grey</item>
         <item name="android:textStyle">bold</item>
     </style>
 
     <style name="chat_list_text">
-        <item name="android:textSize">20sp</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textSize">@dimen/chat_list_text_textSize</item>
+        <item name="android:layout_marginStart">@dimen/chat_list_text_marginStart</item>
         <item name="android:textColor">@color/dark_grey</item>
         <item name="android:textStyle">normal</item>
     </style>
 
     <style name="chat_list_time">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginTop">@dimen/chat_list_time_marginTop</item>
         <item name="android:textSize">18sp</item>
         <item name="android:textColor">@color/dark_grey</item>
         <item name="android:textStyle">normal</item>
     </style>
+
+    <style name="chat_list_image">
+        <item name="android:layout_width">@dimen/chat_list_image_size</item>
+        <item name="android:layout_height">@dimen/chat_list_image_size</item>
+        <item name="civ_border_width">@dimen/chat_list_image_borderWidth</item>
+        <item name="civ_border_color">@color/pink</item>
+        <item name="android:layout_marginStart">@dimen/chat_list_image_margin</item>
+        <item name="android:layout_marginTop">@dimen/chat_list_image_margin</item>
+    </style>
+
+    <style name="chat_list_linear_layout">
+        <item name="android:layout_width">@dimen/chat_list_linear_layout_width</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:orientation">vertical</item>
+        <item name="android:gravity">center</item>
+    </style>
+
 
     <!-- Message Style -->
     <style name="message_text">
@@ -202,6 +228,7 @@
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_marginTop">@dimen/chat_rv_marginTop</item>
         <item name="android:layout_marginBottom">@dimen/chat_rv_marginBottom</item>
+        <item name="android:layout_marginStart">0dp</item>
     </style>
 
     <style name="chat_layout">
@@ -231,6 +258,14 @@
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_marginEnd">@dimen/button_send_marginEnd</item>
         <item name="fabCustomSize">@dimen/button_send_size</item>
+    </style>
+
+    <!-- Message Image Dialog -->
+    <style name="message_image">
+        <item name="android:layout_width">240dp</item>
+        <item name="android:layout_height">150dp</item>
+        <item name="android:scaleType">centerCrop</item>
+        <item name="android:background">@color/light_grey</item>
     </style>
 
 

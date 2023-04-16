@@ -2,6 +2,7 @@ package com.mapd721.secretchat.ui
 
 import android.app.Activity.RESULT_OK
 import android.content.Intent
+import android.content.IntentFilter
 import android.location.LocationManager
 import android.os.Bundle
 import android.view.*
@@ -17,6 +18,7 @@ import com.mapd721.secretchat.data_model.contact.Contact
 import com.mapd721.secretchat.data_source.repository.ChatFactory
 import com.mapd721.secretchat.ui.adpater.MsgRecyclerViewAdapter
 import com.mapd721.secretchat.databinding.FragmentChatBinding
+import com.mapd721.secretchat.logic.MessageBroadcast
 import com.mapd721.secretchat.ui.dialog.AddContactDialogFragment
 import com.mapd721.secretchat.ui.fragment_result_listener.CameraResultListener
 import com.mapd721.secretchat.ui.view_model.ChatViewModel
@@ -70,6 +72,16 @@ class ChatFragment : Fragment() {
         )
 
         vm.loadAndListenMessages()
+    }
+
+    override fun onPause() {
+        super.onPause()
+        requireActivity().unregisterReceiver(vm.messageReceiver)
+    }
+
+    override fun onResume() {
+        super.onResume()
+        requireActivity().registerReceiver(vm.messageReceiver, IntentFilter(MessageBroadcast.INTENT_FILTER))
     }
 
     override fun onCreateView(

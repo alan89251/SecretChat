@@ -51,7 +51,7 @@ class ChatViewModel(
     }
 
     val messageSender: MessageSender
-    private val messageReceiver: MessageBroadcastReceiver
+    val messageReceiver: MessageBroadcastReceiver
     val chatRepo: Chat
     var messagesLiveData: MutableLiveData<MutableList<Message>> = MutableLiveData()
     val messages: ArrayList<Message> = ArrayList()

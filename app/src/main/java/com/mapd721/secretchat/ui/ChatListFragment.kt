@@ -1,6 +1,7 @@
 package com.mapd721.secretchat.ui
 
 import android.content.Intent
+import android.content.IntentFilter
 import android.os.Bundle
 import android.view.*
 import androidx.fragment.app.Fragment
@@ -16,6 +17,7 @@ import com.mapd721.secretchat.data_model.contact.Contact
 import com.mapd721.secretchat.data_source.repository.ChatFactory
 import com.mapd721.secretchat.databinding.FragmentChatListBinding
 import com.mapd721.secretchat.logic.CloudImageDownloader
+import com.mapd721.secretchat.logic.MessageBroadcast
 import com.mapd721.secretchat.service.MessageFirebaseService
 import com.mapd721.secretchat.service.MessageServiceCmd
 import com.mapd721.secretchat.ui.adpater.ChatListRecyclerViewAdapter
@@ -51,6 +53,16 @@ class ChatListFragment : Fragment() {
                 vm.onAddedContact()
                 listenToMsgOfNewContactInService(contactId)
         }
+    }
+
+    override fun onPause() {
+        super.onPause()
+        requireActivity().unregisterReceiver(vm.messageReceiver)
+    }
+
+    override fun onResume() {
+        super.onResume()
+        requireActivity().registerReceiver(vm.messageReceiver, IntentFilter(MessageBroadcast.INTENT_FILTER))
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {

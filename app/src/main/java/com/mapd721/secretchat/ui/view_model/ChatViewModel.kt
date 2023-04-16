@@ -98,6 +98,9 @@ class ChatViewModel(
 
     private fun listenMessage() {
         messageReceiver.setOnMessageListener {
+            if (it.senderId != contact.id) {
+                return@setOnMessageListener
+            }
             messages.add(it)
             messagesLiveData.value = messages
         }

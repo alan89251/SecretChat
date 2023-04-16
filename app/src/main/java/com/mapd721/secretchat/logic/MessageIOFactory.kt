@@ -23,11 +23,13 @@ class MessageIOFactory(
         )
     }
 
-    fun getMessageReceiver(contact: Contact): MessageReceiver {
+    fun getMessageReceiver(contact: Contact, mediaFolderPath: String): MessageReceiver {
         return MessageReceiverImp(
             MessageCipherFactory.getCipherDecryptFromKey(selfPrivateKey),
             chatFactory.getChatFirestore(contact.id, selfId),
-            chatFactory.getLocalChat(selfId, contact.id)
+            chatFactory.getLocalChat(selfId, contact.id),
+            FileRepositoryFactory.getFireStore(cloudStorageRootFolderName),
+            mediaFolderPath
         )
     }
 

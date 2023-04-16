@@ -14,7 +14,6 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import java.io.File
 
 class MessageFirebaseService : Service() {
     private var isInited = false
@@ -24,7 +23,6 @@ class MessageFirebaseService : Service() {
     val contactList: ArrayList<Contact> = ArrayList()
     val messageReceivers: MutableMap<String, MessageReceiver> = HashMap()
     private lateinit var notificationSender: NotificationSender
-    private lateinit var fileRepository: FileRepository
 
     override fun onCreate() {
         super.onCreate()
@@ -37,9 +35,6 @@ class MessageFirebaseService : Service() {
         notificationSender = NotificationSender(
             this,
             getSystemService(NOTIFICATION_SERVICE) as NotificationManager
-        )
-        fileRepository = FileRepositoryFactory.getFireStore(
-            resources.getString(R.string.cloud_storage_root_folder_name)
         )
     }
 
@@ -97,30 +92,8 @@ class MessageFirebaseService : Service() {
     }
 
     private fun onMessage(message: Message) {
-        CoroutineScope(Dispatchers.IO).launch {
-            when (message.mime) {
-                Message.Mime.IMAGE,
-                Message.Mime.VIDEO -> downloadFileFromCloud(message)
-                else -> {}
-            }
-
-            withContext(Dispatchers.Main) {
-                sendNotification(message)
-                sendMessageBroadcast(message)
-            }
-        }
-    }
-
-    private fun downloadFileFromCloud(message: Message) {
-        val bytes = fileRepository.getSync(message.uploadedFilePath)
-        val file = File(
-            filesDir.path + "/" + resources.getString(R.string.media_storage_root),
-            message.oriFileName
-        )
-        file.createNewFile()
-        file.outputStream().use {
-            it.write(bytes)
-        }
+        sendNotification(message)
+        sendMessageBroadcast(message)
     }
 
     private fun sendNotification(message: Message) {
@@ -141,7 +114,10 @@ class MessageFirebaseService : Service() {
 
     private fun createMessageReceivers() {
         contactList.forEach {
-            val messageReceiver = messageIOFactory.getMessageReceiver(it)
+            val messageReceiver = messageIOFactory.getMessageReceiver(
+                it,
+                filesDir.path + "/" + resources.getString(R.string.media_storage_root)
+            )
             messageReceivers[it.id] = messageReceiver
         }
     }
@@ -175,7 +151,10 @@ class MessageFirebaseService : Service() {
 
     private fun listenToContact(contact: Contact) {
         contactList.add(contact)
-        val messageReceiver = messageIOFactory.getMessageReceiver(contact)
+        val messageReceiver = messageIOFactory.getMessageReceiver(
+            contact,
+            filesDir.path + "/" + resources.getString(R.string.media_storage_root)
+        )
         messageReceiver.setOnMessageListener(::onMessage)
         messageReceivers[contact.id] = messageReceiver
         messageReceiver.listenMessage()

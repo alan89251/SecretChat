@@ -32,12 +32,13 @@ class MessageSenderNetwork (
         setMessageHeader(message)
         message.mime = mime
         message.oriFileName = cipher.encrypt(name)
-        val pathOfUploadedImage = uploadToFirestore(bytes)
-        message.uploadedFilePath = cipher.encrypt(pathOfUploadedImage)
+        val encryptedBytes = cipher.encrypt(bytes)
+        val pathOfUploadedFile = uploadToFirestore(encryptedBytes)
+        message.uploadedFilePath = cipher.encrypt(pathOfUploadedFile)
         message = sendToFirebase(message)
 
         message.oriFileName = name
-        message.uploadedFilePath = pathOfUploadedImage
+        message.uploadedFilePath = pathOfUploadedFile
         saveToDB(message)
 
         return message

@@ -22,4 +22,8 @@ class ContactManager(
     fun getAll(): List<Contact> {
         return contactRepository.getAll()
     }
+
+    fun getById(contactId: String): Contact? {
+        return contactRepository.getById(contactId)
+    }
 }

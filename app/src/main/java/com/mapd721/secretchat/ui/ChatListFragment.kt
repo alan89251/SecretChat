@@ -1,5 +1,6 @@
 package com.mapd721.secretchat.ui
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.*
 import androidx.fragment.app.Fragment
@@ -15,6 +16,8 @@ import com.mapd721.secretchat.data_model.contact.Contact
 import com.mapd721.secretchat.data_source.repository.ChatFactory
 import com.mapd721.secretchat.databinding.FragmentChatListBinding
 import com.mapd721.secretchat.logic.CloudImageDownloader
+import com.mapd721.secretchat.service.MessageFirebaseService
+import com.mapd721.secretchat.service.MessageServiceCmd
 import com.mapd721.secretchat.ui.adpater.ChatListRecyclerViewAdapter
 import com.mapd721.secretchat.ui.dialog.AddContactDialogFragment
 import com.mapd721.secretchat.ui.dialog.WeatherDialogFragment
@@ -43,7 +46,11 @@ class ChatListFragment : Fragment() {
 
         childFragmentManager.setFragmentResultListener(
             AddContactDialogFragment.RESULT_LISTENER_KEY,
-            this) { _, bundle -> vm.onAddedContact() }
+            this) { _, bundle ->
+                val contactId = bundle.getString(AddContactDialogFragment.ARG_RESULT_CONTACT_ID)!!
+                vm.onAddedContact()
+                listenToMsgOfNewContactInService(contactId)
+        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
@@ -110,5 +117,12 @@ class ChatListFragment : Fragment() {
                 contact
             )
         findNavController().navigate(action)
+    }
+
+    private fun listenToMsgOfNewContactInService(contactId: String) {
+        val intent = Intent(requireActivity(), MessageFirebaseService::class.java)
+        intent.putExtra(MessageServiceCmd.KEY_CMD, MessageServiceCmd.CMD_ADD_CONTACT)
+        intent.putExtra(MessageServiceCmd.ARG_CONTACT, contactId)
+        requireActivity().startService(intent)
     }
 }

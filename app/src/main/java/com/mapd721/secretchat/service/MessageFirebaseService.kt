@@ -60,6 +60,9 @@ class MessageFirebaseService : Service() {
             isInited = true
             doStartService()
         }
+        else {
+            runCommand(intent)
+        }
 
         return START_STICKY
     }
@@ -145,5 +148,30 @@ class MessageFirebaseService : Service() {
             resources.getString(R.string.self_id_preference_key),
             ""
         ).toString()
+    }
+
+    private fun runCommand(intent: Intent) {
+        val cmd = intent.getStringExtra(MessageServiceCmd.KEY_CMD) ?: return
+        when (cmd) {
+            MessageServiceCmd.CMD_ADD_CONTACT -> {
+                val contactId = intent.getStringExtra(MessageServiceCmd.ARG_CONTACT)!!
+                CoroutineScope(Dispatchers.IO).launch {
+                    val contact = contactManager.getById(contactId)!!
+
+                    withContext(Dispatchers.Main) {
+                        listenToContact(contact)
+                    }
+                }
+            }
+            else -> {}
+        }
+    }
+
+    private fun listenToContact(contact: Contact) {
+        contactList.add(contact)
+        val messageReceiver = messageIOFactory.getMessageReceiver(contact)
+        messageReceiver.setOnMessageListener(::onMessage)
+        messageReceivers[contact.id] = messageReceiver
+        messageReceiver.listenMessage()
     }
 }

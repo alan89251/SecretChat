@@ -42,16 +42,18 @@ class AddContactDialogFragment : DialogFragment() {
         }
 
         vm.addContact(contactId, contactId, {
-            closeDialog()
+            closeDialog(contactId)
         }, {
             Toast.makeText(requireContext(), "Fail to add contact: $it", Toast.LENGTH_SHORT)
         })
     }
 
-    private fun closeDialog() {
+    private fun closeDialog(contactId: String) {
+        val bundle = Bundle()
+        bundle.putString(ARG_RESULT_CONTACT_ID, contactId)
         setFragmentResult(
             RESULT_LISTENER_KEY,
-            Bundle()
+            bundle
         )
         dismiss()
     }
@@ -59,5 +61,6 @@ class AddContactDialogFragment : DialogFragment() {
     companion object {
         const val TAG = "AddContactDialog"
         const val RESULT_LISTENER_KEY = "AddContactDialogResult"
+        const val ARG_RESULT_CONTACT_ID = "contactId"
     }
 }

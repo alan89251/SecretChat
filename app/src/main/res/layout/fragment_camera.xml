@@ -21,7 +21,7 @@
             android:text="@string/capture"
             style="@style/button_capture"
             android:visibility="@{vm.btnCaptureVisibility}"
-            android:onClick="@{vm.onBtnCaptureClick}"
+            android:onClick="@{vm::onBtnCaptureClick}"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -32,7 +32,7 @@
             android:text="@string/record"
             style="@style/button_record"
             android:visibility="@{vm.btnRecordVisibility}"
-            android:onClick="@{vm.startRecordingVideo}"
+            android:onClick="@{vm::startRecordingVideo}"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toEndOf="@id/btn_capture" />
 
@@ -41,7 +41,7 @@
             android:text="@string/stop"
             style="@style/button_stop"
             android:visibility="@{vm.btnStopVisibility}"
-            android:onClick="@{vm.stopRecordingVideo}"
+            android:onClick="@{vm::stopRecordingVideo}"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toEndOf="@id/btn_capture" />
 

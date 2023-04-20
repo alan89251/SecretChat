@@ -31,15 +31,15 @@ class MessageReceiverImp(
             }
 
             messages.forEach {
-                val message = it.toMessage()
-                message.type = Message.TYPE_RECEIVE
-                when (message.mime) {
-                    Message.Mime.TEXT -> parseTextMessage(message)
-                    Message.Mime.IMAGE -> parseImageMessage(message)
-                    Message.Mime.VIDEO -> parseVideoMessage(message)
-                    Message.Mime.LOCATION -> parseLocationMessage(message)
-                }
                 CoroutineScope(Dispatchers.IO).launch {
+                    val message = it.toMessage()
+                    message.type = Message.TYPE_RECEIVE
+                    when (message.mime) {
+                        Message.Mime.TEXT -> parseTextMessage(message)
+                        Message.Mime.IMAGE -> parseImageMessage(message)
+                        Message.Mime.VIDEO -> parseVideoMessage(message)
+                        Message.Mime.LOCATION -> parseLocationMessage(message)
+                    }
                     localChat.addMessage(message)
 
                     withContext(Dispatchers.Main) {
@@ -57,17 +57,13 @@ class MessageReceiverImp(
     private fun parseImageMessage(message: Message) {
         message.uploadedFilePath = cipher.decrypt(message.uploadedFilePath)
         message.oriFileName = cipher.decrypt(message.oriFileName)
-        CoroutineScope(Dispatchers.IO).launch {
-            downloadFileFromCloud(message.uploadedFilePath, message.oriFileName)
-        }
+        downloadFileFromCloud(message.uploadedFilePath, message.oriFileName)
     }
 
     private fun parseVideoMessage(message: Message) {
         message.uploadedFilePath = cipher.decrypt(message.uploadedFilePath)
         message.oriFileName = cipher.decrypt(message.oriFileName)
-        CoroutineScope(Dispatchers.IO).launch {
-            downloadFileFromCloud(message.uploadedFilePath, message.oriFileName)
-        }
+        downloadFileFromCloud(message.uploadedFilePath, message.oriFileName)
     }
 
     private fun parseLocationMessage(message: Message) {

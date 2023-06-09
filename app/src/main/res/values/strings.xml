@@ -2,7 +2,7 @@
     <string name="app_name">SecretChat</string>
     <string name="google_api_key2">API_KEY</string>
     <string name="weather_service_url">https://api.openweathermap.org/data/2.5/weather</string>
-    <string name="weather_service_api_key">API_KEY</string>
+    <string name="weather_service_api_key">WEATHER_API_KEY</string>
     <string name="self_key_pair_name">self_key</string>
     <string name="preference_name">secretChatPreference</string>
     <string name="self_id_preference_key">selfId</string>
